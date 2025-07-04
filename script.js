@@ -4,10 +4,39 @@ const navMenu = document.querySelector('.nav-menu');
 const contactForm = document.getElementById('contactForm');
 const navbar = document.querySelector('.navbar');
 
+// メニューオーバーレイを作成
+let menuOverlay = document.querySelector('.menu-overlay');
+if (!menuOverlay) {
+    menuOverlay = document.createElement('div');
+    menuOverlay.className = 'menu-overlay';
+    document.body.appendChild(menuOverlay);
+}
+
 // ハンバーガーメニューの機能
 hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navMenu.classList.toggle('active');
+    const isActive = navMenu.classList.contains('active');
+    
+    if (isActive) {
+        // メニューを閉じる
+        navMenu.classList.remove('active');
+        hamburger.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    } else {
+        // メニューを開く
+        navMenu.classList.add('active');
+        hamburger.classList.add('active');
+        menuOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+});
+
+// オーバーレイクリックでメニューを閉じる
+menuOverlay.addEventListener('click', () => {
+    navMenu.classList.remove('active');
+    hamburger.classList.remove('active');
+    menuOverlay.classList.remove('active');
+    document.body.style.overflow = '';
 });
 
 // スムーズスクロールの実装
@@ -30,6 +59,8 @@ navLinks.forEach(link => {
         if (navMenu.classList.contains('active')) {
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
         }
     });
 });

@@ -369,11 +369,13 @@ class Dashboard {
         if (isActive) {
             // サイドバーを閉じる
             sidebar.classList.remove('active');
+            sidebar.style.left = '-100%';
             overlay.classList.remove('active');
             document.body.style.overflow = '';
         } else {
             // サイドバーを開く
             sidebar.classList.add('active');
+            sidebar.style.left = '0';
             overlay.classList.add('active');
             // モバイルでスクロールを禁止
             if (window.innerWidth <= 768) {
@@ -1084,11 +1086,45 @@ class Dashboard {
 
     // サイドバー設定
     setupSidebar() {
+        const sidebar = document.querySelector('.sidebar');
+        const sidebarToggle = document.querySelector('.sidebar-toggle');
+        
+        // モバイルではサイドバーをデフォルトで非表示
+        if (window.innerWidth <= 768) {
+            sidebar.classList.remove('active');
+            sidebar.style.position = 'fixed';
+            sidebar.style.left = '-100%';
+        }
+        
+        // サイドバートグルボタンの表示制御
+        if (sidebarToggle) {
+            if (window.innerWidth <= 768) {
+                sidebarToggle.style.display = 'block';
+            } else {
+                sidebarToggle.style.display = 'none';
+            }
+        }
+        
         // レスポンシブ対応
         const handleResize = () => {
-            const sidebar = document.querySelector('.sidebar');
             if (window.innerWidth <= 768) {
+                // モバイルサイズ
+                sidebar.style.position = 'fixed';
+                sidebar.style.left = sidebar.classList.contains('active') ? '0' : '-100%';
+                if (sidebarToggle) sidebarToggle.style.display = 'block';
+            } else {
+                // デスクトップサイズ
+                sidebar.style.position = 'fixed';
+                sidebar.style.left = '0';
                 sidebar.classList.remove('active');
+                if (sidebarToggle) sidebarToggle.style.display = 'none';
+                
+                // オーバーレイを削除
+                const overlay = document.querySelector('.sidebar-overlay');
+                if (overlay) {
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
             }
         };
 
