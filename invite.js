@@ -86,6 +86,7 @@ class InviteManager {
             this.saveInviteData();
         }
 
+<<<<<<< HEAD
         // 本番環境のURL設定
         let baseUrl;
         
@@ -117,6 +118,29 @@ class InviteManager {
                 linkInput.setAttribute('title', 'ローカル環境では手動でコピー＆ペーストしてください');
             } else {
                 linkInput.setAttribute('title', 'このリンクを共有して新規ユーザーを招待できます');
+=======
+        // ローカル環境とサーバー環境の両方に対応
+        let baseUrl = window.location.origin;
+        if (window.location.protocol === 'file:') {
+            // ローカル環境の場合は相対パスを使用
+            const pathArray = window.location.pathname.split('/');
+            pathArray.pop(); // 現在のファイル名を削除
+            baseUrl = pathArray.join('/');
+            const inviteLink = `${baseUrl}/register.html?ref=${inviteLinkData.code}`;
+            
+            const linkInput = document.getElementById('inviteLink');
+            if (linkInput) {
+                linkInput.value = inviteLink;
+                // ローカル環境用の注意書きを追加
+                linkInput.setAttribute('title', 'ローカル環境では手動でコピー＆ペーストしてください');
+            }
+        } else {
+            // サーバー環境の場合
+            const inviteLink = `${baseUrl}/register.html?ref=${inviteLinkData.code}`;
+            
+            const linkInput = document.getElementById('inviteLink');
+            if (linkInput) {
+                linkInput.value = inviteLink;
             }
         }
         
