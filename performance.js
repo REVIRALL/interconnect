@@ -436,12 +436,25 @@ class PerformanceOptimizer {
 // Service Worker 登録（オフライン対応とキャッシング）
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('ServiceWorker registration successful');
+        // GitHub Pagesでは/interconnect/を含める必要がある
+        const swPath = window.location.hostname.includes('github.io') 
+            ? '/interconnect/sw.js' 
+            : '/sw.js';
+            
+        // Service Workerファイルが存在しない場合は登録しない
+        fetch(swPath, { method: 'HEAD' })
+            .then(response => {
+                if (response.ok) {
+                    return navigator.serviceWorker.register(swPath);
+                }
             })
-            .catch(err => {
-                console.log('ServiceWorker registration failed:', err);
+            .then(registration => {
+                if (registration) {
+                    console.log('ServiceWorker registration successful');
+                }
+            })
+            .catch(() => {
+                // Service Workerが存在しない場合はエラーを出さない
             });
     });
 }

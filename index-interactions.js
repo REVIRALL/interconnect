@@ -86,14 +86,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 const targetText = numberElement.textContent;
                 let target = 0;
                 
-                if (targetText.includes('¥')) {
+                if (targetText && targetText.includes('¥')) {
                     // 通貨の場合
                     target = 2.5; // ¥2.5B
                     numberElement.textContent = '¥0B';
                     setTimeout(() => {
                         numberElement.textContent = '¥2.5B';
                     }, 100);
-                } else if (targetText.includes('%')) {
+                } else if (targetText && targetText.includes('%')) {
                     // パーセンテージの場合
                     target = parseInt(targetText);
                     numberElement.textContent = '0%';
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             numberElement.textContent = val + '%';
                         }
                     }, target);
-                } else {
+                } else if (targetText) {
                     // 通常の数字
                     target = parseInt(targetText.replace(/[^0-9]/g, ''));
                     countUpAnimation(numberElement, target);
