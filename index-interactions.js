@@ -1,6 +1,28 @@
 // index.html用のインタラクション
 
 document.addEventListener('DOMContentLoaded', function() {
+    // スクロールインジケーターのクリック処理
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    if (scrollIndicator) {
+        scrollIndicator.addEventListener('click', () => {
+            const aboutSection = document.getElementById('about');
+            if (aboutSection) {
+                aboutSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+        
+        // スクロール時にインジケーターを非表示
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                scrollIndicator.style.opacity = '0';
+                scrollIndicator.style.pointerEvents = 'none';
+            } else {
+                scrollIndicator.style.opacity = '1';
+                scrollIndicator.style.pointerEvents = 'auto';
+            }
+        });
+    }
     // FAQアコーディオン機能
     const faqItems = document.querySelectorAll('.faq-item');
     

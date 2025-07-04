@@ -1,5 +1,163 @@
 /* インデックスページの改善CSS */
 
+/* スクロールインジケーター */
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    z-index: 3;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* マウスアイコン */
+.scroll-mouse {
+    width: 26px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    position: relative;
+}
+
+.scroll-wheel {
+    width: 4px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 2px;
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scrollWheel 2s infinite;
+}
+
+@keyframes scrollWheel {
+    0% {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-50%) translateY(15px);
+        opacity: 0;
+    }
+}
+
+/* 矢印アニメーション */
+.scroll-arrow {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.scroll-arrow span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.8);
+    transform-origin: center;
+    animation: scrollArrow 2s infinite;
+}
+
+.scroll-arrow span:nth-child(1) {
+    transform: rotate(45deg) translateX(5px);
+    width: 12px;
+}
+
+.scroll-arrow span:nth-child(2) {
+    opacity: 0.8;
+}
+
+.scroll-arrow span:nth-child(3) {
+    transform: rotate(-45deg) translateX(-5px);
+    width: 12px;
+}
+
+@keyframes scrollArrow {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px) rotate(45deg) translateX(5px);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(10px) rotate(45deg) translateX(5px);
+    }
+}
+
+.scroll-arrow span:nth-child(2) {
+    animation: scrollArrowMiddle 2s infinite;
+}
+
+@keyframes scrollArrowMiddle {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+.scroll-arrow span:nth-child(3) {
+    animation: scrollArrowBottom 2s infinite;
+}
+
+@keyframes scrollArrowBottom {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px) rotate(-45deg) translateX(-5px);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(10px) rotate(-45deg) translateX(-5px);
+    }
+}
+
+/* ホバー時の効果 */
+.scroll-indicator:hover .scroll-mouse {
+    border-color: rgba(255, 255, 255, 1);
+}
+
+.scroll-indicator:hover .scroll-wheel {
+    background: rgba(255, 255, 255, 1);
+}
+
+.scroll-indicator:hover .scroll-arrow span {
+    background: rgba(255, 255, 255, 1);
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+    .scroll-indicator {
+        bottom: 20px;
+    }
+    
+    .scroll-mouse {
+        width: 22px;
+        height: 34px;
+    }
+    
+    .scroll-wheel {
+        width: 3px;
+        height: 6px;
+        top: 6px;
+    }
+}
+
 /* セクション共通スタイル */
 .section {
     padding: 100px 0;
