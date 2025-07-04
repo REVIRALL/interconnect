@@ -313,3 +313,61 @@ if (window.location.search.includes('code=')) {
 window.loginWithGoogle = () => socialAuth.loginWithGoogle();
 window.loginWithLINE = () => socialAuth.loginWithLINE();
 window.loginWithLinkedIn = () => socialAuth.loginWithLinkedIn();
+
+// 登録用関数（ログインと同じ処理だが、メッセージが異なる）
+window.registerWithGoogle = async () => {
+    try {
+        showNotification('Googleアカウントで登録中...', 'info');
+        const result = await socialAuth.loginWithGoogle();
+        
+        if (result.isNewUser) {
+            showNotification('Googleで新規登録が完了しました！', 'success');
+        } else {
+            showNotification('既存のGoogleアカウントでログインしました', 'success');
+        }
+        
+        setTimeout(() => {
+            window.location.href = 'dashboard.html';
+        }, 1500);
+    } catch (error) {
+        showNotification(error.message, 'error');
+    }
+};
+
+window.registerWithLINE = async () => {
+    try {
+        showNotification('LINEアカウントで登録中...', 'info');
+        const result = await socialAuth.loginWithLINE();
+        
+        if (result.isNewUser) {
+            showNotification('LINEで新規登録が完了しました！', 'success');
+        } else {
+            showNotification('既存のLINEアカウントでログインしました', 'success');
+        }
+        
+        setTimeout(() => {
+            window.location.href = 'dashboard.html';
+        }, 1500);
+    } catch (error) {
+        showNotification(error.message, 'error');
+    }
+};
+
+window.registerWithLinkedIn = async () => {
+    try {
+        showNotification('LinkedInアカウントで登録中...', 'info');
+        const result = await socialAuth.loginWithLinkedIn();
+        
+        if (result.isNewUser) {
+            showNotification('LinkedInで新規登録が完了しました！', 'success');
+        } else {
+            showNotification('既存のLinkedInアカウントでログインしました', 'success');
+        }
+        
+        setTimeout(() => {
+            window.location.href = 'dashboard.html';
+        }, 1500);
+    } catch (error) {
+        showNotification(error.message, 'error');
+    }
+};

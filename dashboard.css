@@ -305,6 +305,16 @@
     box-shadow: var(--shadow-lg);
 }
 
+.notification-btn:active,
+.notification-btn.active,
+.connection-requests-btn:active,
+.connection-requests-btn.active {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue-dark);
+    transform: translateY(0);
+    box-shadow: var(--shadow-md);
+}
+
 .notification-btn:hover i,
 .connection-requests-btn:hover i {
     color: var(--white);

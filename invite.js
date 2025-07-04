@@ -91,7 +91,13 @@ class InviteManager {
         
         // GitHub Pages環境の検出
         if (window.location.hostname.includes('github.io')) {
-            baseUrl = 'https://revirall.github.io/interconnect';
+            // GitHub Pagesの正しいURL構造
+            if (window.location.pathname.includes('/interconnect')) {
+                baseUrl = 'https://revirall.github.io/interconnect';
+            } else {
+                // 念のため動的に構築
+                baseUrl = window.location.origin + '/interconnect';
+            }
         } else if (window.location.protocol === 'file:') {
             // ローカル環境の場合
             baseUrl = 'file:///' + window.location.pathname.split('/').slice(0, -1).join('/');
