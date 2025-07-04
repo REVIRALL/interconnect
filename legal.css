@@ -1,0 +1,466 @@
+/* 法的ページ共通スタイル */
+
+/* 法的コンテンツ */
+.legal-content,
+.company-content {
+    padding: 120px 0 80px;
+    background-color: rgba(249, 250, 251, 0.92);
+    backdrop-filter: blur(8px);
+    min-height: 100vh;
+}
+
+/* ヘッダー */
+.legal-header,
+.company-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid rgba(225, 229, 233, 0.6);
+}
+
+.legal-header h1,
+.company-header h1 {
+    font-size: 2.5rem;
+    color: var(--primary-blue);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.last-updated {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.company-tagline {
+    color: var(--gray-text);
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+}
+
+/* 本文 */
+.legal-body,
+.company-body {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* セクション */
+.legal-section {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(225, 229, 233, 0.3);
+}
+
+.legal-section h2 {
+    color: var(--primary-blue);
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--light-blue);
+    padding-bottom: 0.5rem;
+}
+
+.legal-section p {
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    color: var(--gray-text);
+}
+
+.legal-section ul,
+.legal-section ol {
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+    line-height: 1.8;
+    color: var(--gray-text);
+}
+
+.legal-section ul li,
+.legal-section ol li {
+    margin-bottom: 0.5rem;
+}
+
+.legal-section ul ul {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* 連絡先情報 */
+.contact-info {
+    background: var(--light-blue);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-top: 1.5rem;
+}
+
+.contact-info p {
+    margin-bottom: 0.5rem;
+}
+
+.contact-info strong {
+    color: var(--primary-blue);
+}
+
+/* 会社情報ページ専用スタイル */
+.company-info-section {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    padding: 3rem;
+    margin-bottom: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+}
+
+.company-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+.company-logo-area {
+    text-align: center;
+}
+
+.company-logo {
+    max-width: 200px;
+    height: auto;
+    margin-bottom: 1.5rem;
+}
+
+.company-logo-area h2 {
+    color: var(--primary-blue);
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.company-name-en {
+    color: #6c757d;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.company-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.company-table th {
+    background: var(--light-blue);
+    color: var(--primary-blue);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+    width: 30%;
+}
+
+.company-table td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(225, 229, 233, 0.5);
+    color: var(--gray-text);
+}
+
+.company-table a {
+    color: var(--primary-blue);
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.company-table a:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+/* 事業内容セクション */
+.business-section {
+    margin-bottom: 3rem;
+}
+
+.business-section h2 {
+    color: var(--primary-blue);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.business-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.business-item {
+    background: rgba(255, 255, 255, 0.98);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(225, 229, 233, 0.3);
+}
+
+.business-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: var(--primary-yellow);
+}
+
+.business-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--primary-yellow), var(--secondary-yellow));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 1.8rem;
+    color: var(--primary-blue);
+    box-shadow: 0 4px 15px rgba(255, 217, 61, 0.3);
+}
+
+.business-item h3 {
+    color: var(--primary-blue);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.business-item p {
+    color: var(--gray-text);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* ミッションセクション */
+.mission-section {
+    background: linear-gradient(135deg, rgba(30, 91, 168, 0.05), rgba(255, 217, 61, 0.05));
+    padding: 3rem;
+    border-radius: 15px;
+    margin-bottom: 3rem;
+}
+
+.mission-section h2 {
+    color: var(--primary-blue);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.mission-content {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.mission-content p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    color: var(--gray-text);
+}
+
+/* アクセスセクション */
+.access-section {
+    margin-bottom: 3rem;
+}
+
+.access-section h2 {
+    color: var(--primary-blue);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.access-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.office-info {
+    background: rgba(255, 255, 255, 0.98);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+}
+
+.office-info h3 {
+    color: var(--primary-blue);
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+.office-info p {
+    color: var(--gray-text);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.access-info {
+    background: var(--light-gray);
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.access-info i {
+    color: var(--primary-blue);
+    margin-right: 0.5rem;
+}
+
+/* お問い合わせセクション */
+.contact-section {
+    background: rgba(255, 255, 255, 0.98);
+    padding: 3rem;
+    border-radius: 15px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+}
+
+.contact-section h2 {
+    color: var(--primary-blue);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.contact-box {
+    text-align: center;
+}
+
+.contact-box > p {
+    margin-bottom: 2rem;
+    color: var(--gray-text);
+    font-size: 1.1rem;
+}
+
+.contact-methods {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.contact-method {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-align: left;
+}
+
+.contact-method i {
+    font-size: 2rem;
+    color: var(--primary-yellow);
+    background: var(--light-yellow);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-method h4 {
+    color: var(--primary-blue);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.contact-method p {
+    color: var(--gray-text);
+    margin: 0;
+}
+
+.contact-hours {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .legal-content,
+    .company-content {
+        padding: 100px 0 60px;
+    }
+    
+    .legal-header h1,
+    .company-header h1 {
+        font-size: 2rem;
+    }
+    
+    .legal-section {
+        padding: 1.5rem;
+    }
+    
+    .legal-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .company-info-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .company-table th {
+        width: 40%;
+    }
+    
+    .business-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .access-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-methods {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-method {
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .legal-content,
+    .company-content {
+        padding: 90px 0 50px;
+    }
+    
+    .legal-header h1,
+    .company-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .legal-section {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .legal-section h2 {
+        font-size: 1.3rem;
+    }
+    
+    .company-table th,
+    .company-table td {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    .business-item {
+        padding: 1.5rem;
+    }
+    
+    .business-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+}

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プロフィール - INTERCONNECT</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="profile.css">
+    <link rel="stylesheet" href="loading.css">
+    <link rel="stylesheet" href="dark-mode.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="event-history.css">
+    <script src="security-manager.js"></script>
+    <script src="lazy-load.js"></script>
+</head>
+<body class="dashboard-body">
+    <!-- サイドバー -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>INTERCONNECT</h2>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>ダッシュボード</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>プロフィール</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="members.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>メンバー</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="events.html" class="nav-link">
+                        <i class="fas fa-calendar"></i>
+                        <span>イベント</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="messages.html" class="nav-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>メッセージ</span>
+                        <span class="badge">3</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="business.html" class="nav-link">
+                        <i class="fas fa-handshake"></i>
+                        <span>ビジネス</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="invite.html" class="nav-link">
+                        <i class="fas fa-share-alt"></i>
+                        <span>招待</span>
+                        <span class="badge new">NEW</span>
+                    </a>
+                </li>
+                <li class="nav-item admin-only">
+                    <a href="admin.html" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>管理</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23e0e0e0'/%3E%3C/svg%3E" alt="プロフィール画像" class="user-avatar lazy">
+                <div class="user-details">
+                    <span class="user-name">田中太郎</span>
+                    <span class="user-role">CEO</span>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+    
+    <!-- メインコンテンツ -->
+    <main class="main-content">
+        <header class="dashboard-header">
+            <h1>プロフィール</h1>
+            <div class="header-actions">
+                <button class="btn-primary" onclick="toggleEditMode()">
+                    <i class="fas fa-edit"></i>
+                    編集
+                </button>
+            </div>
+        </header>
+        
+        <div class="profile-content">
+            <!-- プロフィールヘッダー -->
+            <div class="profile-header">
+                <div class="profile-avatar-section">
+                    <div class="profile-avatar-wrapper">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 150'%3E%3Crect width='150' height='150' fill='%23e0e0e0'/%3E%3C/svg%3E" alt="プロフィール画像" class="profile-avatar lazy" id="profileAvatar">
+                        <div class="avatar-overlay" id="avatarOverlay">
+                            <i class="fas fa-camera"></i>
+                            <span>写真を変更</span>
+                        </div>
+                        <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                    </div>
+                    <div class="profile-verification">
+                        <span class="verification-badge verified">
+                            <i class="fas fa-check-circle"></i>
+                            認証済み
+                        </span>
+                        <span class="membership-badge premium">
+                            <i class="fas fa-crown"></i>
+                            プレミアム会員
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="profile-basic-info">
+                    <h2 class="profile-name">田中太郎</h2>
+                    <p class="profile-title">代表取締役CEO | 田中商事株式会社</p>
+                    <p class="profile-industry">製造業 | 従業員数: 51-100名 | 年商: 10-50億円</p>
+                    <div class="profile-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        東京都港区
+                    </div>
+                    <div class="profile-joined">
+                        <i class="fas fa-calendar"></i>
+                        2023年4月より参加
+                    </div>
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">127</div>
+                        <div class="stat-label">繋がり</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">45</div>
+                        <div class="stat-label">イベント参加</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">マッチング</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">4.9</div>
+                        <div class="stat-label">評価</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- プロフィール詳細 -->
+            <div class="profile-details">
+                <div class="profile-section">
+                    <h3>会社情報</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>会社名</label>
+                            <span id="company">田中商事株式会社</span>
+                            <input type="text" id="edit-company" class="edit-input" value="田中商事株式会社" style="display: none;">
+                        </div>
+                        <div class="info-item">
+                            <label>役職</label>
+                            <span id="position">代表取締役CEO</span>
+                            <select id="edit-position" class="edit-input" style="display: none;">
+                                <option value="CEO">CEO</option>
+                                <option value="COO">COO</option>
+                                <option value="CFO">CFO</option>
+                                <option value="CTO">CTO</option>
+                                <option value="代表取締役" selected>代表取締役</option>
+                                <option value="取締役">取締役</option>
+                                <option value="執行役員">執行役員</option>
+                                <option value="部長">部長</option>
+                            </select>
+                        </div>
+                        <div class="info-item">
+                            <label>業界</label>
+                            <span id="industry">製造業</span>
+                            <select id="edit-industry" class="edit-input" style="display: none;">
+                                <option value="IT・テクノロジー">IT・テクノロジー</option>
+                                <option value="製造業" selected>製造業</option>
+                                <option value="小売・流通">小売・流通</option>
+                                <option value="金融・保険">金融・保険</option>
+                                <option value="医療・ヘルスケア">医療・ヘルスケア</option>
+                                <option value="不動産">不動産</option>
+                                <option value="教育">教育</option>
+                                <option value="その他サービス業">その他サービス業</option>
+                            </select>
+                        </div>
+                        <div class="info-item">
+                            <label>従業員数</label>
+                            <span id="companySize">51-100名</span>
+                            <select id="edit-companySize" class="edit-input" style="display: none;">
+                                <option value="1-10名">1-10名</option>
+                                <option value="11-50名">11-50名</option>
+                                <option value="51-100名" selected>51-100名</option>
+                                <option value="101-500名">101-500名</option>
+                                <option value="501-1000名">501-1000名</option>
+                                <option value="1000名以上">1000名以上</option>
+                            </select>
+                        </div>
+                        <div class="info-item">
+                            <label>年商</label>
+                            <span id="annualRevenue">10-50億円</span>
+                            <select id="edit-annualRevenue" class="edit-input" style="display: none;">
+                                <option value="1億円未満">1億円未満</option>
+                                <option value="1-5億円">1-5億円</option>
+                                <option value="5-10億円">5-10億円</option>
+                                <option value="10-50億円" selected>10-50億円</option>
+                                <option value="50-100億円">50-100億円</option>
+                                <option value="100億円以上">100億円以上</option>
+                            </select>
+                        </div>
+                        <div class="info-item">
+                            <label>投資予算</label>
+                            <span id="investmentBudget">1000-3000万円</span>
+                            <select id="edit-investmentBudget" class="edit-input" style="display: none;">
+                                <option value="100万円未満">100万円未満</option>
+                                <option value="100-500万円">100-500万円</option>
+                                <option value="500-1000万円">500-1000万円</option>
+                                <option value="1000-3000万円" selected>1000-3000万円</option>
+                                <option value="3000-5000万円">3000-5000万円</option>
+                                <option value="5000万円-1億円">5000万円-1億円</option>
+                                <option value="1億円以上">1億円以上</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-section">
+                    <h3>事業課題</h3>
+                    <div class="challenges-tags" id="businessChallenges">
+                        <span class="challenge-tag">売上拡大</span>
+                        <span class="challenge-tag">人材採用・育成</span>
+                        <span class="challenge-tag">デジタル変革</span>
+                        <span class="challenge-tag">新規事業開発</span>
+                    </div>
+                    <div class="challenges-edit" id="edit-businessChallenges" style="display: none;">
+                        <div class="checkbox-grid">
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="売上拡大" checked>
+                                <span class="checkmark"></span>
+                                売上拡大
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="コスト削減">
+                                <span class="checkmark"></span>
+                                コスト削減
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="人材採用・育成" checked>
+                                <span class="checkmark"></span>
+                                人材採用・育成
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="デジタル変革" checked>
+                                <span class="checkmark"></span>
+                                デジタル変革
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="新規事業開発" checked>
+                                <span class="checkmark"></span>
+                                新規事業開発
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="海外展開">
+                                <span class="checkmark"></span>
+                                海外展開
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="組織運営">
+                                <span class="checkmark"></span>
+                                組織運営
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="財務・資金調達">
+                                <span class="checkmark"></span>
+                                財務・資金調達
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="マーケティング">
+                                <span class="checkmark"></span>
+                                マーケティング
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-section">
+                    <h3>マッチング設定</h3>
+                    <div class="matching-settings" id="matchingSettings">
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <i class="fas fa-handshake"></i>
+                                <span>接続リクエスト承認</span>
+                            </div>
+                            <div class="setting-value" id="connectionApproval">
+                                自動承認
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <i class="fas fa-eye"></i>
+                                <span>プロフィール公開範囲</span>
+                            </div>
+                            <div class="setting-value" id="profileVisibility">
+                                全メンバーに公開
+                            </div>
+                        </div>
+                    </div>
+                    <div class="matching-settings-edit" id="edit-matchingSettings" style="display: none;">
+                        <div class="form-group">
+                            <label for="edit-connectionApproval">接続リクエスト承認</label>
+                            <select id="edit-connectionApproval" class="edit-input">
+                                <option value="auto">自動承認（即座に接続が成立）</option>
+                                <option value="manual">手動承認（リクエストを個別に確認）</option>
+                            </select>
+                            <small class="help-text">自動承認を選択すると、他のメンバーからの接続リクエストが即座に承認されます</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-profileVisibility">プロフィール公開範囲</label>
+                            <select id="edit-profileVisibility" class="edit-input">
+                                <option value="public">全メンバーに公開</option>
+                                <option value="connections">接続済みメンバーのみ</option>
+                                <option value="limited">基本情報のみ公開</option>
+                            </select>
+                            <small class="help-text">公開範囲を制限すると、詳細な情報の表示が制限されます</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-section">
+                    <h3>自己紹介</h3>
+                    <div class="bio-content" id="bio">
+                        <p>製造業で20年以上の経験を持つ経営者です。特に品質管理と生産効率の向上に注力し、会社を成長させてきました。</p>
+                        <p>最近はデジタル変革に取り組んでおり、IoTやAIを活用した製造プロセスの改善を進めています。</p>
+                        <p>同じような課題を抱える経営者の皆様との情報交換や、新しいビジネス機会の創出を期待しています。</p>
+                    </div>
+                    <textarea id="edit-bio" class="edit-textarea" style="display: none;" rows="6">製造業で20年以上の経験を持つ経営者です。特に品質管理と生産効率の向上に注力し、会社を成長させてきました。
+
+最近はデジタル変革に取り組んでおり、IoTやAIを活用した製造プロセスの改善を進めています。
+
+同じような課題を抱える経営者の皆様との情報交換や、新しいビジネス機会の創出を期待しています。</textarea>
+                </div>
+                
+                <div class="profile-section">
+                    <h3>実績・経歴</h3>
+                    <div class="achievements" id="achievements">
+                        <div class="achievement-item">
+                            <div class="achievement-year">2020</div>
+                            <div class="achievement-content">
+                                <h4>品質向上プロジェクト完了</h4>
+                                <p>ISO9001認証取得により品質管理体制を強化。不良品率を30%削減。</p>
+                            </div>
+                        </div>
+                        <div class="achievement-item">
+                            <div class="achievement-year">2021</div>
+                            <div class="achievement-content">
+                                <h4>デジタル変革開始</h4>
+                                <p>生産ラインにIoTセンサーを導入し、リアルタイムでの品質監視を実現。</p>
+                            </div>
+                        </div>
+                        <div class="achievement-item">
+                            <div class="achievement-year">2022</div>
+                            <div class="achievement-content">
+                                <h4>売上20%増達成</h4>
+                                <p>新製品開発と営業体制強化により、前年比20%の売上向上を実現。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="edit-achievements" id="edit-achievements" style="display: none;">
+                        <div class="achievement-form">
+                            <div class="achievement-form-item">
+                                <label>年</label>
+                                <input type="number" id="achievement-year-0" value="2020" min="1950" max="2030">
+                                <label>タイトル</label>
+                                <input type="text" id="achievement-title-0" value="品質向上プロジェクト完了">
+                                <label>説明</label>
+                                <textarea id="achievement-desc-0" rows="2">ISO9001認証取得により品質管理体制を強化。不良品率を30%削減。</textarea>
+                                <button type="button" class="btn-remove" onclick="removeAchievement(0)">削除</button>
+                            </div>
+                            <div class="achievement-form-item">
+                                <label>年</label>
+                                <input type="number" id="achievement-year-1" value="2021" min="1950" max="2030">
+                                <label>タイトル</label>
+                                <input type="text" id="achievement-title-1" value="デジタル変革開始">
+                                <label>説明</label>
+                                <textarea id="achievement-desc-1" rows="2">生産ラインにIoTセンサーを導入し、リアルタイムでの品質監視を実現。</textarea>
+                                <button type="button" class="btn-remove" onclick="removeAchievement(1)">削除</button>
+                            </div>
+                            <div class="achievement-form-item">
+                                <label>年</label>
+                                <input type="number" id="achievement-year-2" value="2022" min="1950" max="2030">
+                                <label>タイトル</label>
+                                <input type="text" id="achievement-title-2" value="売上20%増達成">
+                                <label>説明</label>
+                                <textarea id="achievement-desc-2" rows="2">新製品開発と営業体制強化により、前年比20%の売上向上を実現。</textarea>
+                                <button type="button" class="btn-remove" onclick="removeAchievement(2)">削除</button>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-add" onclick="addAchievement()">+ 実績を追加</button>
+                    </div>
+                </div>
+                
+                <div class="profile-section">
+                    <h3>連絡先</h3>
+                    <div class="contact-info" id="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span id="contact-email">tanaka@tanaka-shohi.co.jp</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span id="contact-phone">03-1234-5678</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-globe"></i>
+                            <span id="contact-website">https://tanaka-shohi.co.jp</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-linkedin"></i>
+                            <span id="contact-linkedin">linkedin.com/in/taro-tanaka</span>
+                        </div>
+                    </div>
+                    <div class="edit-contact" id="edit-contact" style="display: none;">
+                        <div class="contact-form">
+                            <div class="form-group">
+                                <label for="edit-contact-email">メールアドレス</label>
+                                <input type="email" id="edit-contact-email" value="tanaka@tanaka-shohi.co.jp">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-contact-phone">電話番号</label>
+                                <input type="tel" id="edit-contact-phone" value="03-1234-5678">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-contact-website">ウェブサイト</label>
+                                <input type="url" id="edit-contact-website" value="https://tanaka-shohi.co.jp">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-contact-linkedin">LinkedIn</label>
+                                <input type="text" id="edit-contact-linkedin" value="linkedin.com/in/taro-tanaka">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- イベント参加履歴セクション -->
+                <div class="profile-section">
+                    <h3>イベント参加履歴</h3>
+                    <div id="eventHistoryContainer"></div>
+                </div>
+            </div>
+            
+            <!-- 編集モード用のボタン -->
+            <div class="edit-actions" id="editActions" style="display: none;">
+                <button class="btn-secondary" onclick="cancelEdit()">キャンセル</button>
+                <button class="btn-primary" onclick="saveProfile()">保存</button>
+            </div>
+        </div>
+    </main>
+    
+    <script src="auth.js"></script>
+    <script src="common.js"></script>
+    <script src="dashboard.js"></script>
+    <script src="profile.js"></script>
+    <script src="advanced-search.js"></script>
+    <script src="event-history.js"></script>
+</body>
+</html>

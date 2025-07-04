@@ -1,0 +1,648 @@
+/* プロフィールページ専用スタイル */
+.profile-content {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* プロフィールヘッダー */
+.profile-header {
+    background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+    border-radius: 20px;
+    padding: 3rem;
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 3rem;
+    align-items: flex-start;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.profile-avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.profile-avatar-wrapper {
+    position: relative;
+    cursor: pointer;
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid var(--white);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.avatar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    color: var(--white);
+    font-size: 0.9rem;
+}
+
+.profile-avatar-wrapper:hover .avatar-overlay {
+    opacity: 1;
+}
+
+.avatar-overlay i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.profile-verification {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.verification-badge,
+.membership-badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.verification-badge.verified {
+    background: #d4edda;
+    color: #155724;
+}
+
+.membership-badge.premium {
+    background: linear-gradient(135deg, #ffd93d, #ffeb3b);
+    color: var(--gray-text);
+}
+
+.profile-basic-info {
+    flex: 1;
+}
+
+.profile-name {
+    font-size: 2.5rem;
+    color: var(--primary-blue);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.profile-title {
+    font-size: 1.3rem;
+    color: var(--gray-text);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.profile-industry {
+    color: #6c757d;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.profile-location,
+.profile-joined {
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.profile-stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
+}
+
+/* プロフィール詳細セクション */
+.profile-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.profile-section {
+    background: var(--white);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+}
+
+.profile-section h3 {
+    color: var(--primary-blue);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.profile-section h3::before {
+    content: '';
+    width: 4px;
+    height: 24px;
+    background: var(--primary-yellow);
+    border-radius: 2px;
+}
+
+/* 情報グリッド */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.info-item label {
+    font-weight: 600;
+    color: var(--gray-text);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-item span {
+    color: var(--gray-text);
+    font-size: 1rem;
+    padding: 0.5rem 0;
+}
+
+.edit-input,
+.edit-textarea {
+    padding: 0.8rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s;
+}
+
+.edit-input:focus,
+.edit-textarea:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+}
+
+/* 事業課題タグ */
+.challenges-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.challenge-tag {
+    background: var(--light-yellow);
+    color: var(--gray-text);
+    padding: 0.6rem 1.2rem;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 2px solid var(--primary-yellow);
+}
+
+.challenges-edit {
+    margin-top: 1rem;
+}
+
+/* 自己紹介 */
+.bio-content p {
+    margin-bottom: 1rem;
+    line-height: 1.8;
+    color: var(--gray-text);
+}
+
+/* 実績・経歴 */
+.achievements {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.achievement-item {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+.achievement-year {
+    background: var(--primary-blue);
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    min-width: 70px;
+    text-align: center;
+}
+
+.achievement-content {
+    flex: 1;
+}
+
+.achievement-content h4 {
+    color: var(--primary-blue);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.achievement-content p {
+    color: var(--gray-text);
+    line-height: 1.6;
+}
+
+/* 連絡先 */
+.contact-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--light-gray);
+    border-radius: 10px;
+    transition: background-color 0.3s;
+}
+
+.contact-item:hover {
+    background: var(--light-blue);
+}
+
+.contact-item i {
+    color: var(--primary-blue);
+    width: 20px;
+    text-align: center;
+}
+
+.contact-item span {
+    color: var(--gray-text);
+    font-weight: 500;
+}
+
+/* 編集ボタン */
+.btn-primary,
+.btn-secondary {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary {
+    background: var(--primary-blue);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background: var(--secondary-blue);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: var(--light-gray);
+    color: var(--gray-text);
+    border: 2px solid #e1e5e9;
+}
+
+.btn-secondary:hover {
+    background: #e1e5e9;
+}
+
+.edit-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding: 2rem;
+    background: var(--light-gray);
+    border-radius: 15px;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .profile-content {
+        padding: 1rem;
+    }
+    
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem;
+        gap: 2rem;
+    }
+    
+    .profile-stats {
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-info {
+        grid-template-columns: 1fr;
+    }
+    
+    .achievement-item {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .achievement-year {
+        align-self: flex-start;
+    }
+    
+    .edit-actions {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-name {
+        font-size: 2rem;
+    }
+    
+    .profile-title {
+        font-size: 1.1rem;
+    }
+    
+    .stat-number {
+        font-size: 1.5rem;
+    }
+    
+    .challenges-tags {
+        justify-content: center;
+    }
+}
+
+/* アニメーション */
+.profile-section {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* チェックボックスグリッド（編集モード用） */
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.checkbox-label input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #e1e5e9;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkmark {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkmark::after {
+    content: '✓';
+    color: var(--white);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* 実績編集フォーム */
+.edit-achievements {
+    margin-top: 1rem;
+}
+
+.achievement-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.achievement-form-item {
+    background: var(--light-gray);
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 2px solid #e1e5e9;
+    position: relative;
+}
+
+.achievement-form-item label {
+    display: block;
+    font-weight: 600;
+    color: var(--gray-text);
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.achievement-form-item label:first-child {
+    margin-top: 0;
+}
+
+.achievement-form-item input,
+.achievement-form-item textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.achievement-form-item input:focus,
+.achievement-form-item textarea:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+}
+
+.achievement-form-item textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+.btn-remove {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ff4757;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-remove:hover {
+    background: #ff3838;
+}
+
+.btn-add {
+    background: var(--primary-yellow);
+    color: var(--gray-text);
+    border: 2px solid var(--secondary-yellow);
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-add:hover {
+    background: var(--secondary-yellow);
+    transform: translateY(-2px);
+}
+
+/* 連絡先編集フォーム */
+.edit-contact {
+    margin-top: 1rem;
+}
+
+.contact-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.contact-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.contact-form .form-group label {
+    font-weight: 600;
+    color: var(--gray-text);
+    font-size: 0.9rem;
+}
+
+.contact-form .form-group input {
+    padding: 0.8rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s;
+}
+
+.contact-form .form-group input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .contact-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .achievement-form-item {
+        padding: 1rem;
+    }
+    
+    .btn-remove {
+        position: static;
+        margin-top: 1rem;
+        align-self: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .achievement-form-item {
+        padding: 0.8rem;
+    }
+    
+    .achievement-form-item input,
+    .achievement-form-item textarea,
+    .contact-form .form-group input {
+        font-size: 0.9rem;
+    }
+}

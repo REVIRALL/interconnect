@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>設定 - INTERCONNECT</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="settings.css">
+    <link rel="stylesheet" href="loading.css">
+    <link rel="stylesheet" href="dark-mode.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="security-manager.js"></script>
+</head>
+<body class="dashboard-body">
+    <!-- サイドバー -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>INTERCONNECT</h2>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>ダッシュボード</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>プロフィール</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="members.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>メンバー</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="events.html" class="nav-link">
+                        <i class="fas fa-calendar"></i>
+                        <span>イベント</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="messages.html" class="nav-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>メッセージ</span>
+                        <span class="badge">3</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="business.html" class="nav-link">
+                        <i class="fas fa-handshake"></i>
+                        <span>ビジネス</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="invite.html" class="nav-link">
+                        <i class="fas fa-share-alt"></i>
+                        <span>招待</span>
+                        <span class="badge new">NEW</span>
+                    </a>
+                </li>
+                <li class="nav-item admin-only">
+                    <a href="admin.html" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>管理</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23e0e0e0'/%3E%3Ctext x='50' y='50' text-anchor='middle' dominant-baseline='middle' fill='%23999' font-family='Arial,sans-serif' font-size='30'%3EUser%3C/text%3E%3C/svg%3E" alt="プロフィール画像" class="user-avatar">
+                <div class="user-details">
+                    <span class="user-name">田中太郎</span>
+                    <span class="user-role">CEO</span>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+    
+    <!-- メインコンテンツ -->
+    <main class="main-content">
+        <header class="dashboard-header">
+            <h1>設定</h1>
+        </header>
+        
+        <div class="settings-content">
+            <!-- 設定タブ -->
+            <div class="settings-tabs">
+                <button class="tab-btn active" data-tab="account">アカウント</button>
+                <button class="tab-btn" data-tab="notifications">通知</button>
+                <button class="tab-btn" data-tab="privacy">プライバシー</button>
+                <button class="tab-btn" data-tab="preferences">表示設定</button>
+                <button class="tab-btn" data-tab="security">セキュリティ</button>
+            </div>
+            
+            <!-- アカウント設定 -->
+            <div class="tab-content active" id="account">
+                <div class="settings-section">
+                    <h3>基本情報</h3>
+                    <form class="settings-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>姓</label>
+                                <input type="text" value="田中" name="lastName">
+                            </div>
+                            <div class="form-group">
+                                <label>名</label>
+                                <input type="text" value="太郎" name="firstName">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>メールアドレス</label>
+                            <input type="email" value="tanaka@tanaka-shohi.co.jp" name="email">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>電話番号</label>
+                            <input type="tel" value="03-1234-5678" name="phone">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>住所</label>
+                            <input type="text" value="東京都港区" name="address">
+                        </div>
+                        
+                        <button class="btn-primary" type="submit">変更を保存</button>
+                    </form>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>パスワード変更</h3>
+                    <form class="settings-form">
+                        <div class="form-group">
+                            <label>現在のパスワード</label>
+                            <input type="password" name="currentPassword">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>新しいパスワード</label>
+                            <input type="password" name="newPassword">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>新しいパスワード（確認）</label>
+                            <input type="password" name="confirmPassword">
+                        </div>
+                        
+                        <button class="btn-primary" type="submit">パスワードを変更</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- 通知設定 -->
+            <div class="tab-content" id="notifications">
+                <div class="settings-section">
+                    <h3>メール通知</h3>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>新しいメッセージ</h4>
+                            <p>メンバーからメッセージが届いた時に通知</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>イベント招待</h4>
+                            <p>新しいイベントに招待された時に通知</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>ビジネスマッチング</h4>
+                            <p>新しいマッチングが見つかった時に通知</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>プッシュ通知</h3>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>リアルタイム通知</h4>
+                            <p>ブラウザでリアルタイム通知を受け取る</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>サウンド</h4>
+                            <p>通知時に音を再生</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- プライバシー設定 -->
+            <div class="tab-content" id="privacy">
+                <div class="settings-section">
+                    <h3>プロフィール公開設定</h3>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>プロフィール情報</h4>
+                            <p>他のメンバーに公開する情報を選択</p>
+                        </div>
+                        <select name="profileVisibility">
+                            <option value="public">すべて公開</option>
+                            <option value="members" selected>メンバーのみ</option>
+                            <option value="connections">繋がりのみ</option>
+                            <option value="private">非公開</option>
+                        </select>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>連絡先情報</h4>
+                            <p>メールアドレスや電話番号の公開範囲</p>
+                        </div>
+                        <select name="contactVisibility">
+                            <option value="public">すべて公開</option>
+                            <option value="members">メンバーのみ</option>
+                            <option value="connections" selected>繋がりのみ</option>
+                            <option value="private">非公開</option>
+                        </select>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>オンライン状態</h4>
+                            <p>オンライン状態を他のメンバーに表示</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>検索・発見設定</h3>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>検索結果に表示</h4>
+                            <p>メンバー検索の結果に自分を表示</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>おすすめメンバー</h4>
+                            <p>他のメンバーのおすすめに表示</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 表示設定 -->
+            <div class="tab-content" id="preferences">
+                <div class="settings-section">
+                    <h3>テーマ設定</h3>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>表示テーマ</h4>
+                            <p>ダークモードまたはライトモードを選択</p>
+                        </div>
+                        <select name="theme" id="themeSelect">
+                            <option value="light">ライトモード</option>
+                            <option value="dark">ダークモード</option>
+                            <option value="auto">システム設定に従う</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>言語・地域設定</h3>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>言語</h4>
+                            <p>表示言語を選択</p>
+                        </div>
+                        <select name="language">
+                            <option value="ja" selected>日本語</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>タイムゾーン</h4>
+                            <p>時刻表示のタイムゾーン</p>
+                        </div>
+                        <select name="timezone">
+                            <option value="Asia/Tokyo" selected>Asia/Tokyo (JST)</option>
+                            <option value="America/New_York">America/New_York (EST)</option>
+                            <option value="Europe/London">Europe/London (GMT)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- セキュリティ設定 -->
+            <div class="tab-content" id="security">
+                <div class="settings-section">
+                    <h3>二段階認証</h3>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>SMS認証</h4>
+                            <p>ログイン時にSMSで認証コードを送信</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>認証アプリ</h4>
+                            <p>Google AuthenticatorやAuthyを使用</p>
+                        </div>
+                        <button class="btn-secondary">設定</button>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>ログイン履歴</h3>
+                    <div class="login-history">
+                        <div class="history-item">
+                            <div class="device-info">
+                                <i class="fas fa-desktop"></i>
+                                <div>
+                                    <h4>Windows PC</h4>
+                                    <p>Chrome 119.0 - Tokyo, Japan</p>
+                                </div>
+                            </div>
+                            <div class="login-time">
+                                <span>現在のセッション</span>
+                                <button class="btn-link">ログアウト</button>
+                            </div>
+                        </div>
+                        
+                        <div class="history-item">
+                            <div class="device-info">
+                                <i class="fas fa-mobile-alt"></i>
+                                <div>
+                                    <h4>iPhone</h4>
+                                    <p>Safari 17.0 - Tokyo, Japan</p>
+                                </div>
+                            </div>
+                            <div class="login-time">
+                                <span>2時間前</span>
+                                <button class="btn-link">ログアウト</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-section danger-zone">
+                    <h3>危険な操作</h3>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>アカウント削除</h4>
+                            <p>アカウントとすべてのデータを完全に削除します</p>
+                        </div>
+                        <button class="btn-danger">アカウントを削除</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script src="auth.js"></script>
+    <script src="common.js"></script>
+    <script src="supabase-config.js"></script>
+    <script src="settings-service.js"></script>
+    <script src="dashboard.js"></script>
+    <script src="settings.js"></script>
+    <script src="advanced-search.js"></script>
+</body>
+</html>

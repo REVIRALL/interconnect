@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ビジネスマッチング - INTERCONNECT</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="loading.css">
+    <link rel="stylesheet" href="dark-mode.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="business.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="security-manager.js"></script>
+    <script src="common.js"></script>
+    <script src="lazy-load.js"></script>
+</head>
+<body class="dashboard-body">
+    <!-- サイドバー -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>INTERCONNECT</h2>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>ダッシュボード</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>プロフィール</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="members.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>メンバー</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="events.html" class="nav-link">
+                        <i class="fas fa-calendar"></i>
+                        <span>イベント</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="messages.html" class="nav-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>メッセージ</span>
+                        <span class="badge">3</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="business.html" class="nav-link">
+                        <i class="fas fa-briefcase"></i>
+                        <span>ビジネス</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="invite.html" class="nav-link">
+                        <i class="fas fa-share-alt"></i>
+                        <span>招待</span>
+                        <span class="badge new">NEW</span>
+                    </a>
+                </li>
+                <li class="nav-item admin-only">
+                    <a href="admin.html" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>管理</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23e0e0e0'/%3E%3C/svg%3E"  alt="プロフィール画像" class="user-avatar lazy">
+                <div class="user-details">
+                    <span class="user-name">田中太郎</span>
+                    <span class="user-role">CEO</span>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+
+    
+    <!-- メインコンテンツ -->
+    <main class="main-content">
+        <div class="content-wrapper">
+            <div class="page-header">
+                <h1>ビジネスマッチング</h1>
+                <p>経営者同士のビジネスチャンスを見つけましょう</p>
+            </div>
+
+            <div class="business-content">
+                <!-- 検索・フィルターセクション -->
+                <section class="search-section">
+                    <div class="search-header">
+                        <h2>ビジネスチャンスを探す</h2>
+                        <button class="btn-create" onclick="showCreateModal()">
+                            <i class="fas fa-plus"></i> 新規案件投稿
+                        </button>
+                    </div>
+                    
+                    <div class="search-filters">
+                        <div class="filter-row">
+                            <div class="filter-group">
+                                <label>キーワード検索</label>
+                                <div class="search-input-wrapper">
+                                    <i class="fas fa-search"></i>
+                                    <input type="text" id="keywordFilter" placeholder="案件タイトル、説明、会社名で検索...">
+                                    <button class="clear-search" id="clearSearch" style="display: none;">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-row">
+                            <div class="filter-group">
+                                <label>カテゴリー</label>
+                                <select id="categoryFilter">
+                                    <option value="">すべてのカテゴリー</option>
+                                    <option value="collaboration">業務提携</option>
+                                    <option value="investment">投資案件</option>
+                                    <option value="partnership">パートナー募集</option>
+                                    <option value="service">サービス提供</option>
+                                    <option value="seeking">サービス探し</option>
+                                    <option value="joint-venture">合弁事業</option>
+                                    <option value="licensing">ライセンス</option>
+                                    <option value="outsourcing">業務委託</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>業界</label>
+                                <select id="industryFilter">
+                                    <option value="">すべての業界</option>
+                                    <option value="it">IT・テクノロジー</option>
+                                    <option value="manufacturing">製造業</option>
+                                    <option value="retail">小売・流通</option>
+                                    <option value="finance">金融・保険</option>
+                                    <option value="healthcare">医療・ヘルスケア</option>
+                                    <option value="education">教育・研修</option>
+                                    <option value="consulting">コンサルティング</option>
+                                    <option value="real-estate">不動産</option>
+                                    <option value="food">飲食・食品</option>
+                                    <option value="logistics">物流・運輸</option>
+                                    <option value="marketing">マーケティング・広告</option>
+                                    <option value="entertainment">エンターテイメント</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>予算規模</label>
+                                <select id="budgetFilter">
+                                    <option value="">すべての予算</option>
+                                    <option value="small">〜100万円</option>
+                                    <option value="medium">100万円〜1000万円</option>
+                                    <option value="large">1000万円〜1億円</option>
+                                    <option value="xlarge">1億円以上</option>
+                                    <option value="negotiable">要相談</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-row">
+                            <div class="filter-group">
+                                <label>エリア</label>
+                                <select id="areaFilter">
+                                    <option value="">全国</option>
+                                    <option value="北海道">北海道</option>
+                                    <option value="東北">東北</option>
+                                    <option value="関東">関東</option>
+                                    <option value="中部">中部</option>
+                                    <option value="関西">関西</option>
+                                    <option value="中国">中国</option>
+                                    <option value="四国">四国</option>
+                                    <option value="九州">九州・沖縄</option>
+                                    <option value="海外">海外</option>
+                                    <option value="オンライン">オンライン・リモート</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>投稿期間</label>
+                                <select id="dateFilter">
+                                    <option value="">すべて</option>
+                                    <option value="today">今日</option>
+                                    <option value="week">1週間以内</option>
+                                    <option value="month">1ヶ月以内</option>
+                                    <option value="quarter">3ヶ月以内</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>ソート</label>
+                                <select id="sortFilter">
+                                    <option value="newest">新しい順</option>
+                                    <option value="oldest">古い順</option>
+                                    <option value="popular">人気順</option>
+                                    <option value="budget-high">予算高い順</option>
+                                    <option value="budget-low">予算低い順</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-actions">
+                            <button class="btn-filter-reset" id="resetFilters">
+                                <i class="fas fa-undo"></i> フィルターリセット
+                            </button>
+                            <button class="btn-save-search" id="saveSearch">
+                                <i class="fas fa-bookmark"></i> 検索条件を保存
+                            </button>
+                            <div class="search-results-count">
+                                <span id="resultsCount">0</span>件の案件が見つかりました
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 統計情報 -->
+                <section class="business-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--light-blue);">
+                            <i class="fas fa-handshake" style="color: var(--primary-blue);"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>245</h3>
+                            <p>アクティブ案件</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--light-yellow);">
+                            <i class="fas fa-check-circle" style="color: var(--primary-yellow);"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>89</h3>
+                            <p>成約実績</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(40, 167, 69, 0.1);">
+                            <i class="fas fa-trending-up" style="color: #28a745;"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>92%</h3>
+                            <p>満足度</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(108, 117, 125, 0.1);">
+                            <i class="fas fa-users" style="color: #6c757d;"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>1,234</h3>
+                            <p>参加企業</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 案件リスト -->
+                <section class="opportunities-section">
+                    <h2>最新のビジネスチャンス</h2>
+                    <div class="opportunities-list" id="opportunitiesList">
+                        <!-- 案件カード -->
+                        <div class="opportunity-card">
+                            <div class="opportunity-header">
+                                <span class="opportunity-category collaboration">業務提携</span>
+                                <span class="opportunity-date">2024/01/20</span>
+                            </div>
+                            <h3>EC事業での物流パートナー募集</h3>
+                            <p class="opportunity-description">
+                                急成長中のEC事業において、全国配送に対応できる物流パートナーを探しています。月間1万件以上の配送実績がある企業を希望。
+                            </p>
+                            <div class="opportunity-details">
+                                <span><i class="fas fa-building"></i> IT・テクノロジー</span>
+                                <span><i class="fas fa-yen-sign"></i> 1000万円〜1億円</span>
+                                <span><i class="fas fa-map-marker-alt"></i> 東京都</span>
+                            </div>
+                            <div class="opportunity-footer">
+                                <div class="opportunity-poster">
+                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Crect width='30' height='30' fill='%23e0e0e0'/%3E%3C/svg%3E"  alt="投稿者" class="lazy">
+                                    <span>株式会社サンプル</span>
+                                </div>
+                                <button class="btn-interest">興味あり</button>
+                            </div>
+                        </div>
+
+                        <!-- 追加の案件カード -->
+                        <div class="opportunity-card">
+                            <div class="opportunity-header">
+                                <span class="opportunity-category investment">投資案件</span>
+                                <span class="opportunity-date">2024/01/19</span>
+                            </div>
+                            <h3>ヘルスケアアプリ開発への投資募集</h3>
+                            <p class="opportunity-description">
+                                AIを活用した次世代ヘルスケアアプリの開発に向けて、シードラウンドでの資金調達を実施中。医療×テクノロジーに関心のある投資家を募集。
+                            </p>
+                            <div class="opportunity-details">
+                                <span><i class="fas fa-building"></i> 医療・ヘルスケア</span>
+                                <span><i class="fas fa-yen-sign"></i> 1000万円〜1億円</span>
+                                <span><i class="fas fa-map-marker-alt"></i> 大阪府</span>
+                            </div>
+                            <div class="opportunity-footer">
+                                <div class="opportunity-poster">
+                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Crect width='30' height='30' fill='%23e0e0e0'/%3E%3C/svg%3E"  alt="投稿者" class="lazy">
+                                    <span>メディテック株式会社</span>
+                                </div>
+                                <button class="btn-interest">興味あり</button>
+                            </div>
+                        </div>
+
+                        <div class="opportunity-card">
+                            <div class="opportunity-header">
+                                <span class="opportunity-category service">サービス提供</span>
+                                <span class="opportunity-date">2024/01/18</span>
+                            </div>
+                            <h3>マーケティング支援サービス</h3>
+                            <p class="opportunity-description">
+                                BtoB企業向けのデジタルマーケティング支援を提供。SEO、リスティング広告、SNS運用まで一括サポート。
+                            </p>
+                            <div class="opportunity-details">
+                                <span><i class="fas fa-building"></i> メディア・広告</span>
+                                <span><i class="fas fa-yen-sign"></i> 〜100万円</span>
+                                <span><i class="fas fa-map-marker-alt"></i> 全国対応</span>
+                            </div>
+                            <div class="opportunity-footer">
+                                <div class="opportunity-poster">
+                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Crect width='30' height='30' fill='%23e0e0e0'/%3E%3C/svg%3E"  alt="投稿者" class="lazy">
+                                    <span>デジマーケ合同会社</span>
+                                </div>
+                                <button class="btn-interest">興味あり</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="load-more">
+                        <button class="btn-load-more">もっと見る</button>
+                    </div>
+                </section>
+
+                <!-- マッチング成功事例 -->
+                <section class="success-stories">
+                    <h2>マッチング成功事例</h2>
+                    <div class="stories-grid">
+                        <div class="story-card">
+                            <div class="story-header">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23e0e0e0'/%3E%3C/svg%3E"  alt="企業A" class="lazy">
+                                <i class="fas fa-handshake"></i>
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23e0e0e0'/%3E%3C/svg%3E"  alt="企業B" class="lazy">
+                            </div>
+                            <h4>IT企業 × 製造業</h4>
+                            <p>IoTソリューションの共同開発により、製造ラインの効率が30%向上</p>
+                            <span class="story-date">2023年12月成約</span>
+                        </div>
+                        <div class="story-card">
+                            <div class="story-header">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23e0e0e0'/%3E%3C/svg%3E"  alt="企業C" class="lazy">
+                                <i class="fas fa-handshake"></i>
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23e0e0e0'/%3E%3C/svg%3E"  alt="企業D" class="lazy">
+                            </div>
+                            <h4>小売業 × 物流企業</h4>
+                            <p>配送ネットワークの最適化により、配送コストを20%削減</p>
+                            <span class="story-date">2023年11月成約</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- 新規案件投稿モーダル -->
+    <div class="modal" id="createModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>新規案件投稿</h3>
+                <button class="close-modal" onclick="closeCreateModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createOpportunityForm">
+                    <div class="form-group">
+                        <label>案件タイトル <span class="required">*</span></label>
+                        <input type="text" name="title" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>カテゴリー <span class="required">*</span></label>
+                            <select name="category" required>
+                                <option value="">選択してください</option>
+                                <option value="collaboration">業務提携</option>
+                                <option value="investment">投資案件</option>
+                                <option value="partnership">パートナー募集</option>
+                                <option value="service">サービス提供</option>
+                                <option value="seeking">サービス探し</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>業界 <span class="required">*</span></label>
+                            <select name="industry" required>
+                                <option value="">選択してください</option>
+                                <option value="it">IT・テクノロジー</option>
+                                <option value="manufacturing">製造業</option>
+                                <option value="retail">小売・流通</option>
+                                <option value="finance">金融・保険</option>
+                                <option value="healthcare">医療・ヘルスケア</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>詳細説明 <span class="required">*</span></label>
+                        <textarea name="description" rows="5" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>予算規模</label>
+                            <select name="budget">
+                                <option value="">選択してください</option>
+                                <option value="small">〜100万円</option>
+                                <option value="medium">100万円〜1000万円</option>
+                                <option value="large">1000万円〜1億円</option>
+                                <option value="xlarge">1億円以上</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>エリア</label>
+                            <input type="text" name="area" placeholder="例: 東京都、全国対応">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeCreateModal()">キャンセル</button>
+                <button class="btn-submit" onclick="submitOpportunity()">投稿する</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="business.js"></script>
+</body>
+</html>

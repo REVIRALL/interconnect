@@ -1,0 +1,375 @@
+/* イベント履歴スタイル */
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.history-header h2 {
+    color: var(--primary-blue);
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.btn-export {
+    background: var(--primary-yellow);
+    color: var(--dark-gray);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-export:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+/* 統計情報 */
+.history-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: var(--white);
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--primary-yellow);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--dark-gray);
+}
+
+.stat-content {
+    flex: 1;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    line-height: 1;
+}
+
+.stat-label {
+    color: var(--gray-text);
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+}
+
+/* フィルター */
+.history-filters {
+    background: var(--light-gray);
+    padding: 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.filter-select,
+.filter-input {
+    padding: 0.8rem 1.2rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--white);
+    font-size: 0.95rem;
+    color: var(--dark-gray);
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.filter-select:hover,
+.filter-input:hover {
+    border-color: var(--primary-blue);
+}
+
+.filter-select:focus,
+.filter-input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+}
+
+/* 履歴リスト */
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.history-item {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+    transition: all 0.3s;
+    border-left: 4px solid transparent;
+}
+
+.history-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* ステータス別の色分け */
+.history-item.attended {
+    border-left-color: #28a745;
+}
+
+.history-item.registered {
+    border-left-color: #17a2b8;
+}
+
+.history-item.cancelled {
+    border-left-color: #ffc107;
+}
+
+.history-item.no-show {
+    border-left-color: #dc3545;
+}
+
+/* 日付表示 */
+.history-date {
+    text-align: center;
+    padding: 0.5rem;
+    background: var(--light-gray);
+    border-radius: 8px;
+    min-width: 60px;
+}
+
+.date-month {
+    font-size: 0.8rem;
+    color: var(--gray-text);
+    text-transform: uppercase;
+}
+
+.date-day {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+/* コンテンツ */
+.history-content {
+    flex: 1;
+}
+
+.history-content h3 {
+    color: var(--dark-gray);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.history-meta {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+
+.history-meta span {
+    color: var(--gray-text);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.history-meta i {
+    font-size: 0.8rem;
+}
+
+/* ステータスバッジ */
+.history-status {
+    margin-top: 0.5rem;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.badge-success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.badge-info {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.badge-warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.badge-danger {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* アクションボタン */
+.history-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-small {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-success {
+    background: #28a745;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #218838;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+}
+
+.btn-warning {
+    background: #ffc107;
+    color: #212529;
+}
+
+.btn-warning:hover {
+    background: #e0a800;
+}
+
+.btn-primary {
+    background: var(--primary-blue);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--secondary-blue);
+}
+
+/* 履歴なし */
+.no-history {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--gray-text);
+}
+
+.no-history i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: #e9ecef;
+}
+
+.no-history p {
+    font-size: 1.1rem;
+}
+
+/* アニメーション */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+    .history-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .history-item {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .history-date {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        background: none;
+        padding: 0;
+    }
+    
+    .history-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .history-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .btn-small {
+        width: 100%;
+    }
+}

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理パネル - INTERCONNECT</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="loading.css">
+    <link rel="stylesheet" href="dark-mode.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="security-manager.js"></script>
+    <script src="common.js"></script>
+</head>
+<body class="dashboard-body">
+    <!-- サイドバー -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>INTERCONNECT</h2>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>ダッシュボード</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>プロフィール</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="members.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>メンバー</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="events.html" class="nav-link">
+                        <i class="fas fa-calendar"></i>
+                        <span>イベント</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="messages.html" class="nav-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>メッセージ</span>
+                        <span class="badge">3</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="business.html" class="nav-link">
+                        <i class="fas fa-briefcase"></i>
+                        <span>ビジネス</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="invite.html" class="nav-link">
+                        <i class="fas fa-share-alt"></i>
+                        <span>招待</span>
+                        <span class="badge new">NEW</span>
+                    </a>
+                </li>
+                <li class="nav-item admin-only active">
+                    <a href="admin.html" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>管理</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23e0e0e0'/%3E%3Ctext x='20' y='20' text-anchor='middle' dominant-baseline='middle' fill='%23999' font-family='Arial,sans-serif' font-size='12'%3E管%3C/text%3E%3C/svg%3E" alt="プロフィール画像" class="user-avatar">
+                <div class="user-details">
+                    <span class="user-name">田中太郎</span>
+                    <span class="user-role">管理者</span>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+
+    
+    <!-- メインコンテンツ -->
+    <main class="main-content">
+        <div class="content-wrapper">
+            <div class="page-header">
+                <h1>管理パネル</h1>
+                <p>システム全体の管理と監視</p>
+            </div>
+
+            <div class="admin-content">
+                <!-- 統計カード -->
+                <section class="admin-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--light-blue);">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>1,234</h3>
+                            <p>総メンバー数</p>
+                            <span class="stat-change positive">+12.5%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--light-yellow);">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>45</h3>
+                            <p>今月のイベント</p>
+                            <span class="stat-change positive">+5</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(40, 167, 69, 0.1);">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>89</h3>
+                            <p>ビジネスマッチング</p>
+                            <span class="stat-change positive">+23%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(220, 53, 69, 0.1);">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>3</h3>
+                            <p>要対応案件</p>
+                            <span class="stat-change negative">-2</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 管理タブ -->
+                <section class="admin-tabs">
+                    <div class="tab-header">
+                        <button class="tab-btn active" data-tab="users">ユーザー管理</button>
+                        <button class="tab-btn" data-tab="events">イベント管理</button>
+                        <button class="tab-btn" data-tab="content">コンテンツ管理</button>
+                        <button class="tab-btn" data-tab="reports">レポート</button>
+                        <button class="tab-btn" data-tab="settings">システム設定</button>
+                    </div>
+
+                    <!-- ユーザー管理タブ -->
+                    <div class="tab-content active" id="users-tab">
+                        <div class="admin-actions">
+                            <div class="search-bar">
+                                <i class="fas fa-search"></i>
+                                <input type="text" placeholder="ユーザーを検索...">
+                            </div>
+                            <button class="btn-primary">
+                                <i class="fas fa-user-plus"></i> 新規ユーザー追加
+                            </button>
+                        </div>
+
+                        <div class="users-table-wrapper">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox" id="selectAll"></th>
+                                        <th>ID</th>
+                                        <th>名前</th>
+                                        <th>会社名</th>
+                                        <th>メールアドレス</th>
+                                        <th>ステータス</th>
+                                        <th>登録日</th>
+                                        <th>最終ログイン</th>
+                                        <th>アクション</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- データは動的に生成されます -->
+                                </tbody>
+                            </table>
+                            
+                            <div class="table-pagination">
+                                <div class="pagination-info">
+                                    <span>1-10 / 100件</span>
+                                </div>
+                                <div class="pagination-controls">
+                                    <button class="btn-pagination" disabled><i class="fas fa-chevron-left"></i></button>
+                                    <span class="page-numbers">
+                                        <button class="btn-page active">1</button>
+                                        <button class="btn-page">2</button>
+                                        <button class="btn-page">3</button>
+                                    </span>
+                                    <button class="btn-pagination"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- イベント管理タブ -->
+                    <div class="tab-content" id="events-tab">
+                        <div class="admin-actions">
+                            <button class="btn-primary">
+                                <i class="fas fa-calendar-plus"></i> 新規イベント作成
+                            </button>
+                        </div>
+
+                        <div class="events-grid">
+                            <div class="event-admin-card">
+                                <h4>定例交流会</h4>
+                                <p>2024年2月13日（火）19:00〜</p>
+                                <div class="event-stats">
+                                    <span><i class="fas fa-users"></i> 参加者: 45名</span>
+                                    <span><i class="fas fa-check-circle"></i> 承認済み</span>
+                                </div>
+                                <div class="event-actions">
+                                    <button class="btn-edit">編集</button>
+                                    <button class="btn-view">詳細</button>
+                                </div>
+                            </div>
+                            <div class="event-admin-card">
+                                <h4>ビジネスピッチ会</h4>
+                                <p>2024年3月15日（金）18:00〜</p>
+                                <div class="event-stats">
+                                    <span><i class="fas fa-users"></i> 参加者: 30名</span>
+                                    <span><i class="fas fa-clock"></i> 準備中</span>
+                                </div>
+                                <div class="event-actions">
+                                    <button class="btn-edit">編集</button>
+                                    <button class="btn-view">詳細</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- コンテンツ管理タブ -->
+                    <div class="tab-content" id="content-tab">
+                        <div class="content-stats">
+                            <div class="content-stat-card">
+                                <h4>投稿記事</h4>
+                                <p>234</p>
+                            </div>
+                            <div class="content-stat-card">
+                                <h4>お知らせ</h4>
+                                <p>15</p>
+                            </div>
+                            <div class="content-stat-card">
+                                <h4>リソース</h4>
+                                <p>89</p>
+                            </div>
+                        </div>
+                        <button class="btn-primary">
+                            <i class="fas fa-plus"></i> 新規コンテンツ作成
+                        </button>
+                    </div>
+
+                    <!-- レポートタブ -->
+                    <div class="tab-content" id="reports-tab">
+                        <div class="report-header">
+                            <div class="report-filters">
+                                <select id="reportPeriod">
+                                    <option value="monthly">月次レポート</option>
+                                    <option value="quarterly">四半期レポート</option>
+                                    <option value="yearly">年次レポート</option>
+                                </select>
+                                <select id="reportType">
+                                    <option value="all">全体</option>
+                                    <option value="users">ユーザー</option>
+                                    <option value="events">イベント</option>
+                                    <option value="business">ビジネス</option>
+                                </select>
+                                <button class="btn-primary" onclick="adminPanel.generateReport()">
+                                    <i class="fas fa-sync"></i> 更新
+                                </button>
+                                <button class="btn-secondary" onclick="adminPanel.exportFullReport()">
+                                    <i class="fas fa-download"></i> レポート出力
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="report-summary-cards">
+                            <div class="summary-card">
+                                <div class="summary-icon" style="background: rgba(52, 144, 220, 0.1);">
+                                    <i class="fas fa-users" style="color: var(--primary-blue);"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <h4>0</h4>
+                                    <p>新規ユーザー</p>
+                                </div>
+                            </div>
+                            <div class="summary-card">
+                                <div class="summary-icon" style="background: rgba(40, 167, 69, 0.1);">
+                                    <i class="fas fa-calendar-check" style="color: #28a745;"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <h4>0</h4>
+                                    <p>開催イベント</p>
+                                </div>
+                            </div>
+                            <div class="summary-card">
+                                <div class="summary-icon" style="background: rgba(255, 193, 7, 0.1);">
+                                    <i class="fas fa-handshake" style="color: #ffc107;"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <h4>0</h4>
+                                    <p>マッチング成立</p>
+                                </div>
+                            </div>
+                            <div class="summary-card">
+                                <div class="summary-icon" style="background: rgba(23, 162, 184, 0.1);">
+                                    <i class="fas fa-chart-line" style="color: #17a2b8;"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <h4>0%</h4>
+                                    <p>成長率</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="charts-grid">
+                            <div class="chart-container">
+                                <h3>ユーザー登録推移</h3>
+                                <canvas id="userGrowthChart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <h3>イベント参加者数</h3>
+                                <canvas id="eventParticipationChart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <h3>ユーザーロール別分布</h3>
+                                <canvas id="userRoleChart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <h3>アクティビティヒートマップ</h3>
+                                <canvas id="activityHeatmapChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- システム設定タブ -->
+                    <div class="tab-content" id="settings-tab">
+                        <div class="settings-sections">
+                            <div class="settings-section">
+                                <h3>一般設定</h3>
+                                <div class="settings-grid">
+                                    <div class="setting-item">
+                                        <label>サイト名</label>
+                                        <input type="text" name="siteName" value="INTERCONNECT">
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>管理者メール</label>
+                                        <input type="email" name="adminEmail" value="admin@interconnect.jp">
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>最大ファイルサイズ</label>
+                                        <select name="maxFileSize">
+                                            <option value="5MB">5MB</option>
+                                            <option value="10MB" selected>10MB</option>
+                                            <option value="20MB">20MB</option>
+                                        </select>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>新規登録</label>
+                                        <input type="checkbox" name="registrationEnabled" checked>
+                                        <span class="checkbox-label">新規ユーザー登録を許可</span>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>自動承認</label>
+                                        <input type="checkbox" name="autoApproval">
+                                        <span class="checkbox-label">新規ユーザーを自動承認</span>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>メール通知</label>
+                                        <input type="checkbox" name="emailNotifications" checked>
+                                        <span class="checkbox-label">システム通知をメールで送信</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-section">
+                                <h3>セキュリティ設定</h3>
+                                <div class="settings-grid">
+                                    <div class="setting-item">
+                                        <label>セッション有効期限</label>
+                                        <select name="sessionTimeout">
+                                            <option value="30">30分</option>
+                                            <option value="60" selected>1時間</option>
+                                            <option value="120">2時間</option>
+                                            <option value="480">8時間</option>
+                                        </select>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>パスワード強度</label>
+                                        <select name="passwordStrength">
+                                            <option value="weak">弱い</option>
+                                            <option value="medium" selected>中程度</option>
+                                            <option value="strong">強い</option>
+                                        </select>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>2段階認証</label>
+                                        <input type="checkbox" name="twoFactorAuth">
+                                        <span class="checkbox-label">2段階認証を必須にする</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-section">
+                                <h3>データ管理</h3>
+                                <div class="settings-grid">
+                                    <div class="setting-item">
+                                        <label>バックアップ頻度</label>
+                                        <select name="backupFrequency">
+                                            <option value="daily" selected>毎日</option>
+                                            <option value="weekly">毎週</option>
+                                            <option value="monthly">毎月</option>
+                                        </select>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>ログ保持期間</label>
+                                        <select name="logRetention">
+                                            <option value="30">30日</option>
+                                            <option value="90" selected>90日</option>
+                                            <option value="365">1年</option>
+                                        </select>
+                                    </div>
+                                    <div class="setting-item full-width">
+                                        <div class="data-actions">
+                                            <button class="btn-secondary" onclick="adminPanel.exportData()">データエクスポート</button>
+                                            <button class="btn-secondary" onclick="adminPanel.importData()">データインポート</button>
+                                            <button class="btn-danger" onclick="adminPanel.clearAllData()">全データ削除</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-footer">
+                            <button class="btn-primary">設定を保存</button>
+                            <button class="btn-secondary" onclick="adminPanel.resetSettings()">デフォルトに戻す</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="admin-service.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

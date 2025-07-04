@@ -1,0 +1,628 @@
+/* ダークモード対応 */
+
+/* ダークモード用カラーパレット */
+:root {
+    /* ライトモード（既存） */
+    --primary-blue: #1e5ba8;
+    --secondary-blue: #4a90e2;
+    --light-blue: #e8f2ff;
+    --primary-yellow: #ffd93d;
+    --secondary-yellow: #ffeb3b;
+    --light-yellow: #fff9e6;
+    --white: #ffffff;
+    --gray-text: #333333;
+    --light-gray: #f5f5f5;
+    --shadow: rgba(0, 0, 0, 0.1);
+    
+    /* ダークモード変数 */
+    --dark-bg-primary: #0f172a;
+    --dark-bg-secondary: #1e293b;
+    --dark-bg-tertiary: #334155;
+    --dark-text-primary: #f8fafc;
+    --dark-text-secondary: #e2e8f0;
+    --dark-text-muted: #94a3b8;
+    --dark-border: #475569;
+    --dark-shadow: rgba(0, 0, 0, 0.3);
+    --dark-blue: #3b82f6;
+    --dark-blue-light: #60a5fa;
+    --dark-yellow: #fbbf24;
+    --dark-yellow-light: #fcd34d;
+}
+
+/* ダークモードトグルボタン */
+.theme-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 30px;
+    background: var(--light-gray);
+    border-radius: 15px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.theme-toggle:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.theme-toggle::before {
+    content: '🌙';
+    position: absolute;
+    left: 4px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle::after {
+    content: '';
+    width: 22px;
+    height: 22px;
+    background: var(--white);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle.dark {
+    background: var(--dark-bg-secondary);
+    border-color: var(--dark-border);
+}
+
+.theme-toggle.dark::before {
+    content: '☀️';
+    left: auto;
+    right: 4px;
+}
+
+.theme-toggle.dark::after {
+    transform: translateX(30px);
+    background: var(--dark-yellow);
+}
+
+/* ダークモード適用 */
+[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+/* ダークモード基本スタイル */
+[data-theme="dark"] body {
+    background: var(--dark-bg-primary);
+    color: var(--dark-text-primary);
+}
+
+[data-theme="dark"] .navbar {
+    background: rgba(15, 23, 42, 0.95);
+    border-bottom: 1px solid var(--dark-border);
+}
+
+[data-theme="dark"] .logo h1 {
+    color: var(--dark-blue-light);
+}
+
+[data-theme="dark"] .nav-menu a {
+    color: var(--dark-text-secondary);
+}
+
+[data-theme="dark"] .nav-menu a:hover {
+    color: var(--dark-blue-light);
+}
+
+/* ダークモード ヒーローセクション */
+[data-theme="dark"] .hero {
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.1) 0%, 
+        rgba(15, 23, 42, 0.95) 30%, 
+        rgba(251, 191, 36, 0.1) 70%, 
+        rgba(30, 41, 59, 0.95) 100%);
+}
+
+[data-theme="dark"] .hero h2 {
+    background: linear-gradient(135deg, 
+        var(--dark-blue-light) 0%, 
+        var(--dark-yellow-light) 50%, 
+        var(--dark-blue-light) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+[data-theme="dark"] .hero p {
+    color: var(--dark-text-secondary);
+}
+
+/* ダークモード カード */
+[data-theme="dark"] .about-item,
+[data-theme="dark"] .feature,
+[data-theme="dark"] .event-card,
+[data-theme="dark"] .member-card,
+[data-theme="dark"] .content-card {
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--dark-border);
+    color: var(--dark-text-primary);
+}
+
+[data-theme="dark"] .about-item:hover,
+[data-theme="dark"] .feature:hover,
+[data-theme="dark"] .event-card:hover,
+[data-theme="dark"] .member-card:hover {
+    background: rgba(51, 65, 85, 0.9);
+    border-color: var(--dark-blue);
+    box-shadow: 0 20px 40px var(--dark-shadow);
+}
+
+/* ダークモード セクションタイトル */
+[data-theme="dark"] .section-title {
+    color: var(--dark-blue-light);
+}
+
+[data-theme="dark"] .about-item h3,
+[data-theme="dark"] .feature h3,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4 {
+    color: var(--dark-blue-light);
+}
+
+[data-theme="dark"] .about-item p,
+[data-theme="dark"] .feature p,
+[data-theme="dark"] p {
+    color: var(--dark-text-secondary);
+}
+
+/* ダークモード アイコン */
+[data-theme="dark"] .icon-wrapper,
+[data-theme="dark"] .feature-icon {
+    background: linear-gradient(135deg, 
+        var(--dark-yellow) 0%, 
+        var(--dark-yellow-light) 100%);
+    color: var(--dark-bg-primary);
+}
+
+/* ダークモード セクション背景 */
+[data-theme="dark"] .about {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+[data-theme="dark"] .features {
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+[data-theme="dark"] .members {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+[data-theme="dark"] .events {
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+[data-theme="dark"] .join {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+[data-theme="dark"] .contact {
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+/* ダークモード フッター */
+[data-theme="dark"] footer {
+    background: var(--dark-bg-tertiary);
+}
+
+[data-theme="dark"] .footer-links a {
+    color: var(--dark-text-secondary);
+}
+
+[data-theme="dark"] .footer-links a:hover {
+    color: var(--dark-blue-light);
+}
+
+/* ダークモード フォーム */
+[data-theme="dark"] .contact-form input,
+[data-theme="dark"] .contact-form textarea,
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select,
+[data-theme="dark"] .form-group textarea {
+    background: rgba(30, 41, 59, 0.8);
+    border-color: var(--dark-border);
+    color: var(--dark-text-primary);
+}
+
+[data-theme="dark"] .contact-form input:focus,
+[data-theme="dark"] .contact-form textarea:focus,
+[data-theme="dark"] .form-group input:focus,
+[data-theme="dark"] .form-group select:focus,
+[data-theme="dark"] .form-group textarea:focus {
+    border-color: var(--dark-blue);
+    background: rgba(51, 65, 85, 0.9);
+}
+
+[data-theme="dark"] .contact-form input::placeholder,
+[data-theme="dark"] .contact-form textarea::placeholder,
+[data-theme="dark"] .form-group input::placeholder,
+[data-theme="dark"] .form-group textarea::placeholder {
+    color: var(--dark-text-muted);
+}
+
+/* ダークモード 文字数カウンター */
+[data-theme="dark"] .character-count {
+    color: var(--dark-text-muted);
+}
+
+[data-theme="dark"] .character-count.valid {
+    color: #34d399;
+}
+
+[data-theme="dark"] .character-count.invalid {
+    color: #f87171;
+}
+
+[data-theme="dark"] .required-note {
+    color: var(--dark-text-muted);
+}
+
+/* ダークモード 認証ページ */
+[data-theme="dark"] .auth-body {
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.1) 0%, 
+        rgba(15, 23, 42, 0.95) 30%, 
+        rgba(251, 191, 36, 0.1) 70%, 
+        rgba(30, 41, 59, 0.95) 100%);
+}
+
+[data-theme="dark"] .auth-container {
+    background: rgba(30, 41, 59, 0.95);
+    border: 1px solid var(--dark-border);
+}
+
+[data-theme="dark"] .auth-header {
+    background: linear-gradient(135deg, 
+        var(--dark-blue) 0%, 
+        var(--dark-blue-light) 100%);
+}
+
+[data-theme="dark"] .auth-header h1,
+[data-theme="dark"] .auth-header .tagline {
+    color: var(--white);
+}
+
+[data-theme="dark"] .auth-card h2 {
+    color: var(--dark-blue-light);
+}
+
+[data-theme="dark"] .auth-description {
+    color: var(--dark-text-secondary);
+}
+
+/* ダークモード ソーシャルログイン */
+[data-theme="dark"] .social-btn {
+    background: rgba(30, 41, 59, 0.9);
+    border-color: var(--dark-border);
+    color: var(--dark-text-primary);
+}
+
+[data-theme="dark"] .social-btn:hover {
+    background: rgba(51, 65, 85, 1);
+}
+
+/* ダークモード ダッシュボード */
+[data-theme="dark"] .dashboard-body {
+    background: var(--dark-bg-primary);
+}
+
+[data-theme="dark"] .sidebar {
+    background: var(--dark-bg-secondary);
+    border-right: 1px solid var(--dark-border);
+}
+
+[data-theme="dark"] .sidebar-header h2 {
+    color: var(--dark-blue-light);
+}
+
+[data-theme="dark"] .nav-link {
+    color: var(--dark-text-secondary);
+}
+
+[data-theme="dark"] .nav-link:hover {
+    background: var(--dark-bg-tertiary);
+    color: var(--dark-blue-light);
+}
+
+[data-theme="dark"] .nav-item.active .nav-link {
+    background: var(--dark-blue);
+    color: var(--white);
+}
+
+[data-theme="dark"] .dashboard-header {
+    background: var(--dark-bg-secondary);
+    border-bottom: 1px solid var(--dark-border);
+}
+
+[data-theme="dark"] .dashboard-header h1 {
+    color: var(--dark-blue-light);
+}
+
+/* ダークモード 統計カード */
+[data-theme="dark"] .stat-card {
+    background: var(--dark-bg-tertiary);
+    border: 1px solid var(--dark-border);
+}
+
+[data-theme="dark"] .stat-content h3 {
+    color: var(--dark-blue-light);
+}
+
+[data-theme="dark"] .stat-content p {
+    color: var(--dark-text-secondary);
+}
+
+[data-theme="dark"] .stat-icon {
+    background: rgba(59, 130, 246, 0.2);
+    color: var(--dark-blue-light);
+}
+
+/* ダークモード メンバーページ */
+[data-theme="dark"] .members-content {
+    background: var(--dark-bg-primary);
+}
+
+[data-theme="dark"] .search-section {
+    background: var(--dark-bg-secondary);
+    border: 1px solid var(--dark-border);
+}
+
+[data-theme="dark"] .search-input-wrapper input {
+    background: var(--dark-bg-tertiary);
+    border-color: var(--dark-border);
+    color: var(--dark-text-primary);
+}
+
+[data-theme="dark"] .search-input-wrapper input::placeholder {
+    color: var(--dark-text-muted);
+}
+
+[data-theme="dark"] .filter-group select {
+    background: var(--dark-bg-tertiary);
+    border-color: var(--dark-border);
+    color: var(--dark-text-primary);
+}
+
+[data-theme="dark"] .filter-group label {
+    color: var(--dark-text-secondary);
+}
+
+/* ダークモード プロフィールページ */
+[data-theme="dark"] .profile-header {
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.1) 0%, 
+        rgba(30, 41, 59, 0.95) 100%);
+}
+
+[data-theme="dark"] .profile-name {
+    color: var(--dark-blue-light);
+}
+
+[data-theme="dark"] .profile-title,
+[data-theme="dark"] .profile-industry {
+    color: var(--dark-text-secondary);
+}
+
+[data-theme="dark"] .profile-section {
+    background: var(--dark-bg-secondary);
+    border: 1px solid var(--dark-border);
+}
+
+[data-theme="dark"] .info-item label {
+    color: var(--dark-text-secondary);
+}
+
+[data-theme="dark"] .info-item span {
+    color: var(--dark-text-primary);
+}
+
+/* ダークモード ボタン */
+[data-theme="dark"] .btn-primary {
+    background: linear-gradient(135deg, 
+        var(--dark-blue) 0%, 
+        var(--dark-blue-light) 100%);
+}
+
+[data-theme="dark"] .btn-secondary {
+    background: var(--dark-bg-tertiary);
+    color: var(--dark-text-primary);
+    border-color: var(--dark-border);
+}
+
+[data-theme="dark"] .btn-connect {
+    background: var(--dark-blue);
+}
+
+[data-theme="dark"] .btn-connect.connected {
+    background: var(--dark-yellow);
+    color: var(--dark-bg-primary);
+}
+
+/* ダークモード タグ */
+[data-theme="dark"] .tag,
+[data-theme="dark"] .challenge-tag,
+[data-theme="dark"] .challenge-tag-small {
+    background: rgba(251, 191, 36, 0.2);
+    color: var(--dark-yellow-light);
+    border-color: var(--dark-yellow);
+}
+
+[data-theme="dark"] .industry-tags .tag {
+    background: rgba(59, 130, 246, 0.2);
+    color: var(--dark-blue-light);
+    border-color: var(--dark-blue);
+}
+
+/* ダークモード 統計表示 */
+[data-theme="dark"] .stat-number {
+    color: var(--dark-blue-light);
+}
+
+[data-theme="dark"] .stat-label {
+    color: var(--dark-text-muted);
+}
+
+/* ダークモード 通知 */
+[data-theme="dark"] .notification {
+    background: var(--dark-bg-tertiary) !important;
+    color: var(--dark-text-primary) !important;
+    border: 1px solid var(--dark-border);
+}
+
+/* ダークモード スクロールバー */
+[data-theme="dark"] ::-webkit-scrollbar {
+    width: 8px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: var(--dark-bg-secondary);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--dark-border);
+    border-radius: 4px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: var(--dark-blue);
+}
+
+/* ダークモード トランジション */
+* {
+    transition: background-color 0.3s ease, 
+                color 0.3s ease, 
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+/* ダークモード レスポンシブ調整 */
+@media (max-width: 1200px) {
+    .theme-toggle {
+        top: 110px;
+        right: 25px;
+    }
+}
+
+@media (max-width: 992px) {
+    .theme-toggle {
+        top: 105px;
+        right: 20px;
+        width: 55px;
+        height: 28px;
+    }
+    
+    .theme-toggle::after {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .theme-toggle.dark::after {
+        transform: translateX(27px);
+    }
+}
+
+@media (max-width: 768px) {
+    .theme-toggle {
+        top: 95px;
+        right: 15px;
+        width: 50px;
+        height: 25px;
+        z-index: 1004;
+    }
+    
+    .theme-toggle::after {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .theme-toggle.dark::after {
+        transform: translateX(25px);
+    }
+}
+
+@media (max-width: 480px) {
+    .theme-toggle {
+        top: 85px;
+        right: 10px;
+        width: 45px;
+        height: 22px;
+    }
+    
+    .theme-toggle::after {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .theme-toggle.dark::after {
+        transform: translateX(23px);
+    }
+}
+
+/* 認証ページでのトグル位置調整 */
+.auth-body .theme-toggle {
+    top: 20px;
+    right: 20px;
+    z-index: 1005;
+}
+
+@media (max-width: 768px) {
+    .auth-body .theme-toggle {
+        top: 15px;
+        right: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-body .theme-toggle {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 20px;
+    }
+    
+    .auth-body .theme-toggle::after {
+        width: 14px;
+        height: 14px;
+    }
+    
+    .auth-body .theme-toggle.dark::after {
+        transform: translateX(20px);
+    }
+}
+
+/* ダッシュボードページでのトグル位置 */
+.dashboard-body .theme-toggle {
+    top: 20px;
+    right: 20px;
+}
+
+@media (max-width: 768px) {
+    .dashboard-body .theme-toggle {
+        top: 15px;
+        right: 60px; /* サイドバートグルと重ならないように */
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-body .theme-toggle {
+        top: 10px;
+        right: 55px;
+    }
+}

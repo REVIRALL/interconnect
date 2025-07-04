@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INTERCONNECT - 経営者コミュニティ</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="loading.css">
+    <link rel="stylesheet" href="dark-mode.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="security-manager.js"></script>
+    <script src="performance.js"></script>
+    <script src="lazy-load.js"></script>
+</head>
+<body>
+    <!-- プリローダー -->
+    <div class="preloader" id="preloader">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">INTERCONNECT</div>
+    </div>
+    
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <h1>INTERCONNECT</h1>
+                    <span class="tagline">経営者コミュニティ</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#about">コミュニティについて</a></li>
+                    <li><a href="#features">特徴</a></li>
+                    <li><a href="#members">メンバー</a></li>
+                    <li><a href="#events">イベント</a></li>
+                    <li><a href="login.html" class="login-btn">ログイン</a></li>
+                    <li><a href="register.html" class="register-btn">新規登録</a></li>
+                    <li><a href="#contact" class="contact-btn">お問い合わせ</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>経営者同士がつながり、<br>共に成長する場所</h2>
+                <p>INTERCONNECTは、志高い経営者が集い、互いに学び合い、<br>ビジネスを発展させるための経営者専用コミュニティです。</p>
+                <a href="#join" class="cta-button">コミュニティに参加する</a>
+            </div>
+            <div class="hero-visual">
+                <div class="circle-decoration"></div>
+                <div class="circle-decoration-2"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">INTERCONNECTとは</h2>
+            <div class="about-grid">
+                <div class="about-item">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>経営者専用</h3>
+                    <p>現役経営者のみが参加できる、質の高いビジネスコミュニティ</p>
+                </div>
+                <div class="about-item">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>相互支援</h3>
+                    <p>メンバー同士でビジネスの相談や協業の機会を提供</p>
+                </div>
+                <div class="about-item">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>継続的な学び</h3>
+                    <p>定期的なセミナーやワークショップで最新の経営知識を習得</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">コミュニティの特徴</h2>
+            <div class="features-list">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>定期交流会</h3>
+                    <p>月1回の対面交流会で、深い人間関係を構築。ビジネスのヒントを得られる場を提供します。</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>オンラインサロン</h3>
+                    <p>24時間365日アクセス可能なオンラインプラットフォームで、いつでも相談・情報交換が可能。</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>メンター制度</h3>
+                    <p>経験豊富な先輩経営者によるメンタリング。1対1で経営の悩みに向き合います。</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h3>ビジネスマッチング</h3>
+                    <p>メンバー間のビジネスマッチングを積極的にサポート。新たなビジネスチャンスを創出。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="members" class="members">
+        <div class="container">
+            <h2 class="section-title">メンバー構成</h2>
+            <div class="member-stats">
+                <div class="stat">
+                    <div class="stat-number">150+</div>
+                    <p>登録メンバー数</p>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">25</div>
+                    <p>業界カテゴリー</p>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">95%</div>
+                    <p>満足度</p>
+                </div>
+            </div>
+            <div class="industries">
+                <h3>参加業界</h3>
+                <div class="industry-tags-container">
+                    <div class="industry-tags" id="industryTags">
+                        <span class="tag">IT・テクノロジー</span>
+                        <span class="tag">製造業</span>
+                        <span class="tag">小売・流通</span>
+                        <span class="tag">金融・保険</span>
+                        <span class="tag">医療・ヘルスケア</span>
+                        <span class="tag">不動産・建設</span>
+                        <span class="tag">教育・人材</span>
+                        <span class="tag">コンサルティング</span>
+                        <span class="tag">飲食・フード</span>
+                        <span class="tag">物流・運輸</span>
+                        <span class="tag">メディア・広告</span>
+                        <span class="tag">エンターテインメント</span>
+                        <span class="tag">観光・旅行</span>
+                        <span class="tag">アパレル・ファッション</span>
+                        <span class="tag">美容・エステ</span>
+                        <span class="tag">スポーツ・フィットネス</span>
+                        <span class="tag">農業・アグリテック</span>
+                        <span class="tag">環境・エネルギー</span>
+                        <span class="tag">法務・会計</span>
+                        <span class="tag">福祉・介護</span>
+                        <span class="tag">自動車・モビリティ</span>
+                        <span class="tag">バイオ・ライフサイエンス</span>
+                        <span class="tag">化学・素材</span>
+                        <span class="tag">電気・電子</span>
+                        <span class="tag">印刷・出版</span>
+                        <!-- 複製用（無限スクロール用） -->
+                        <span class="tag">IT・テクノロジー</span>
+                        <span class="tag">製造業</span>
+                        <span class="tag">小売・流通</span>
+                        <span class="tag">金融・保険</span>
+                        <span class="tag">医療・ヘルスケア</span>
+                        <span class="tag">不動産・建設</span>
+                        <span class="tag">教育・人材</span>
+                        <span class="tag">コンサルティング</span>
+                        <span class="tag">飲食・フード</span>
+                        <span class="tag">物流・運輸</span>
+                        <span class="tag">メディア・広告</span>
+                        <span class="tag">エンターテインメント</span>
+                        <span class="tag">観光・旅行</span>
+                        <span class="tag">アパレル・ファッション</span>
+                        <span class="tag">美容・エステ</span>
+                        <span class="tag">スポーツ・フィットネス</span>
+                        <span class="tag">農業・アグリテック</span>
+                        <span class="tag">環境・エネルギー</span>
+                        <span class="tag">法務・会計</span>
+                        <span class="tag">福祉・介護</span>
+                        <span class="tag">自動車・モビリティ</span>
+                        <span class="tag">バイオ・ライフサイエンス</span>
+                        <span class="tag">化学・素材</span>
+                        <span class="tag">電気・電子</span>
+                        <span class="tag">印刷・出版</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="events" class="events">
+        <div class="container">
+            <h2 class="section-title">イベント・活動</h2>
+            <div class="events-grid">
+                <div class="event-card">
+                    <div class="event-date">毎月第2火曜日</div>
+                    <h3>定例交流会</h3>
+                    <p>メンバー同士の交流を深める定例会。ゲストスピーカーによる講演も実施。</p>
+                </div>
+                <div class="event-card">
+                    <div class="event-date">四半期ごと</div>
+                    <h3>ビジネスピッチ会</h3>
+                    <p>新規事業やプロジェクトのプレゼンテーション。投資や協業の機会を創出。</p>
+                </div>
+                <div class="event-card">
+                    <div class="event-date">年2回</div>
+                    <h3>経営合宿</h3>
+                    <p>1泊2日の集中合宿。経営戦略の見直しと深い議論を行います。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="join" class="join">
+        <div class="container">
+            <h2 class="section-title">参加方法</h2>
+            <div class="join-process">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3>お問い合わせ</h3>
+                    <p>まずは下記フォームよりお問い合わせください</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3>面談</h3>
+                    <p>事務局との面談を実施し、コミュニティの詳細をご説明</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3>審査</h3>
+                    <p>参加基準に基づいた審査を実施</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h3>参加</h3>
+                    <p>承認後、コミュニティへの参加が可能に</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">お問い合わせ</h2>
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <input type="text" id="name" name="name" placeholder="お名前" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="company" name="company" placeholder="会社名" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" name="email" placeholder="メールアドレス" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="phone" name="phone" placeholder="電話番号">
+                </div>
+                <div class="form-group">
+                    <textarea id="message" name="message" rows="5" placeholder="お問い合わせ内容" required></textarea>
+                </div>
+                <button type="submit" class="submit-button">送信する</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>INTERCONNECT</h3>
+                    <p>経営者コミュニティ</p>
+                </div>
+                <div class="footer-links">
+                    <a href="privacy.html">プライバシーポリシー</a>
+                    <a href="terms.html">利用規約</a>
+                    <a href="company.html">運営会社</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 INTERCONNECT. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="common.js"></script>
+    <script src="security.js"></script>
+    <script src="form-validation.js"></script>
+    <script src="script.js"></script>
+    <script src="advanced-search.js"></script>
+    <script>
+        // ページ固有の初期化処理
+        document.addEventListener('DOMContentLoaded', function() {
+            // プリローダー制御（ローディング時間を長めに）
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                setTimeout(() => {
+                    preloader.classList.add('fade-out');
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                    }, 800);
+                }, 1500);
+            }
+            
+            // スクロールアニメーション
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            }, observerOptions);
+            
+            // アニメーション対象要素を監視
+            document.querySelectorAll('.about-item, .feature, .event-card').forEach(el => {
+                el.classList.add('fade-in-up');
+                observer.observe(el);
+            });
+            
+            // お問い合わせフォーム処理
+            const contactValidator = setupContactFormValidation();
+            if (contactValidator) {
+                contactValidator.setSubmitHandler(async (data) => {
+                    // デモ: フォーム送信処理
+                    console.log('お問い合わせ内容:', data);
+                    
+                    // 実際の実装では、ここでAPIにPOSTリクエストを送信
+                    // const response = await fetch('/api/contact', {...});
+                    
+                    return new Promise((resolve) => {
+                        setTimeout(() => {
+                            alert('お問い合わせありがとうございます。2-3営業日以内にご連絡いたします。');
+                            resolve();
+                        }, 2000);
+                    });
+                });
+                
+                contactValidator.setErrorHandler((error) => {
+                    alert('送信に失敗しました: ' + error.message);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
