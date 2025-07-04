@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - ページが見つかりません | INTERCONNECT</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dark-mode.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .error-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, 
+                rgba(30, 91, 168, 0.05) 0%, 
+                rgba(255, 255, 255, 0.92) 50%, 
+                rgba(255, 217, 61, 0.05) 100%);
+            backdrop-filter: blur(10px);
+        }
+        
+        .error-container {
+            text-align: center;
+            padding: 3rem;
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .error-code {
+            font-size: 8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            line-height: 1;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .error-title {
+            font-size: 2rem;
+            color: var(--gray-text);
+            margin-bottom: 1rem;
+        }
+        
+        .error-message {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+        
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .error-button {
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .primary-button {
+            background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--secondary-yellow) 100%);
+            color: var(--gray-text);
+            box-shadow: 0 5px 20px rgba(255, 217, 61, 0.3);
+        }
+        
+        .primary-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 217, 61, 0.4);
+        }
+        
+        .secondary-button {
+            background: transparent;
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+        }
+        
+        .secondary-button:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+        
+        .error-icon {
+            font-size: 4rem;
+            color: var(--primary-yellow);
+            margin-bottom: 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 6rem;
+            }
+            
+            .error-title {
+                font-size: 1.5rem;
+            }
+            
+            .error-container {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            .error-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .error-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        /* ダークモード対応 */
+        [data-theme="dark"] .error-page {
+            background: linear-gradient(135deg, 
+                rgba(30, 91, 168, 0.1) 0%, 
+                rgba(26, 26, 26, 0.95) 50%, 
+                rgba(255, 217, 61, 0.1) 100%);
+        }
+        
+        [data-theme="dark"] .error-container {
+            background: rgba(36, 36, 36, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        [data-theme="dark"] .error-title {
+            color: #f0f0f0;
+        }
+        
+        [data-theme="dark"] .error-message {
+            color: #b0b0b0;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="error-page">
+        <div class="error-container">
+            <div class="error-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="error-code">404</div>
+            <h1 class="error-title">ページが見つかりません</h1>
+            <p class="error-message">
+                申し訳ございません。お探しのページは見つかりませんでした。<br>
+                URLが間違っているか、ページが移動または削除された可能性があります。
+            </p>
+            <div class="error-actions">
+                <a href="index.html" class="error-button primary-button">
+                    <i class="fas fa-home"></i>
+                    ホームへ戻る
+                </a>
+                <a href="javascript:history.back()" class="error-button secondary-button">
+                    <i class="fas fa-arrow-left"></i>
+                    前のページへ
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // ダークモード制御
+        function toggleTheme() {
+            const html = document.documentElement;
+            const toggle = document.getElementById('themeToggle');
+            const currentTheme = html.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                toggle.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                toggle.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        // ページ読み込み時のテーマ適用
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const html = document.documentElement;
+            const toggle = document.getElementById('themeToggle');
+            
+            html.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                toggle.classList.add('dark');
+            }
+        });
+    </script>
+</body>
+</html>

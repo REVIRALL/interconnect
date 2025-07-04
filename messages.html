@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>メッセージ - INTERCONNECT</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="messages.css">
+    <link rel="stylesheet" href="loading.css">
+    <link rel="stylesheet" href="dark-mode.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="security-manager.js"></script>
+    <script src="lazy-load.js"></script>
+</head>
+<body class="dashboard-body">
+    <!-- サイドバー -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>INTERCONNECT</h2>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>ダッシュボード</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>プロフィール</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="members.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>メンバー</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="events.html" class="nav-link">
+                        <i class="fas fa-calendar"></i>
+                        <span>イベント</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="messages.html" class="nav-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>メッセージ</span>
+                        <span class="badge">3</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="business.html" class="nav-link">
+                        <i class="fas fa-handshake"></i>
+                        <span>ビジネス</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="invite.html" class="nav-link">
+                        <i class="fas fa-share-alt"></i>
+                        <span>招待</span>
+                        <span class="badge new">NEW</span>
+                    </a>
+                </li>
+                <li class="nav-item admin-only">
+                    <a href="admin.html" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>管理</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23e0e0e0'/%3E%3C/svg%3E" alt="プロフィール画像" class="user-avatar lazy">
+                <div class="user-details">
+                    <span class="user-name">田中太郎</span>
+                    <span class="user-role">CEO</span>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+    
+    <!-- メインコンテンツ -->
+    <main class="main-content">
+        <div class="messages-layout">
+            <!-- メッセージリスト -->
+            <div class="messages-sidebar">
+                <div class="messages-header">
+                    <h2>メッセージ</h2>
+                    <button class="btn-primary compose-btn" onclick="openCompose()">
+                        <i class="fas fa-edit"></i>
+                        新規作成
+                    </button>
+                </div>
+                
+                <div class="messages-search">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="メッセージを検索..." id="messageSearch">
+                    </div>
+                </div>
+                
+                <div class="messages-filter">
+                    <button class="filter-btn active" data-filter="all">すべて</button>
+                    <button class="filter-btn" data-filter="unread">未読</button>
+                    <button class="filter-btn" data-filter="important">重要</button>
+                    <button class="filter-btn" data-filter="sent">送信済み</button>
+                </div>
+                
+                <div class="conversations-list">
+                    <div class="conversation-item active" data-conversation="1">
+                        <div class="conversation-avatar">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23e0e0e0'/%3E%3C/svg%3E" alt="佐藤次郎" class="lazy">
+                            <div class="online-status online"></div>
+                        </div>
+                        <div class="conversation-content">
+                            <div class="conversation-header">
+                                <h4>佐藤次郎</h4>
+                                <span class="timestamp">2分前</span>
+                            </div>
+                            <p class="last-message">新規事業の件でご相談があります。お時間ありますでしょうか？</p>
+                            <div class="conversation-meta">
+                                <span class="unread-count">2</span>
+                                <i class="fas fa-paperclip"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="conversation-item" data-conversation="2">
+                        <div class="conversation-avatar">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23e0e0e0'/%3E%3C/svg%3E" alt="山田花子" class="lazy">
+                            <div class="online-status away"></div>
+                        </div>
+                        <div class="conversation-content">
+                            <div class="conversation-header">
+                                <h4>山田花子</h4>
+                                <span class="timestamp">1時間前</span>
+                            </div>
+                            <p class="last-message">来週のイベントについてですが、会場の変更があります。</p>
+                            <div class="conversation-meta">
+                                <span class="unread-count">1</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="conversation-item" data-conversation="3">
+                        <div class="conversation-avatar">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23e0e0e0'/%3E%3C/svg%3E" alt="鈴木三郎" class="lazy">
+                            <div class="online-status offline"></div>
+                        </div>
+                        <div class="conversation-content">
+                            <div class="conversation-header">
+                                <h4>鈴木三郎</h4>
+                                <span class="timestamp">3時間前</span>
+                            </div>
+                            <p class="last-message">資料をお送りいただき、ありがとうございました。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="conversation-item" data-conversation="4">
+                        <div class="conversation-avatar">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23e0e0e0'/%3E%3C/svg%3E" alt="田中一郎" class="lazy">
+                            <div class="online-status online"></div>
+                        </div>
+                        <div class="conversation-content">
+                            <div class="conversation-header">
+                                <h4>田中一郎</h4>
+                                <span class="timestamp">昨日</span>
+                            </div>
+                            <p class="last-message">プロジェクトの進捗はいかがでしょうか？</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- メッセージ詳細 -->
+            <div class="messages-main">
+                <div class="conversation-header-bar">
+                    <div class="conversation-user">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23e0e0e0'/%3E%3Ctext x='50' y='50' text-anchor='middle' dominant-baseline='middle' fill='%23999' font-family='Arial,sans-serif' font-size='30'%3EUser%3C/text%3E%3C/svg%3E" alt="佐藤次郎" class="user-avatar">
+                        <div class="user-info">
+                            <h3>佐藤次郎</h3>
+                            <span class="user-status online">オンライン</span>
+                        </div>
+                    </div>
+                    <div class="conversation-actions">
+                        <button class="action-btn" onclick="toggleImportant()">
+                            <i class="fas fa-star"></i>
+                        </button>
+                        <button class="action-btn" onclick="archiveConversation()">
+                            <i class="fas fa-archive"></i>
+                        </button>
+                        <button class="action-btn" onclick="deleteConversation()">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="messages-container" id="messagesContainer">
+                    <div class="message received">
+                        <div class="message-avatar">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Crect width='30' height='30' fill='%23e0e0e0'/%3E%3C/svg%3E" alt="佐藤次郎" class="lazy">
+                        </div>
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <p>こんにちは田中さん。新規事業の件でご相談があります。</p>
+                            </div>
+                            <div class="message-time">14:30</div>
+                        </div>
+                    </div>
+                    
+                    <div class="message received">
+                        <div class="message-avatar">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Crect width='30' height='30' fill='%23e0e0e0'/%3E%3C/svg%3E" alt="佐藤次郎" class="lazy">
+                        </div>
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <p>お時間があるときにお電話でお話しできればと思います。よろしくお願いします。</p>
+                            </div>
+                            <div class="message-time">14:32</div>
+                        </div>
+                    </div>
+                    
+                    <div class="message sent">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <p>佐藤さん、お疲れ様です。明日の午後でしたらお時間作れます。</p>
+                            </div>
+                            <div class="message-time">14:45</div>
+                        </div>
+                    </div>
+                    
+                    <div class="message received">
+                        <div class="message-avatar">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Crect width='30' height='30' fill='%23e0e0e0'/%3E%3C/svg%3E" alt="佐藤次郎" class="lazy">
+                        </div>
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <p>ありがとうございます！明日14時頃はいかがでしょうか？</p>
+                            </div>
+                            <div class="message-time">15:20</div>
+                        </div>
+                    </div>
+                    
+                    <div class="message sent">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <p>14時で大丈夫です。よろしくお願いします。</p>
+                            </div>
+                            <div class="message-time">15:25</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="message-input-area">
+                    <!-- ファイルプレビューエリア -->
+                    <div class="file-preview-area" id="filePreviewArea" style="display: none;">
+                        <div class="file-preview-header">
+                            <span>添付ファイル</span>
+                            <button class="clear-files-btn" onclick="clearAllFiles()">
+                                <i class="fas fa-times"></i> すべて削除
+                            </button>
+                        </div>
+                        <div class="file-preview-list" id="filePreviewList"></div>
+                    </div>
+                    
+                    <div class="input-toolbar">
+                        <button class="toolbar-btn" onclick="attachFile()">
+                            <i class="fas fa-paperclip"></i>
+                        </button>
+                        <button class="toolbar-btn" onclick="insertEmoji()">
+                            <i class="fas fa-smile"></i>
+                        </button>
+                        <button class="toolbar-btn" onclick="scheduleMessage()">
+                            <i class="fas fa-clock"></i>
+                        </button>
+                    </div>
+                    <div class="input-container">
+                        <textarea id="messageInput" placeholder="メッセージを入力..." rows="3"></textarea>
+                        <button class="send-btn" onclick="sendMessage()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 新規メッセージ作成モーダル -->
+    <div class="modal" id="composeModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>新規メッセージ</h3>
+                <button class="close-modal" onclick="closeCompose()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="composeForm">
+                    <div class="form-group">
+                        <label>宛先</label>
+                        <input type="text" id="recipientSearch" placeholder="メンバーを検索...">
+                        <div class="recipient-suggestions" id="recipientSuggestions"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>件名</label>
+                        <input type="text" name="subject" placeholder="件名を入力...">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>メッセージ</label>
+                        <textarea name="message" rows="6" placeholder="メッセージを入力..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeCompose()">キャンセル</button>
+                <button class="btn-primary" onclick="sendNewMessage()">送信</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="auth.js"></script>
+    <script src="common.js"></script>
+    <script src="supabase-config.js"></script>
+    <script src="file-service.js"></script>
+    <script src="message-service.js"></script>
+    <script src="dashboard.js"></script>
+    <script src="messages.js"></script>
+    <script src="advanced-search.js"></script>
+</body>
+</html>

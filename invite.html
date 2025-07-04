@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>招待リンク管理 - INTERCONNECT</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="loading.css">
+    <link rel="stylesheet" href="dark-mode.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="invite.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="security-manager.js"></script>
+    <script src="common.js"></script>
+</head>
+<body class="dashboard-body">
+    <!-- サイドバー -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <div class="logo-circle">
+                    <span class="logo-text">IC</span>
+                </div>
+            </div>
+            <h2>INTERCONNECT</h2>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>ダッシュボード</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="members.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>メンバー</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="events.html" class="nav-link">
+                        <i class="fas fa-calendar"></i>
+                        <span>イベント</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="messages.html" class="nav-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>メッセージ</span>
+                        <span class="badge">3</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="business.html" class="nav-link">
+                        <i class="fas fa-handshake"></i>
+                        <span>ビジネス</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="invite.html" class="nav-link">
+                        <i class="fas fa-share-alt"></i>
+                        <span>招待</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23e0e0e0'/%3E%3C/svg%3E" alt="プロフィール画像" class="user-avatar">
+                <div class="user-details">
+                    <span class="user-name">田中太郎</span>
+                    <span class="user-role">管理者</span>
+                </div>
+            </div>
+            <button class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="dashboard-header">
+            <h1>招待管理</h1>
+            <div class="header-actions">
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-count">5</span>
+                </button>
+                <div class="user-menu">
+                    <button class="user-menu-btn">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23e0e0e0'/%3E%3C/svg%3E" alt="プロフィール画像">
+                        <span>田中太郎</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-menu-dropdown">
+                        <a href="profile.html">プロフィール</a>
+                        <a href="settings.html">設定</a>
+                        <a href="#" class="logout-link">ログアウト</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- ポイントサマリー -->
+            <div class="points-summary">
+                <div class="points-card total-points">
+                    <div class="points-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="points-info">
+                        <h3>総ポイント</h3>
+                        <p class="points-value">12,500</p>
+                        <span class="points-label">pts</span>
+                    </div>
+                </div>
+                
+                <div class="points-card monthly-points">
+                    <div class="points-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="points-info">
+                        <h3>今月の獲得</h3>
+                        <p class="points-value">2,300</p>
+                        <span class="points-change positive">+15%</span>
+                    </div>
+                </div>
+                
+                <div class="points-card pending-points">
+                    <div class="points-icon">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div class="points-info">
+                        <h3>確定待ち</h3>
+                        <p class="points-value">500</p>
+                        <span class="points-label">pts</span>
+                    </div>
+                </div>
+                
+                <div class="points-card reward-status">
+                    <div class="points-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="points-info">
+                        <h3>報酬ランク</h3>
+                        <p class="rank-name">ゴールド</p>
+                        <div class="rank-progress">
+                            <div class="rank-progress-bar" style="width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 招待リンクセクション -->
+            <div class="invite-section">
+                <div class="section-header">
+                    <h2>あなたの専用招待リンク</h2>
+                    <button class="btn-regenerate" onclick="inviteManager.regenerateLink()">
+                        <i class="fas fa-sync-alt"></i> 再生成
+                    </button>
+                </div>
+                
+                <div class="invite-link-container">
+                    <input type="text" id="inviteLink" class="invite-link-input" readonly>
+                    <button class="btn-copy" onclick="inviteManager.copyLink()">
+                        <i class="fas fa-copy"></i> コピー
+                    </button>
+                    <button class="btn-qr" onclick="inviteManager.showQRCode()">
+                        <i class="fas fa-qrcode"></i> QRコード
+                    </button>
+                </div>
+                
+                <div class="share-buttons">
+                    <button class="share-btn share-line" onclick="inviteManager.shareToLine()">
+                        <i class="fab fa-line"></i> LINEで共有
+                    </button>
+                    <button class="share-btn share-twitter" onclick="inviteManager.shareToTwitter()">
+                        <i class="fab fa-twitter"></i> Twitterで共有
+                    </button>
+                    <button class="share-btn share-facebook" onclick="inviteManager.shareToFacebook()">
+                        <i class="fab fa-facebook"></i> Facebookで共有
+                    </button>
+                    <button class="share-btn share-email" onclick="inviteManager.shareByEmail()">
+                        <i class="fas fa-envelope"></i> メールで共有
+                    </button>
+                </div>
+            </div>
+
+            <!-- 報酬ラダー -->
+            <div class="reward-ladder">
+                <h2>報酬ラダー</h2>
+                <div class="ladder-progress">
+                    <div class="ladder-item completed">
+                        <div class="ladder-milestone">
+                            <i class="fas fa-check-circle"></i>
+                            <span class="milestone-count">5人</span>
+                        </div>
+                        <div class="ladder-reward">
+                            <span class="reward-points">5,000pts</span>
+                            <span class="reward-bonus">ブロンズ達成</span>
+                        </div>
+                    </div>
+                    
+                    <div class="ladder-item completed">
+                        <div class="ladder-milestone">
+                            <i class="fas fa-check-circle"></i>
+                            <span class="milestone-count">10人</span>
+                        </div>
+                        <div class="ladder-reward">
+                            <span class="reward-points">10,000pts</span>
+                            <span class="reward-bonus">シルバー達成</span>
+                        </div>
+                    </div>
+                    
+                    <div class="ladder-item current">
+                        <div class="ladder-milestone">
+                            <i class="fas fa-star"></i>
+                            <span class="milestone-count">15人</span>
+                        </div>
+                        <div class="ladder-reward">
+                            <span class="reward-points">15,000pts</span>
+                            <span class="reward-bonus">ゴールド</span>
+                        </div>
+                        <div class="ladder-progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
+                        </div>
+                        <span class="progress-text">あと3人で達成</span>
+                    </div>
+                    
+                    <div class="ladder-item">
+                        <div class="ladder-milestone">
+                            <i class="fas fa-gem"></i>
+                            <span class="milestone-count">20人</span>
+                        </div>
+                        <div class="ladder-reward">
+                            <span class="reward-points">20,000pts</span>
+                            <span class="reward-bonus">プラチナ</span>
+                        </div>
+                    </div>
+                    
+                    <div class="ladder-item">
+                        <div class="ladder-milestone">
+                            <i class="fas fa-crown"></i>
+                            <span class="milestone-count">30人</span>
+                        </div>
+                        <div class="ladder-reward">
+                            <span class="reward-points">30,000pts</span>
+                            <span class="reward-bonus">ダイヤモンド</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 招待履歴 -->
+            <div class="invite-history">
+                <div class="section-header">
+                    <h2>招待履歴</h2>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">すべて</button>
+                        <button class="filter-btn" data-filter="registered">登録済み</button>
+                        <button class="filter-btn" data-filter="pending">保留中</button>
+                        <button class="filter-btn" data-filter="expired">期限切れ</button>
+                    </div>
+                </div>
+                
+                <div class="history-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>招待日</th>
+                                <th>招待者名</th>
+                                <th>メールアドレス</th>
+                                <th>ステータス</th>
+                                <th>獲得ポイント</th>
+                                <th>アクション</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inviteHistoryBody">
+                            <!-- JavaScriptで動的に生成 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ポイント交換 -->
+            <div class="points-exchange">
+                <h2>ポイント交換</h2>
+                <div class="exchange-options">
+                    <div class="exchange-card">
+                        <div class="exchange-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <h3>現金振込</h3>
+                        <p>10,000pts = ¥10,000</p>
+                        <p style="font-size: 0.85rem; color: #666; margin-top: 8px;">
+                            最低交換ポイント: 10,000pts<br>
+                            振込手数料: 無料
+                        </p>
+                        <button class="btn-exchange" onclick="inviteManager.exchangePoints('cash')">
+                            交換申請
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- QRコードモーダル -->
+    <div id="qrModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>招待QRコード</h3>
+                <button type="button" class="close-modal" onclick="inviteManager.closeQRModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="qrCodeContainer"></div>
+                <p class="qr-instruction">このQRコードをスキャンして招待リンクにアクセス</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="points-integrity.js"></script>
+    <script src="invite.js"></script>
+</body>
+</html>

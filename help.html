@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ヘルプ - INTERCONNECT</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="loading.css">
+    <link rel="stylesheet" href="dark-mode.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="help.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>INTERCONNECT</h2>
+                <p>経営者コミュニティ</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>ダッシュボード</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>プロフィール</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="members.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>メンバー</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="events.html" class="nav-link">
+                        <i class="fas fa-calendar"></i>
+                        <span>イベント</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="messages.html" class="nav-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>メッセージ</span>
+                        <span class="badge">3</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="business.html" class="nav-link">
+                        <i class="fas fa-briefcase"></i>
+                        <span>ビジネス</span>
+                    </a>
+                </li>
+                <li class="admin-only">
+                    <a href="admin.html" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>管理</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="index.html" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>ログアウト</span>
+                </a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>ヘルプセンター</h1>
+                </div>
+                <div class="header-right">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">5</span>
+                    </button>
+                    <div class="user-menu">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23e0e0e0'/%3E%3Ctext x='20' y='20' text-anchor='middle' dominant-baseline='middle' fill='%23999' font-family='Arial,sans-serif' font-size='12'%3EUser%3C/text%3E%3C/svg%3E" alt="プロフィール" class="user-avatar">
+                        <span>山田太郎</span>
+                        <i class="fas fa-chevron-down"></i>
+                        <div class="dropdown-menu">
+                            <a href="profile.html"><i class="fas fa-user"></i> プロフィール</a>
+                            <a href="settings.html"><i class="fas fa-cog"></i> 設定</a>
+                            <a href="help.html"><i class="fas fa-question-circle"></i> ヘルプ</a>
+                            <a href="index.html"><i class="fas fa-sign-out-alt"></i> ログアウト</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="help-content">
+                <!-- 検索セクション -->
+                <section class="help-search">
+                    <h2>お困りですか？</h2>
+                    <p>キーワードを入力して、ヘルプを検索してください</p>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="検索...（例：プロフィール編集、イベント参加）">
+                    </div>
+                </section>
+
+                <!-- カテゴリー -->
+                <section class="help-categories">
+                    <h2>ヘルプカテゴリー</h2>
+                    <div class="categories-grid">
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <h3>アカウント管理</h3>
+                            <p>プロフィール編集、パスワード変更など</p>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <h3>イベント</h3>
+                            <p>イベント参加、キャンセル方法など</p>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h3>メッセージ</h3>
+                            <p>メッセージの送受信、通知設定など</p>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <h3>ビジネスマッチング</h3>
+                            <p>案件投稿、マッチング方法など</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- よくある質問 -->
+                <section class="faq-section">
+                    <h2>よくある質問</h2>
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <i class="fas fa-chevron-right"></i>
+                                <h4>プロフィール情報を変更するには？</h4>
+                            </div>
+                            <div class="faq-answer">
+                                <p>プロフィール情報の変更は以下の手順で行えます：</p>
+                                <ol>
+                                    <li>左側のメニューから「プロフィール」をクリック</li>
+                                    <li>「編集」ボタンをクリック</li>
+                                    <li>変更したい項目を編集</li>
+                                    <li>「保存」ボタンをクリック</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <i class="fas fa-chevron-right"></i>
+                                <h4>イベントに参加するには？</h4>
+                            </div>
+                            <div class="faq-answer">
+                                <p>イベントへの参加方法：</p>
+                                <ol>
+                                    <li>「イベント」ページを開く</li>
+                                    <li>参加したいイベントを選択</li>
+                                    <li>「参加する」ボタンをクリック</li>
+                                    <li>必要事項を入力して申込完了</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <i class="fas fa-chevron-right"></i>
+                                <h4>パスワードを忘れた場合は？</h4>
+                            </div>
+                            <div class="faq-answer">
+                                <p>パスワードをリセットする手順：</p>
+                                <ol>
+                                    <li>ログイン画面の「パスワードを忘れた方」をクリック</li>
+                                    <li>登録済みのメールアドレスを入力</li>
+                                    <li>送信されたメールのリンクをクリック</li>
+                                    <li>新しいパスワードを設定</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <i class="fas fa-chevron-right"></i>
+                                <h4>退会するには？</h4>
+                            </div>
+                            <div class="faq-answer">
+                                <p>退会をご希望の場合は、以下の手順でお手続きください：</p>
+                                <ol>
+                                    <li>「設定」ページを開く</li>
+                                    <li>「アカウント」タブを選択</li>
+                                    <li>ページ下部の「退会する」をクリック</li>
+                                    <li>退会理由を入力して確認</li>
+                                </ol>
+                                <p class="warning">※退会するとデータは復元できません</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- お問い合わせ -->
+                <section class="contact-support">
+                    <h2>さらにサポートが必要ですか？</h2>
+                    <div class="support-options">
+                        <div class="support-card">
+                            <i class="fas fa-envelope"></i>
+                            <h3>メールでお問い合わせ</h3>
+                            <p>24時間受付（返信は営業時間内）</p>
+                            <a href="mailto:support@interconnect.jp" class="btn-support">メールを送る</a>
+                        </div>
+                        <div class="support-card">
+                            <i class="fas fa-phone"></i>
+                            <h3>電話でお問い合わせ</h3>
+                            <p>平日10:00〜18:00</p>
+                            <a href="tel:05035937239" class="btn-support">050-3593-7239</a>
+                        </div>
+                        <div class="support-card">
+                            <i class="fas fa-comments"></i>
+                            <h3>チャットサポート</h3>
+                            <p>平日10:00〜18:00</p>
+                            <button class="btn-support" onclick="openChat()">チャットを開始</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="help.js"></script>
+</body>
+</html>
