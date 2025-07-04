@@ -1,0 +1,517 @@
+/* インデックスページの改善CSS */
+
+/* セクション共通スタイル */
+.section {
+    padding: 100px 0;
+    position: relative;
+}
+
+.section-subtitle {
+    font-size: 16px;
+    color: var(--primary-blue);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 48px;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-align: center;
+    margin-bottom: 24px;
+    line-height: 1.2;
+}
+
+.section-description {
+    font-size: 18px;
+    color: #666;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 60px;
+    line-height: 1.8;
+}
+
+/* 数字で見る実績セクション */
+.achievements {
+    background: #f8f9fa;
+    padding: 80px 0;
+}
+
+.achievement-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    margin-top: 60px;
+}
+
+.achievement-item {
+    text-align: center;
+}
+
+.achievement-number {
+    font-size: 64px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+    line-height: 1;
+}
+
+.achievement-label {
+    font-size: 18px;
+    color: #333;
+    font-weight: 500;
+}
+
+.achievement-sublabel {
+    font-size: 14px;
+    color: #666;
+    margin-top: 8px;
+}
+
+/* サービスの流れセクション */
+.service-flow {
+    background: white;
+    padding: 100px 0;
+}
+
+.flow-timeline {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 80px;
+    position: relative;
+}
+
+.flow-timeline::before {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: #e0e0e0;
+    z-index: 0;
+}
+
+.flow-step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.flow-number {
+    width: 60px;
+    height: 60px;
+    background: white;
+    border: 3px solid var(--primary-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin: 0 auto 24px;
+}
+
+.flow-step.active .flow-number {
+    background: var(--primary-blue);
+    color: white;
+}
+
+.flow-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+.flow-description {
+    font-size: 14px;
+    color: #666;
+    max-width: 200px;
+    margin: 0 auto;
+}
+
+/* メンバーの声セクション */
+.testimonials {
+    background: #f0f4f8;
+    padding: 100px 0;
+}
+
+.testimonial-slider {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.testimonial-item {
+    background: white;
+    padding: 48px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    margin: 20px;
+}
+
+.testimonial-content {
+    font-size: 20px;
+    line-height: 1.8;
+    color: #333;
+    margin-bottom: 32px;
+    font-style: italic;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.author-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.author-info {
+    flex: 1;
+}
+
+.author-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.author-title {
+    font-size: 14px;
+    color: #666;
+}
+
+.author-company {
+    font-size: 14px;
+    color: var(--primary-blue);
+}
+
+/* 料金プランセクション */
+.pricing {
+    padding: 100px 0;
+    background: white;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-top: 60px;
+}
+
+.pricing-card {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 48px 32px;
+    text-align: center;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.pricing-card.featured {
+    border-color: var(--primary-blue);
+    transform: scale(1.05);
+    box-shadow: 0 20px 60px rgba(30, 91, 168, 0.15);
+}
+
+.pricing-badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-yellow);
+    color: #333;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.plan-name {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 16px;
+}
+
+.plan-price {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 8px;
+}
+
+.plan-price span {
+    font-size: 18px;
+    color: #666;
+}
+
+.plan-description {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 32px;
+}
+
+.plan-features {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 40px;
+}
+
+.plan-features li {
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.plan-features li:last-child {
+    border-bottom: none;
+}
+
+.plan-features i {
+    color: #4caf50;
+}
+
+.plan-button {
+    width: 100%;
+    padding: 16px 32px;
+    background: white;
+    color: var(--primary-blue);
+    border: 2px solid var(--primary-blue);
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pricing-card.featured .plan-button {
+    background: var(--primary-blue);
+    color: white;
+}
+
+.plan-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(30, 91, 168, 0.2);
+}
+
+/* パートナー企業セクション */
+.partners {
+    background: #f8f9fa;
+    padding: 80px 0;
+}
+
+.partner-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    flex-wrap: wrap;
+    margin-top: 60px;
+}
+
+.partner-logo {
+    width: 150px;
+    height: 60px;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.partner-logo:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
+/* FAQ セクション */
+.faq {
+    padding: 100px 0;
+    background: white;
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq-item.active {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.faq-question {
+    padding: 24px 32px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-icon {
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    padding: 0 32px;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq-item.active .faq-answer {
+    padding: 0 32px 24px;
+    max-height: 500px;
+}
+
+.faq-answer p {
+    color: #666;
+    line-height: 1.8;
+}
+
+/* CTA セクション */
+.cta-section {
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    padding: 100px 0;
+    text-align: center;
+    color: white;
+}
+
+.cta-title {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.cta-description {
+    font-size: 20px;
+    margin-bottom: 40px;
+    opacity: 0.9;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.cta-primary {
+    background: var(--primary-yellow);
+    color: #333;
+    padding: 18px 40px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.cta-secondary {
+    background: transparent;
+    color: white;
+    padding: 18px 40px;
+    border: 2px solid white;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.cta-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.cta-secondary:hover {
+    background: white;
+    color: var(--primary-blue);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 992px) {
+    .achievement-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .flow-timeline {
+        flex-direction: column;
+        gap: 40px;
+    }
+    
+    .flow-timeline::before {
+        display: none;
+    }
+    
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .pricing-card.featured {
+        transform: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .section {
+        padding: 60px 0;
+    }
+    
+    .section-title {
+        font-size: 32px;
+    }
+    
+    .achievement-number {
+        font-size: 48px;
+    }
+    
+    .testimonial-item {
+        padding: 32px 24px;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .cta-title {
+        font-size: 32px;
+    }
+}
