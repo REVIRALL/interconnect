@@ -102,10 +102,10 @@ body {
 
 /* プレミアムナビゲーション */
 .navbar {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     position: fixed;
     width: 100%;
     top: 0;
@@ -122,8 +122,8 @@ body {
     right: 0;
     bottom: 0;
     background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.9) 0%, 
-        rgba(255, 255, 255, 0.8) 100%);
+        rgba(0, 0, 0, 0.8) 0%, 
+        rgba(0, 0, 0, 0.6) 100%);
     z-index: -1;
 }
 
@@ -140,13 +140,13 @@ body {
 }
 
 .logo h1 {
-    color: var(--primary-blue);
+    color: #ffffff;
     font-size: 1.8rem;
     font-weight: 700;
 }
 
 .logo .tagline {
-    color: var(--gray-text);
+    color: rgba(255, 255, 255, 0.8);
     font-size: 0.9rem;
     display: block;
 }
@@ -162,14 +162,14 @@ body {
 }
 
 .nav-menu a {
-    color: var(--gray-text);
+    color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s;
 }
 
 .nav-menu a:hover {
-    color: var(--primary-blue);
+    color: var(--primary-yellow);
 }
 
 .contact-btn {
@@ -196,9 +196,9 @@ body {
 .login-btn {
     display: inline-block;
     background: transparent;
-    color: var(--primary-blue);
+    color: #ffffff;
     padding: 0.7rem 1.4rem;
-    border: 2px solid var(--primary-blue);
+    border: 2px solid #ffffff;
     border-radius: 30px;
     font-weight: 600;
     transition: all 0.3s ease;
@@ -213,10 +213,10 @@ body {
 }
 
 .login-btn:hover {
-    color: var(--primary-blue);
+    background: rgba(255, 255, 255, 0.1);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(30, 91, 168, 0.2);
-    border-color: var(--secondary-blue);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+    border-color: var(--primary-yellow);
 }
 
 .register-btn {
@@ -387,31 +387,58 @@ body {
 
 /* ヒーローセクション */
 .hero {
-    background: linear-gradient(135deg, 
-        rgba(30, 91, 168, 0.08) 0%, 
-        rgba(255, 255, 255, 0.92) 30%, 
-        rgba(255, 217, 61, 0.08) 70%, 
-        rgba(74, 144, 226, 0.05) 100%);
-    background-size: 400% 400%;
-    animation: heroGradient 20s ease infinite;
-    padding: 120px 0 80px;
-    margin-top: 80px;
     position: relative;
+    padding: 0;
+    margin-top: 0;
     overflow: hidden;
-    backdrop-filter: blur(5px);
+    height: 100vh;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.hero::before {
-    content: '';
+/* ビデオコンテナ */
+.hero-video-container {
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 20% 80%, rgba(255, 217, 61, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(30, 91, 168, 0.1) 0%, transparent 50%);
-    animation: floatingShapes 25s ease-in-out infinite;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+/* ビデオ要素 */
+.hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: cover;
+}
+
+/* ビデオオーバーレイ */
+.hero-video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        rgba(0, 0, 0, 0.4) 0%, 
+        rgba(0, 0, 0, 0.3) 50%, 
+        rgba(0, 0, 0, 0.5) 100%);
+    z-index: 1;
+}
+
+.hero .container {
+    position: relative;
+    z-index: 2;
 }
 
 @keyframes heroGradient {
@@ -432,19 +459,11 @@ body {
 
 .hero h2 {
     font-size: 3.5rem;
-    background: linear-gradient(135deg, 
-        var(--primary-blue) 0%, 
-        var(--secondary-blue) 50%, 
-        var(--primary-blue) 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 200% 200%;
-    animation: textShimmer 4s ease-in-out infinite;
+    color: #ffffff;
     margin-bottom: 1.5rem;
     font-weight: 700;
     line-height: 1.3;
-    text-shadow: 0 0 30px rgba(30, 91, 168, 0.1);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 @keyframes textShimmer {
@@ -454,11 +473,11 @@ body {
 
 .hero p {
     font-size: 1.3rem;
-    color: var(--gray-text);
+    color: #ffffff;
     margin-bottom: 2.5rem;
     line-height: 1.8;
-    opacity: 0.9;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    opacity: 0.95;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .cta-button {

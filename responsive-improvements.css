@@ -1,5 +1,30 @@
 /* レスポンシブデザイン改善 */
 
+/* ヒーロービデオのレスポンシブ対応 */
+@media (max-width: 768px) {
+    .hero {
+        min-height: 500px;
+    }
+    
+    .hero-video {
+        /* モバイルでも適切にビデオが表示されるように */
+        object-fit: cover;
+        object-position: center;
+    }
+    
+    .hero h2 {
+        font-size: 2rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .hero p br {
+        display: none;
+    }
+}
+
 /* ハンバーガーメニューが表示されていない問題を修正 */
 .hamburger {
     display: none;
@@ -19,7 +44,7 @@
 .hamburger span {
     width: 28px;
     height: 3px;
-    background-color: var(--primary-blue);
+    background-color: #ffffff;
     margin: 3px 0;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: block;
