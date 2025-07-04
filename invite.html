@@ -2,34 +2,38 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>招待リンク管理 - INTERCONNECT</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="loading.css">
     <link rel="stylesheet" href="dark-mode.css">
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="invite.css">
-    <link rel="stylesheet" href="accessibility-improvements.css">
+    <link rel="stylesheet" href="notification.css">
+    <link rel="stylesheet" href="responsive-improvements.css">
+    <link rel="stylesheet" href="dashboard-improvements.css">
+    <link rel="stylesheet" href="mobile-nav-improvements.css">
+    <link rel="stylesheet" href="mobile-header-fix.css">
+    <link rel="stylesheet" href="mobile-click-fix.css">
     <link rel="stylesheet" href="unified-colors.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="accessibility-improvements.css">
     <script src="security-utils.js"></script>
     <script src="error-handler.js"></script>
     <script src="notification-manager.js"></script>
     <script src="performance-utils.js"></script>
     <script src="security-manager.js"></script>
-    <script src="common.js"></script>
+    <script src="lazy-load.js"></script>
 </head>
 <body class="dashboard-body">
     <!-- サイドバー -->
     <aside class="sidebar">
         <div class="sidebar-header">
-            <div class="logo-container">
-                <div class="logo-circle">
-                    <span class="logo-text">IC</span>
-                </div>
-            </div>
             <h2>INTERCONNECT</h2>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
         
         <nav class="sidebar-nav">
@@ -38,6 +42,12 @@
                     <a href="dashboard.html" class="nav-link">
                         <i class="fas fa-home"></i>
                         <span>ダッシュボード</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>プロフィール</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -69,6 +79,13 @@
                     <a href="invite.html" class="nav-link">
                         <i class="fas fa-share-alt"></i>
                         <span>招待</span>
+                        <span class="badge new">NEW</span>
+                    </a>
+                </li>
+                <li class="nav-item admin-only">
+                    <a href="admin.html" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>管理</span>
                     </a>
                 </li>
             </ul>
@@ -76,13 +93,13 @@
         
         <div class="sidebar-footer">
             <div class="user-info">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23e0e0e0'/%3E%3C/svg%3E" alt="プロフィール画像" class="user-avatar">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23e0e0e0'/%3E%3C/svg%3E" alt="プロフィール画像" class="user-avatar lazy">
                 <div class="user-details">
                     <span class="user-name">田中太郎</span>
-                    <span class="user-role">管理者</span>
+                    <span class="user-role">CEO</span>
                 </div>
             </div>
-            <button class="logout-btn">
+            <button class="logout-btn" onclick="logout()">
                 <i class="fas fa-sign-out-alt"></i>
             </button>
         </div>
@@ -90,22 +107,36 @@
 
     <main class="main-content">
         <header class="dashboard-header">
-            <h1>招待管理</h1>
+            <div>
+                <h1>招待管理</h1>
+                <div class="dashboard-nav">
+                    <a href="dashboard.html"><i class="fas fa-chart-line"></i> 概要</a>
+                    <a href="members.html"><i class="fas fa-users"></i> メンバー</a>
+                    <a href="events.html"><i class="fas fa-calendar"></i> イベント</a>
+                    <a href="settings.html"><i class="fas fa-cog"></i> 設定</a>
+                </div>
+            </div>
             <div class="header-actions">
+                <button class="connection-requests-btn" title="接続リクエスト">
+                    <i class="fas fa-user-plus"></i>
+                    <span class="connection-request-count">0</span>
+                </button>
                 <button class="notification-btn">
                     <i class="fas fa-bell"></i>
                     <span class="notification-count">5</span>
                 </button>
                 <div class="user-menu">
                     <button class="user-menu-btn">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23e0e0e0'/%3E%3C/svg%3E" alt="プロフィール画像">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23e0e0e0'/%3E%3C/svg%3E"  alt="プロフィール画像" class="lazy">
                         <span>田中太郎</span>
                         <i class="fas fa-chevron-down"></i>
                     </button>
                     <div class="user-menu-dropdown">
                         <a href="profile.html">プロフィール</a>
                         <a href="settings.html">設定</a>
-                        <a href="#" class="logout-link">ログアウト</a>
+                        <a href="help.html">ヘルプ</a>
+                        <hr>
+                        <a href="#logout" onclick="logout()">ログアウト</a>
                     </div>
                 </div>
             </div>
@@ -331,8 +362,14 @@
         </div>
     </div>
 
+    <script src="common.js"></script>
     <script src="auth.js"></script>
+    <script src="supabase-setup.js"></script>
+    <script src="dashboard.js"></script>
     <script src="points-integrity.js"></script>
     <script src="invite.js"></script>
+    <script src="mobile-menu-improvements.js"></script>
+    <script src="dashboard-nav-fix.js"></script>
+    <script src="dashboard-navigation-override.js"></script>
 </body>
 </html>
