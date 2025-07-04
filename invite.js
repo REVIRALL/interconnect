@@ -86,7 +86,6 @@ class InviteManager {
             this.saveInviteData();
         }
 
-<<<<<<< HEAD
         // 本番環境のURL設定
         let baseUrl;
         
@@ -100,28 +99,6 @@ class InviteManager {
                 baseUrl = window.location.origin + '/interconnect';
             }
         } else if (window.location.protocol === 'file:') {
-            // ローカル環境の場合
-            baseUrl = 'file:///' + window.location.pathname.split('/').slice(0, -1).join('/');
-        } else {
-            // その他のサーバー環境
-            baseUrl = window.location.origin;
-        }
-        
-        const inviteLink = `${baseUrl}/register.html?ref=${inviteLinkData.code}`;
-        
-        const linkInput = document.getElementById('inviteLink');
-        if (linkInput) {
-            linkInput.value = inviteLink;
-            
-            // 環境に応じた説明を追加
-            if (window.location.protocol === 'file:') {
-                linkInput.setAttribute('title', 'ローカル環境では手動でコピー＆ペーストしてください');
-            } else {
-                linkInput.setAttribute('title', 'このリンクを共有して新規ユーザーを招待できます');
-=======
-        // ローカル環境とサーバー環境の両方に対応
-        let baseUrl = window.location.origin;
-        if (window.location.protocol === 'file:') {
             // ローカル環境の場合は相対パスを使用
             const pathArray = window.location.pathname.split('/');
             pathArray.pop(); // 現在のファイル名を削除

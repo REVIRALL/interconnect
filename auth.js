@@ -201,7 +201,7 @@ class AuthSystem {
             id: 'notif-' + Date.now(),
             type: 'invite_success',
             title: '招待が成功しました！',
-            message: `${invitee.firstName} ${invitee.lastName}さん（${invitee.company}）が登録を完了しました。1000ポイントを獲得しました！`,
+            message: `${window.SecurityUtils ? window.SecurityUtils.escapeHtml(invitee.firstName) : invitee.firstName} ${window.SecurityUtils ? window.SecurityUtils.escapeHtml(invitee.lastName) : invitee.lastName}さん（${window.SecurityUtils ? window.SecurityUtils.escapeHtml(invitee.company) : invitee.company}）が登録を完了しました。1000ポイントを獲得しました！`,
             timestamp: new Date().toISOString(),
             read: false,
             data: {
@@ -215,10 +215,16 @@ class AuthSystem {
 
     // パスワードハッシュ化（セキュリティ強化版）
     async hashPassword(password) {
+        // 新しいセキュリティユーティリティを使用
+        if (window.SecurityUtils) {
+            return await window.SecurityUtils.hashPassword(password);
+        }
+        // 古いセキュリティマネージャーへのフォールバック
         if (window.securityManager) {
             return await window.securityManager.hashPassword(password);
         }
-        // フォールバック（セキュリティマネージャーが利用できない場合）
+        // 最終フォールバック（セキュリティユーティリティが利用できない場合）
+        console.warn('Security utilities not available, using fallback hash');
         return btoa(password + 'salt').replace(/[^a-zA-Z0-9]/g, '');
     }
 

@@ -1038,8 +1038,15 @@ class Dashboard {
         }
     }
     
-    // 通知表示メソッド
+    // 通知表示メソッド - グローバル通知システムを使用
     showNotification(message, type = 'info') {
+        // グローバル通知システムを使用
+        if (window.showNotification) {
+            window.showNotification(message, type);
+            return;
+        }
+        
+        // フォールバック: グローバル通知システムが利用できない場合
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
         notification.textContent = message;
