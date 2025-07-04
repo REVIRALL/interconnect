@@ -1,0 +1,160 @@
+/* 参加方法セクション - 独自のカード型デザイン */
+
+.join {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.join::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: white;
+    transform: skewY(-3deg);
+    transform-origin: bottom left;
+}
+
+.join::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: -100px;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.join .section-title {
+    color: #333;
+    margin-bottom: 60px;
+}
+
+.join-process {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-top: 60px;
+}
+
+.process-step {
+    background: white;
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.process-step::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #ff6b6b 0%, #ee5a24 100%);
+}
+
+.process-step:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.process-step:nth-child(1)::before {
+    background: linear-gradient(90deg, #ff6b6b 0%, #ee5a24 100%);
+}
+
+.process-step:nth-child(2)::before {
+    background: linear-gradient(90deg, #f9ca24 0%, #f0932b 100%);
+}
+
+.process-step:nth-child(3)::before {
+    background: linear-gradient(90deg, #6c5ce7 0%, #a29bfe 100%);
+}
+
+.process-step:nth-child(4)::before {
+    background: linear-gradient(90deg, #4834d4 0%, #686de0 100%);
+}
+
+.step-number {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    color: white;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 auto 24px;
+    position: relative;
+    transform: rotate(45deg);
+    box-shadow: 0 5px 20px rgba(238, 90, 36, 0.3);
+}
+
+.process-step:nth-child(1) .step-number {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+}
+
+.process-step:nth-child(2) .step-number {
+    background: linear-gradient(135deg, #f9ca24 0%, #f0932b 100%);
+}
+
+.process-step:nth-child(3) .step-number {
+    background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+}
+
+.process-step:nth-child(4) .step-number {
+    background: linear-gradient(135deg, #4834d4 0%, #686de0 100%);
+}
+
+.step-number::after {
+    content: attr(data-step);
+    position: absolute;
+    transform: rotate(-45deg);
+}
+
+.process-step h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 16px;
+}
+
+.process-step p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+}
+
+.process-arrow {
+    display: none;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 992px) {
+    .join-process {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .join-process {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .process-step {
+        padding: 30px 20px;
+    }
+}

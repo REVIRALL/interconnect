@@ -69,10 +69,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const updateNumber = () => {
             current += increment;
             if (current < target) {
-                element.textContent = Math.floor(current).toLocaleString() + (element.textContent.includes('+') ? '+' : '');
+                element.textContent = Math.floor(current).toLocaleString() + (element.textContent && element.textContent.includes('+') ? '+' : '');
                 requestAnimationFrame(updateNumber);
             } else {
-                element.textContent = target.toLocaleString() + (element.textContent.includes('+') ? '+' : '');
+                element.textContent = target.toLocaleString() + (element.textContent && element.textContent.includes('+') ? '+' : '');
             }
         };
         
