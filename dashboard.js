@@ -69,7 +69,28 @@ class Dashboard {
         // 通知ボタン
         const notificationBtn = document.querySelector('.notification-btn');
         if (notificationBtn) {
-            notificationBtn.addEventListener('click', this.showNotifications.bind(this));
+            // クリック時のフィードバック改善
+            notificationBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // ボタンにアクティブクラス追加（視覚的フィードバック）
+                notificationBtn.classList.add('active');
+                setTimeout(() => {
+                    notificationBtn.classList.remove('active');
+                }, 150);
+                
+                this.showNotifications();
+            });
+            
+            // ホバー時のフィードバック
+            notificationBtn.addEventListener('mouseenter', () => {
+                notificationBtn.style.transform = 'translateY(-2px)';
+            });
+            
+            notificationBtn.addEventListener('mouseleave', () => {
+                notificationBtn.style.transform = 'translateY(0)';
+            });
         }
         
         // 接続リクエストボタン
@@ -673,12 +694,17 @@ class Dashboard {
 
     // 通知表示
     showNotifications() {
+        console.log('📱 通知ボタンがクリックされました');
+        
         // 既存の通知パネルがあれば削除
         const existingPanel = document.querySelector('.notification-panel');
         if (existingPanel) {
+            console.log('🔄 通知パネルを閉じます');
             existingPanel.remove();
             return;
         }
+        
+        console.log('📂 通知パネルを開きます');
 
         const notificationPanel = document.createElement('div');
         notificationPanel.className = 'notification-panel';
