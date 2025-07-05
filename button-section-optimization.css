@@ -1,0 +1,431 @@
+/* 全ページ共通 - ボタンとセクションの最適化 */
+
+/* ========== ボタンの最適化 ========== */
+
+/* 基本ボタンスタイル */
+button,
+.btn,
+.button,
+[type="button"],
+[type="submit"],
+.cta-button,
+.submit-button,
+.login-btn,
+.register-btn,
+.contact-btn,
+.event-action,
+.member-action,
+.plan-button,
+.cta-primary,
+.cta-secondary,
+.dashboard-button,
+.card-action,
+.edit-btn,
+.save-btn,
+.cancel-btn {
+    /* サイズの最適化 */
+    min-height: 48px;
+    min-width: 120px;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+    
+    /* デザイン */
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    
+    /* タッチデバイス対応 */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* プライマリボタン */
+.btn-primary,
+.submit-button,
+.cta-button,
+.register-btn,
+.save-btn {
+    background: linear-gradient(135deg, #1e5ba8 0%, #2e7cd6 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(30, 91, 168, 0.3);
+}
+
+.btn-primary:hover,
+.submit-button:hover,
+.cta-button:hover,
+.register-btn:hover,
+.save-btn:hover {
+    background: linear-gradient(135deg, #1a4d90 0%, #2563b8 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(30, 91, 168, 0.4);
+}
+
+/* セカンダリボタン */
+.btn-secondary,
+.login-btn,
+.cancel-btn,
+.edit-btn {
+    background: #ffffff;
+    color: #1e5ba8;
+    border: 2px solid #1e5ba8;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary:hover,
+.login-btn:hover,
+.cancel-btn:hover,
+.edit-btn:hover {
+    background: #f0f6ff;
+    border-color: #1a4d90;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* 小さめのボタン */
+.btn-sm,
+.card-action,
+.event-action,
+.member-action {
+    min-height: 40px;
+    min-width: 100px;
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+/* 大きめのボタン */
+.btn-lg,
+.hero .cta-button {
+    min-height: 56px;
+    padding: 16px 40px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* アイコン付きボタン */
+button i,
+.btn i {
+    font-size: 1.1em;
+}
+
+/* ========== セクションの背景色最適化 ========== */
+
+/* 基本セクション背景 */
+section {
+    position: relative;
+    background: #ffffff;
+}
+
+/* 交互に背景色を変える */
+section:nth-child(even) {
+    background: #f8f9fa;
+}
+
+section:nth-child(odd) {
+    background: #ffffff;
+}
+
+/* 特定セクションの背景色 */
+.hero {
+    background: #1a1a1a; /* ビデオオーバーレイで調整 */
+}
+
+.about {
+    background: #f8f9fa;
+}
+
+.features {
+    background: #ffffff;
+}
+
+.members {
+    background: #f0f4f8;
+}
+
+.events {
+    background: #ffffff;
+}
+
+.achievements {
+    background: #f8f9fa;
+}
+
+.service-flow {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+}
+
+.testimonials {
+    background: #f0f4f8;
+}
+
+.pricing {
+    background: #ffffff;
+}
+
+.partners {
+    background: #f8f9fa;
+}
+
+.faq {
+    background: #ffffff;
+}
+
+.cta-section {
+    background: linear-gradient(135deg, #1e5ba8 0%, #2e7cd6 100%);
+}
+
+.contact {
+    background: #f8f9fa;
+}
+
+/* ダッシュボード系ページの背景 */
+.dashboard-body {
+    background: #f5f6fa;
+}
+
+.main-content {
+    background: #f5f6fa;
+}
+
+/* カードとコンテンツボックス */
+.content-card,
+.stat-card,
+.event-card,
+.member-card,
+.pricing-card,
+.about-item,
+.feature {
+    background: #ffffff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ========== 余白の最適化 ========== */
+
+/* セクション余白 */
+section {
+    padding: 80px 0;
+}
+
+/* モバイルでの余白調整 */
+@media (max-width: 768px) {
+    section {
+        padding: 60px 0;
+    }
+    
+    .container {
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    section {
+        padding: 40px 0;
+    }
+    
+    .container {
+        padding: 0 16px;
+    }
+}
+
+/* ボタングループの余白 */
+.button-group,
+.cta-buttons,
+.form-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+}
+
+@media (max-width: 480px) {
+    .button-group,
+    .cta-buttons,
+    .form-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .button-group button,
+    .cta-buttons a,
+    .form-actions button {
+        width: 100%;
+    }
+}
+
+/* ========== ダッシュボードナビゲーションボタン ========== */
+.dashboard-nav a {
+    min-height: 44px;
+    padding: 12px 16px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-nav a:hover {
+    background: #f8f9fa;
+    border-color: #1e5ba8;
+    color: #1e5ba8;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-nav a.active {
+    background: #e3f2fd;
+    border-color: #1e5ba8;
+    color: #1e5ba8;
+    font-weight: 600;
+}
+
+/* ========== フォームボタン ========== */
+.form-group button,
+.auth-form button {
+    width: 100%;
+    margin-top: 24px;
+}
+
+/* ========== モバイル最適化 ========== */
+@media (max-width: 768px) {
+    /* ボタンサイズ調整 */
+    button,
+    .btn {
+        min-height: 44px;
+        padding: 12px 24px;
+        font-size: 15px;
+    }
+    
+    .btn-lg {
+        min-height: 48px;
+        padding: 14px 32px;
+        font-size: 16px;
+    }
+    
+    .btn-sm {
+        min-height: 36px;
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+}
+
+/* ========== ヘッダーアクションボタン ========== */
+.header-actions button {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #666;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.header-actions button:hover {
+    background: #f8f9fa;
+    border-color: #1e5ba8;
+    color: #1e5ba8;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ========== カード内のボタン ========== */
+.card-header button,
+.content-card button {
+    padding: 8px 16px;
+    font-size: 14px;
+    min-height: 36px;
+    background: transparent;
+    color: #1e5ba8;
+    border: 1px solid #1e5ba8;
+}
+
+.card-header button:hover,
+.content-card button:hover {
+    background: #1e5ba8;
+    color: white;
+}
+
+/* ========== アクセシビリティ ========== */
+button:focus,
+.btn:focus {
+    outline: 3px solid #1e5ba8;
+    outline-offset: 2px;
+}
+
+button:disabled,
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ========== アニメーション ========== */
+@keyframes buttonPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(30, 91, 168, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(30, 91, 168, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(30, 91, 168, 0);
+    }
+}
+
+.cta-button {
+    animation: buttonPulse 2s infinite;
+}
+
+/* ========== 特別なセクション背景 ========== */
+
+/* グラデーション背景 */
+.gradient-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+/* パターン背景 */
+.pattern-section {
+    background-color: #f8f9fa;
+    background-image: 
+        repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.5) 35px, rgba(255,255,255,.5) 70px);
+}
+
+/* ========== ダークモード対応 ========== */
+@media (prefers-color-scheme: dark) {
+    section {
+        background: #1a1a1a;
+    }
+    
+    section:nth-child(even) {
+        background: #242424;
+    }
+    
+    .content-card,
+    .stat-card {
+        background: #2a2a2a;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    }
+}
