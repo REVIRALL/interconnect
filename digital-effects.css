@@ -1,0 +1,351 @@
+/* デジタルエフェクトのCSS実装 */
+
+/* 1. タイプライターエフェクト */
+.typewriter-effect {
+    position: relative;
+    display: inline-block;
+}
+
+.typewriter-effect .cursor {
+    display: inline-block;
+    width: 3px;
+    background-color: #007bff;
+    animation: blink 1s infinite;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+.typewriter-complete {
+    animation: typewriter-glow 0.5s ease-out;
+}
+
+@keyframes typewriter-glow {
+    0% { text-shadow: 0 0 10px rgba(0, 123, 255, 0.8); }
+    100% { text-shadow: none; }
+}
+
+/* 2. グリッチエフェクト */
+.glitch {
+    position: relative;
+    animation: glitch-anim 0.3s infinite;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitch::before {
+    animation: glitch-anim-1 0.3s infinite;
+    color: #00ffff;
+    z-index: -1;
+}
+
+.glitch::after {
+    animation: glitch-anim-2 0.3s infinite;
+    color: #ff00ff;
+    z-index: -2;
+}
+
+@keyframes glitch-anim {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-2px); }
+    40% { transform: translateX(2px); }
+    60% { transform: translateX(-1px); }
+    80% { transform: translateX(1px); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes glitch-anim-1 {
+    0% { clip-path: inset(20% 0 30% 0); transform: translateX(-2px); }
+    25% { clip-path: inset(10% 0 60% 0); transform: translateX(2px); }
+    50% { clip-path: inset(50% 0 20% 0); transform: translateX(-1px); }
+    75% { clip-path: inset(30% 0 40% 0); transform: translateX(1px); }
+    100% { clip-path: inset(60% 0 10% 0); transform: translateX(0); }
+}
+
+@keyframes glitch-anim-2 {
+    0% { clip-path: inset(60% 0 10% 0); transform: translateX(2px); }
+    25% { clip-path: inset(30% 0 40% 0); transform: translateX(-2px); }
+    50% { clip-path: inset(10% 0 60% 0); transform: translateX(1px); }
+    75% { clip-path: inset(50% 0 20% 0); transform: translateX(-1px); }
+    100% { clip-path: inset(20% 0 30% 0); transform: translateX(0); }
+}
+
+/* グリッチテキスト（数字用） */
+.glitch-text {
+    animation: text-glitch 0.1s linear;
+}
+
+@keyframes text-glitch {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-1px); }
+    40% { transform: translateX(1px); }
+    60% { transform: translateX(-1px); }
+    80% { transform: translateX(1px); }
+}
+
+/* 3. セクション出現エフェクト */
+.section-hidden {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.section-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* デジタルトランジション */
+.digital-transition {
+    position: relative;
+    overflow: hidden;
+}
+
+.digital-transition::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(0, 123, 255, 0.1) 25%,
+        rgba(0, 255, 255, 0.2) 50%,
+        rgba(0, 123, 255, 0.1) 75%,
+        transparent 100%
+    );
+    animation: digital-sweep 0.6s ease-out;
+}
+
+@keyframes digital-sweep {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* 4. デジタルホバーエフェクト */
+.digital-hover {
+    position: relative;
+    overflow: hidden;
+}
+
+.digital-hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 123, 255, 0.03) 2px,
+            rgba(0, 123, 255, 0.03) 4px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 123, 255, 0.03) 2px,
+            rgba(0, 123, 255, 0.03) 4px
+        );
+    animation: digital-noise 0.5s infinite;
+    pointer-events: none;
+}
+
+@keyframes digital-noise {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+/* 5. スキャンラインエフェクト */
+.hero-video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.hero-video-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.03) 2px,
+            rgba(0, 0, 0, 0.03) 4px
+        );
+}
+
+.hero-video-overlay::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: rgba(0, 255, 255, 0.1);
+    animation: scanline 6s linear infinite;
+}
+
+@keyframes scanline {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
+
+/* 6. ボタンのデジタルエフェクト */
+.login-btn,
+.register-btn,
+.contact-btn,
+.cta-button,
+.submit-button,
+.plan-button {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.login-btn:hover,
+.register-btn:hover,
+.contact-btn:hover,
+.cta-button:hover,
+.submit-button:hover,
+.plan-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 5px 15px rgba(0, 123, 255, 0.3),
+        0 0 30px rgba(0, 123, 255, 0.1);
+}
+
+/* 7. セクションタイトルのデジタル装飾 */
+.section-title {
+    position: relative;
+    display: inline-block;
+}
+
+.section-visible .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #007bff, #00ffff);
+    animation: title-underline 1s ease-out forwards;
+    animation-delay: 0.3s;
+}
+
+@keyframes title-underline {
+    0% { width: 0; opacity: 0; }
+    100% { width: 100%; opacity: 1; }
+}
+
+/* 8. 業界タグのデジタルエフェクト */
+.industry-tags .tag {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.industry-tags .tag:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.4);
+}
+
+.industry-tags .tag:hover::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00ffff, #007bff, #ff00ff);
+    z-index: -1;
+    opacity: 0.5;
+    filter: blur(10px);
+    animation: tag-glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes tag-glow {
+    0% { opacity: 0.3; }
+    100% { opacity: 0.7; }
+}
+
+/* 9. レスポンシブ調整 */
+@media (max-width: 768px) {
+    .glitch::before,
+    .glitch::after {
+        display: none; /* モバイルではパフォーマンスのため無効化 */
+    }
+    
+    .digital-transition::before {
+        animation-duration: 0.4s;
+    }
+    
+    .section-hidden {
+        transform: translateY(30px);
+    }
+}
+
+/* 10. アクセシビリティ対応 */
+@media (prefers-reduced-motion: reduce) {
+    .typewriter-effect,
+    .glitch,
+    .digital-transition,
+    .digital-hover,
+    .section-hidden,
+    .section-visible {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    .section-hidden {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* 11. ダークモード対応 */
+@media (prefers-color-scheme: dark) {
+    .glitch::before {
+        color: #00ffff;
+    }
+    
+    .glitch::after {
+        color: #ff00ff;
+    }
+    
+    .digital-transition::before {
+        background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(0, 255, 255, 0.1) 25%,
+            rgba(255, 0, 255, 0.2) 50%,
+            rgba(0, 255, 255, 0.1) 75%,
+            transparent 100%
+        );
+    }
+}
