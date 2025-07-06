@@ -67,18 +67,20 @@ navLinks.forEach(link => {
 
 // CTAボタンのスムーズスクロール
 const ctaButton = document.querySelector('.cta-button');
-ctaButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    const targetElement = document.getElementById('join');
-    
-    if (targetElement) {
-        const offsetTop = targetElement.offsetTop - 80;
-        window.scrollTo({
-            top: offsetTop,
-            behavior: 'smooth'
-        });
-    }
-});
+if (ctaButton) {
+    ctaButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetElement = document.getElementById('join');
+        
+        if (targetElement) {
+            const offsetTop = targetElement.offsetTop - 80;
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
+        }
+    });
+}
 
 // ナビゲーションバーのスクロール効果
 window.addEventListener('scroll', () => {
