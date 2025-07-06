@@ -13,23 +13,25 @@ if (!menuOverlay) {
 }
 
 // ハンバーガーメニューの機能
-hamburger.addEventListener('click', () => {
-    const isActive = navMenu.classList.contains('active');
-    
-    if (isActive) {
-        // メニューを閉じる
-        navMenu.classList.remove('active');
-        hamburger.classList.remove('active');
-        menuOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-    } else {
-        // メニューを開く
-        navMenu.classList.add('active');
-        hamburger.classList.add('active');
-        menuOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-});
+if (hamburger) {
+    hamburger.addEventListener('click', () => {
+        const isActive = navMenu.classList.contains('active');
+        
+        if (isActive) {
+            // メニューを閉じる
+            navMenu.classList.remove('active');
+            hamburger.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        } else {
+            // メニューを開く
+            navMenu.classList.add('active');
+            hamburger.classList.add('active');
+            menuOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    });
+}
 
 // オーバーレイクリックでメニューを閉じる
 menuOverlay.addEventListener('click', () => {

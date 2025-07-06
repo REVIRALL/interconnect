@@ -1,6 +1,24 @@
 // モバイルメニュー改善 - ヘッダーアクションをハンバーガーメニューに移動
 
 document.addEventListener('DOMContentLoaded', function() {
+    // ログイン状態を確認
+    const isLoggedIn = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+    
+    // ログイン前のページかどうかを判定
+    const isPublicPage = window.location.pathname.includes('index.html') || 
+                        window.location.pathname.endsWith('/') ||
+                        window.location.pathname.includes('login.html') ||
+                        window.location.pathname.includes('register.html') ||
+                        window.location.pathname.includes('forgot-password.html') ||
+                        window.location.pathname.includes('terms.html') ||
+                        window.location.pathname.includes('privacy.html') ||
+                        window.location.pathname.includes('company.html');
+    
+    // パブリックページまたは未ログインの場合は実行しない
+    if (isPublicPage && !isLoggedIn) {
+        return;
+    }
+    
     // モバイルかどうかを判定
     const isMobile = () => window.innerWidth <= 768;
     
