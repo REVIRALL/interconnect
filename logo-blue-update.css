@@ -1,12 +1,12 @@
 /* ロゴカラーを青系に変更するCSS */
 
-/* INTERCONNECTロゴの青系グラデーション定義 */
+/* INTERCONNECTロゴの白強めの水色グラデーション定義 */
 :root {
-    --logo-gradient-blue: linear-gradient(135deg, #0052cc 0%, #1a73e8 100%);
-    --logo-gradient-blue-hover: linear-gradient(135deg, #003d99 0%, #0052cc 100%);
-    --logo-text-blue: #0052cc;
-    --logo-text-blue-dark: #003d99;
-    --logo-text-blue-light: #1a73e8;
+    --logo-gradient-blue: linear-gradient(135deg, #b3e5fc 0%, #e0f7fa 100%);
+    --logo-gradient-blue-hover: linear-gradient(135deg, #81d4fa 0%, #b3e5fc 100%);
+    --logo-text-blue: #81d4fa;
+    --logo-text-blue-dark: #4fc3f7;
+    --logo-text-blue-light: #e0f7fa;
 }
 
 /* ヘッダーのロゴスタイル更新 */
@@ -60,13 +60,13 @@
 
 /* タグラインの色調整 */
 .logo .tagline {
-    color: rgba(26, 115, 232, 0.9) !important;
+    color: rgba(79, 195, 247, 0.9) !important;
     font-weight: 500;
     letter-spacing: 0.05em;
 }
 
 .navbar.scrolled .logo .tagline {
-    color: rgba(0, 82, 204, 0.8) !important;
+    color: rgba(129, 212, 250, 0.8) !important;
 }
 
 /* レスポンシブ時のロゴ調整 */
@@ -93,14 +93,14 @@
 /* ダークモード対応（必要に応じて） */
 @media (prefers-color-scheme: dark) {
     .logo h1 {
-        background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%);
+        background: linear-gradient(135deg, #4fc3f7 0%, #81d4fa 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
     
     .logo .tagline {
-        color: rgba(66, 133, 244, 0.9) !important;
+        color: rgba(129, 212, 250, 0.9) !important;
     }
 }
 
