@@ -1,0 +1,70 @@
+/* デジタルエフェクトのオーバーライドCSS */
+/* design-system.cssの後に読み込んで優先度を上げる */
+
+/* ヒーローセクションのタイプライター効果を確実に適用 */
+.hero h2.typewriter-initialized,
+.hero p.typewriter-initialized {
+    opacity: 1 !important;
+}
+
+/* タイプライターエフェクトのカーソル */
+.hero .typewriter-effect .cursor {
+    display: inline-block !important;
+    width: 3px !important;
+    background-color: #007bff !important;
+    animation: blink 1s infinite !important;
+    margin-left: 2px !important;
+    vertical-align: middle !important;
+    height: 1.2em !important;
+}
+
+/* グリッチエフェクトの優先度を上げる */
+.hero .glitch {
+    position: relative !important;
+    animation: glitch-anim 0.3s infinite !important;
+}
+
+.hero .glitch::before,
+.hero .glitch::after {
+    content: attr(data-text) !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: none !important;
+}
+
+/* セクション出現エフェクトの優先度を上げる */
+.section-hidden {
+    opacity: 0 !important;
+    transform: translateY(50px) !important;
+}
+
+.section-visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out !important;
+}
+
+/* デジタルトランジションエフェクト */
+.digital-transition {
+    animation: digital-fade 0.3s ease-out !important;
+}
+
+@keyframes digital-fade {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+        filter: blur(5px);
+    }
+    50% {
+        opacity: 0.5;
+        filter: blur(2px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}

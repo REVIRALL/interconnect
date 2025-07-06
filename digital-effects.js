@@ -1,16 +1,35 @@
 // デジタルエフェクトのJavaScript実装
 
+// design-system.jsとの競合を避けるため、グローバル変数で初期化状態を管理
+window.digitalEffectsInitialized = false;
+
 document.addEventListener('DOMContentLoaded', function() {
+    // 既に初期化されている場合はスキップ
+    if (window.digitalEffectsInitialized) return;
+    window.digitalEffectsInitialized = true;
+    
     // 1. タイプライターエフェクト with グリッチ
     function initTypewriterEffect() {
         const heroTitle = document.querySelector('.hero h2');
         const heroSubtitle = document.querySelector('.hero p');
         
-        if (!heroTitle || !heroSubtitle) return;
+        if (!heroTitle || !heroSubtitle) {
+            console.log('Hero elements not found');
+            return;
+        }
+        
+        // 既にタイプライター効果が適用されているかチェック
+        if (heroTitle.classList.contains('typewriter-initialized')) {
+            return;
+        }
         
         // オリジナルのテキストを保存
         const titleText = heroTitle.innerHTML;
         const subtitleText = heroSubtitle.innerHTML;
+        
+        // 初期化フラグを設定
+        heroTitle.classList.add('typewriter-initialized');
+        heroSubtitle.classList.add('typewriter-initialized');
         
         // テキストを一時的に隠す
         heroTitle.style.opacity = '0';
@@ -30,6 +49,11 @@ document.addEventListener('DOMContentLoaded', function() {
         element.style.opacity = '1';
         element.classList.add('typewriter-effect');
         
+        // デバッグログ
+        if (index === 0) {
+            console.log('Starting typewriter effect for:', element.tagName, text.substring(0, 20) + '...');
+        }
+        
         // HTMLタグを考慮した文字表示
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = text;
@@ -39,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // グリッチエフェクトをランダムに適用
             if (Math.random() < 0.1) {
                 element.classList.add('glitch');
+                element.setAttribute('data-text', plainText.substring(0, index + 1));
                 setTimeout(() => {
                     element.classList.remove('glitch');
                 }, 100);
@@ -56,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // カーソルを削除
             element.innerHTML = text;
             element.classList.add('typewriter-complete');
+            console.log('Typewriter effect completed for:', element.tagName);
             
             // コールバック実行
             if (callback) callback();
@@ -227,29 +253,47 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 初期化
     function init() {
+        console.log('Digital effects initializing...');
+        
         // プリローダーが消えた後に実行
         const preloader = document.getElementById('preloader');
         if (preloader) {
-            // プリローダーの監視
+            // プリローダーの監視を強化
+            let checkCount = 0;
+            const maxChecks = 50; // 最大5秒待機
+            
             const checkPreloader = setInterval(() => {
-                if (preloader.style.display === 'none' || preloader.classList.contains('fade-out')) {
+                checkCount++;
+                
+                // プリローダーが非表示になったか、フェードアウトクラスが追加されたか
+                const isHidden = preloader.style.display === 'none';
+                const isFadingOut = preloader.classList.contains('fade-out');
+                const isInvisible = window.getComputedStyle(preloader).opacity === '0';
+                
+                if (isHidden || isFadingOut || isInvisible || checkCount >= maxChecks) {
                     clearInterval(checkPreloader);
+                    console.log('Preloader hidden, initializing effects...');
+                    
+                    // さらに少し待機してから実行
                     setTimeout(() => {
                         initTypewriterEffect();
                         initSectionEffects();
                         initParallaxEffects();
                         initDigitalNoise();
                         initCountUpEffect();
-                    }, 300);
+                    }, 800); // プリローダーのフェードアウト完了を待つ
                 }
             }, 100);
         } else {
-            // プリローダーがない場合は即実行
-            initTypewriterEffect();
-            initSectionEffects();
-            initParallaxEffects();
-            initDigitalNoise();
-            initCountUpEffect();
+            // プリローダーがない場合は少し待ってから実行
+            console.log('No preloader found, initializing effects directly...');
+            setTimeout(() => {
+                initTypewriterEffect();
+                initSectionEffects();
+                initParallaxEffects();
+                initDigitalNoise();
+                initCountUpEffect();
+            }, 100);
         }
     }
     
