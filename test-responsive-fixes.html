@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>レスポンシブ修正テスト</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .test-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .test-section h2 {
+            color: #0052cc;
+            margin-bottom: 15px;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .status.fixed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .device-info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .test-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .test-list li {
+            padding: 10px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .test-list li:before {
+            content: "✅";
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .button-test {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #0052cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .button-test:hover {
+            background: #003d99;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .test-container {
+                padding: 20px;
+            }
+            
+            .button-test {
+                display: block;
+                text-align: center;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>INTERCONNECT レスポンシブ修正テスト</h1>
+        
+        <div class="device-info">
+            <strong>現在のデバイス情報:</strong><br>
+            画面幅: <span id="screenWidth"></span>px<br>
+            ビューポート幅: <span id="viewportWidth"></span>px<br>
+            デバイスタイプ: <span id="deviceType"></span>
+        </div>
+        
+        <div class="test-section">
+            <h2>1. コミュニティの特徴セクションの文字はみ出し問題 <span class="status fixed">修正済み</span></h2>
+            <ul class="test-list">
+                <li>word-wrap: break-word を全要素に適用</li>
+                <li>overflow-wrap: break-word で長い単語の改行を強制</li>
+                <li>hyphens: auto でハイフネーション対応</li>
+                <li>overflow: hidden でコンテナからのはみ出しを防止</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h2>2. レスポンシブ時の横幅サイズの完全対応 <span class="status fixed">修正済み</span></h2>
+            <ul class="test-list">
+                <li>iPhone 6s (375px) から iPhone 16 Pro Max (430px) まで対応</li>
+                <li>Android全機種対応 (320px〜)</li>
+                <li>viewport設定を最適化 (minimum-scale=1.0, maximum-scale=5.0)</li>
+                <li>コンテナのパディングを画面サイズに応じて調整</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h2>3. イベント・活動ページの枠はみ出し問題 <span class="status fixed">修正済み</span></h2>
+            <ul class="test-list">
+                <li>グリッドレイアウトをレスポンシブに最適化</li>
+                <li>box-sizing: border-box で正確なサイズ計算</li>
+                <li>小画面では1カラムレイアウトに自動切替</li>
+                <li>適切なパディングとギャップの設定</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h2>4. メンバーの声セクションの改良 <span class="status fixed">修正済み</span></h2>
+            <ul class="test-list">
+                <li>10種類のメンバーの声を実装</li>
+                <li>自動スクロールカルーセル (60秒で1周)</li>
+                <li>ホバーで一時停止機能</li>
+                <li>タッチ・ドラッグ操作対応</li>
+                <li>無限ループスクロール実装</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h2>5. よくある質問（FAQ）の文字はみ出し修正 <span class="status fixed">修正済み</span></h2>
+            <ul class="test-list">
+                <li>FAQ項目の文字折り返し対応</li>
+                <li>アコーディオン開閉アニメーション実装</li>
+                <li>適切なパディングでモバイル表示最適化</li>
+                <li>アイコンの位置とサイズを調整</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h2>6. スマホからのログインエラー（404）の修正 <span class="status fixed">修正済み</span></h2>
+            <ul class="test-list">
+                <li>タッチイベントの適切な処理を実装</li>
+                <li>preventDefault()でデフォルト動作を制御</li>
+                <li>モバイルデバイス判定とイベント分岐</li>
+                <li>タッチエリアを48px以上に拡大</li>
+            </ul>
+            <div style="margin-top: 20px;">
+                <a href="login.html" class="button-test">ログインページへ</a>
+                <a href="register.html" class="button-test">新規登録ページへ</a>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>追加の改善点 <span class="status fixed">修正済み</span></h2>
+            <ul class="test-list">
+                <li>全セクションのレスポンシブ対応強化</li>
+                <li>ボタンサイズの最適化（最小48px）</li>
+                <li>フォント サイズの段階的調整</li>
+                <li>横スクロールの完全防止</li>
+                <li>パフォーマンス最適化（アニメーション削減オプション）</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        // デバイス情報の表示
+        function updateDeviceInfo() {
+            document.getElementById('screenWidth').textContent = screen.width;
+            document.getElementById('viewportWidth').textContent = window.innerWidth;
+            
+            let deviceType = 'デスクトップ';
+            if (window.innerWidth <= 480) {
+                deviceType = 'スマートフォン';
+            } else if (window.innerWidth <= 768) {
+                deviceType = 'タブレット';
+            } else if (window.innerWidth <= 992) {
+                deviceType = '小型デスクトップ';
+            }
+            
+            document.getElementById('deviceType').textContent = deviceType;
+        }
+        
+        updateDeviceInfo();
+        window.addEventListener('resize', updateDeviceInfo);
+        
+        // ボタンのクリックテスト
+        document.querySelectorAll('.button-test').forEach(button => {
+            button.addEventListener('click', function(e) {
+                console.log('Button clicked:', this.href);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,555 @@
+/* レスポンシブデザイン修正CSS */
+
+/* ========================================
+   1. コミュニティの特徴セクションの文字はみ出し修正
+   ======================================== */
+.features-list {
+    max-width: 100%;
+    overflow: hidden;
+    padding: 0 20px;
+}
+
+.feature {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    overflow: hidden;
+}
+
+.feature h3 {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.4;
+}
+
+.feature p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.8;
+    max-width: 100%;
+}
+
+/* ========================================
+   2. viewport設定とコンテナ幅の最適化
+   ======================================== */
+html {
+    overflow-x: hidden;
+}
+
+body {
+    min-width: 320px;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* 全デバイス対応 */
+@media (max-width: 430px) {
+    .container {
+        padding: 0 16px;
+    }
+}
+
+@media (max-width: 375px) {
+    .container {
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 320px) {
+    .container {
+        padding: 0 12px;
+    }
+}
+
+/* ========================================
+   3. イベント・活動ページの枠はみ出し修正
+   ======================================== */
+.events {
+    overflow: hidden;
+}
+
+.events .container {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.events-grid {
+    display: grid;
+    gap: 20px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.event-card {
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    word-wrap: break-word;
+}
+
+@media (max-width: 1200px) {
+    .events-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .events-grid {
+        grid-template-columns: 1fr;
+        padding: 0 16px;
+    }
+    
+    .event-card {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .events-grid {
+        padding: 0 12px;
+        gap: 16px;
+    }
+}
+
+/* ========================================
+   4. メンバーの声セクション - カルーセル実装
+   ======================================== */
+.testimonials {
+    padding: 80px 0;
+    background-color: rgba(248, 249, 250, 0.95);
+    overflow: hidden;
+}
+
+.testimonial-slider {
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    max-width: 1400px;
+    padding: 0 40px;
+}
+
+.testimonial-track {
+    display: flex;
+    animation: scrollTestimonials 60s linear infinite;
+    gap: 30px;
+}
+
+@keyframes scrollTestimonials {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.testimonial-slider:hover .testimonial-track {
+    animation-play-state: paused;
+}
+
+.testimonial-item {
+    flex: 0 0 400px;
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.testimonial-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.testimonial-content {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 30px;
+    font-style: italic;
+    position: relative;
+}
+
+.testimonial-content::before {
+    content: """;
+    position: absolute;
+    top: -20px;
+    left: -10px;
+    font-size: 60px;
+    color: var(--primary-blue);
+    opacity: 0.2;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.author-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.author-info {
+    flex: 1;
+}
+
+.author-name {
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--primary-blue);
+    margin-bottom: 4px;
+}
+
+.author-title {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 2px;
+}
+
+.author-company {
+    font-size: 14px;
+    color: #999;
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+    .testimonial-slider {
+        padding: 0 20px;
+    }
+    
+    .testimonial-item {
+        flex: 0 0 300px;
+        padding: 30px 25px;
+    }
+    
+    .testimonial-content {
+        font-size: 15px;
+        margin-bottom: 25px;
+    }
+    
+    .author-avatar {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .author-name {
+        font-size: 16px;
+    }
+    
+    .author-title,
+    .author-company {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .testimonial-item {
+        flex: 0 0 280px;
+        padding: 25px 20px;
+    }
+    
+    .testimonial-content {
+        font-size: 14px;
+    }
+}
+
+/* ========================================
+   5. FAQセクションの文字はみ出し修正
+   ======================================== */
+.faq {
+    overflow: hidden;
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.faq-item {
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.faq-question {
+    padding: 24px 60px 24px 24px;
+    position: relative;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--primary-blue);
+    line-height: 1.5;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.faq-icon {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.faq-item.active .faq-icon {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding: 0 24px;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 500px;
+    padding: 0 24px 24px;
+}
+
+.faq-answer p {
+    color: #666;
+    line-height: 1.8;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+@media (max-width: 768px) {
+    .faq-container {
+        padding: 0 16px;
+    }
+    
+    .faq-question {
+        padding: 20px 50px 20px 20px;
+        font-size: 16px;
+    }
+    
+    .faq-icon {
+        right: 20px;
+    }
+    
+    .faq-answer {
+        padding: 0 20px;
+    }
+    
+    .faq-item.active .faq-answer {
+        padding: 0 20px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .faq-question {
+        padding: 18px 45px 18px 16px;
+        font-size: 15px;
+    }
+    
+    .faq-icon {
+        right: 16px;
+        font-size: 14px;
+    }
+    
+    .faq-answer {
+        padding: 0 16px;
+    }
+    
+    .faq-item.active .faq-answer {
+        padding: 0 16px 18px;
+    }
+    
+    .faq-answer p {
+        font-size: 14px;
+    }
+}
+
+/* ========================================
+   6. ログインリンクの修正
+   ======================================== */
+.login-btn,
+.register-btn {
+    display: inline-block;
+    text-decoration: none !important;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* モバイルでのタッチエリア拡大 */
+@media (max-width: 768px) {
+    .nav-menu a {
+        display: block;
+        padding: 12px 20px;
+        margin: 5px 0;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .login-btn,
+    .register-btn {
+        min-width: 200px;
+        padding: 14px 24px !important;
+    }
+}
+
+/* ========================================
+   追加の全体的な修正
+   ======================================== */
+
+/* テキストのはみ出し防止 */
+h1, h2, h3, h4, h5, h6, p, span, a, li {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* セクションのパディング調整 */
+@media (max-width: 768px) {
+    section {
+        padding: 60px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    section {
+        padding: 50px 0;
+    }
+}
+
+/* ボタンのレスポンシブ対応 */
+@media (max-width: 480px) {
+    .cta-primary,
+    .cta-secondary,
+    .plan-button,
+    .submit-button {
+        width: 100%;
+        padding: 16px 20px;
+        font-size: 16px;
+    }
+}
+
+/* スクロールインジケーター修正 */
+@media (max-width: 768px) {
+    .scroll-indicator {
+        bottom: 30px;
+    }
+}
+
+/* パートナーロゴのレスポンシブ対応 */
+.partner-logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 0 20px;
+}
+
+.partner-logo {
+    max-width: 150px;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .partner-logos {
+        gap: 20px;
+    }
+    
+    .partner-logo {
+        max-width: 120px;
+    }
+}
+
+/* CTAセクションの修正 */
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+    
+    .cta-primary,
+    .cta-secondary {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+/* フローステップの修正 */
+.flow-timeline {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 20px 0;
+}
+
+@media (max-width: 992px) {
+    .flow-timeline {
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+    
+    .flow-step {
+        flex: 1 1 calc(50% - 15px);
+        min-width: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .flow-timeline {
+        flex-direction: column;
+    }
+    
+    .flow-step {
+        flex: 1 1 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
+/* 価格カードの修正 */
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 100%;
+    padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
