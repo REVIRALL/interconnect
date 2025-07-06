@@ -153,31 +153,40 @@
 
 .dashboard-nav {
     display: flex;
-    gap: 32px;
+    gap: 12px;
     align-items: center;
     margin-top: 20px;
+    flex-wrap: wrap;
 }
 
 .dashboard-nav a {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
     color: #666;
     text-decoration: none;
     font-weight: 500;
-    padding: 8px 16px;
-    border-radius: 8px;
+    padding: 10px 20px;
+    border-radius: 25px;
     transition: all 0.2s ease;
+    background: #f5f7fa;
+    border: 1px solid #e1e5e9;
+    font-size: 14px;
 }
 
 .dashboard-nav a:hover {
-    background: #f5f5f5;
+    background: #e8f0fe;
     color: #1976d2;
+    border-color: #c5ddf9;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.15);
 }
 
 .dashboard-nav a.active {
-    background: #e3f2fd;
-    color: #1976d2;
+    background: #1976d2;
+    color: #ffffff;
+    border-color: #1976d2;
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
 }
 
 /* セクションのスタイル改善 */

@@ -90,15 +90,17 @@
 .nav-link {
     display: flex;
     align-items: center;
-    padding: var(--space-md) var(--space-lg);
+    padding: 12px 20px;
     color: var(--gray-700);
     text-decoration: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    border-radius: var(--radius-lg);
-    margin: 0 var(--space-sm);
+    border-radius: 12px;
+    margin: 4px 12px;
     font-weight: 500;
     overflow: hidden;
+    background: #f5f7fa;
+    border: 1px solid transparent;
 }
 
 .nav-link::before {
@@ -120,19 +122,18 @@
 }
 
 .nav-link:hover {
-    background: linear-gradient(135deg, 
-        rgba(0, 82, 204, 0.1) 0%, 
-        rgba(26, 115, 232, 0.15) 100%);
+    background: #e8f0fe;
     color: var(--primary-blue);
-    transform: translateX(4px);
-    box-shadow: var(--shadow-md);
+    border-color: #c5ddf9;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 82, 204, 0.15);
 }
 
 .nav-item.active .nav-link {
-    background: var(--primary-blue-gradient);
+    background: var(--primary-blue);
     color: var(--white);
-    box-shadow: var(--shadow-lg);
-    transform: translateX(6px);
+    box-shadow: 0 4px 12px rgba(0, 82, 204, 0.3);
+    border-color: var(--primary-blue);
 }
 
 .nav-item.active .nav-link::after {
