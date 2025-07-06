@@ -35,6 +35,25 @@ class AuthCheck {
         this.initialized = false;
     }
     
+    // 現在のページを取得
+    getCurrentPage() {
+        const path = window.location.pathname;
+        const fileName = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
+        return fileName;
+    }
+    
+    // ログインページへリダイレクト
+    redirectToLogin() {
+        const currentPath = window.location.pathname;
+        const returnUrl = encodeURIComponent(currentPath);
+        window.location.href = `login.html?return=${returnUrl}`;
+    }
+    
+    // ダッシュボードへリダイレクト
+    redirectToDashboard() {
+        window.location.href = 'dashboard.html';
+    }
+    
     // 初期化
     init() {
         if (this.initialized) return;
