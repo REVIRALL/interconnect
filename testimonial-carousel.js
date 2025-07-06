@@ -72,67 +72,162 @@ document.addEventListener('DOMContentLoaded', function() {
         const sliderContainer = testimonialsSection.querySelector('.testimonial-slider');
         if (!sliderContainer) return;
 
-        // カルーセルトラックを作成
-        const track = document.createElement('div');
-        track.className = 'testimonial-track';
+        // スライダーのHTML構造を作成
+        sliderContainer.innerHTML = `
+            <div class="testimonial-wrapper">
+                <button class="testimonial-nav testimonial-nav-prev" aria-label="前へ">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="testimonial-track-container">
+                    <div class="testimonial-track"></div>
+                </div>
+                <button class="testimonial-nav testimonial-nav-next" aria-label="次へ">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="testimonial-indicators"></div>
+        `;
 
-        // メンバーの声を2セット作成（無限スクロール用）
-        for (let i = 0; i < 2; i++) {
-            testimonials.forEach(testimonial => {
-                const item = createTestimonialItem(testimonial);
-                track.appendChild(item);
+        const track = sliderContainer.querySelector('.testimonial-track');
+        const indicators = sliderContainer.querySelector('.testimonial-indicators');
+        
+        // 現在のスライド位置
+        let currentSlide = 0;
+        let isTransitioning = false;
+
+        // メンバーの声アイテムを作成
+        testimonials.forEach((testimonial, index) => {
+            const item = createTestimonialItem(testimonial);
+            track.appendChild(item);
+
+            // インジケーターを作成
+            const indicator = document.createElement('button');
+            indicator.className = 'testimonial-indicator';
+            indicator.setAttribute('aria-label', `スライド ${index + 1}`);
+            if (index === 0) indicator.classList.add('active');
+            indicator.addEventListener('click', () => goToSlide(index));
+            indicators.appendChild(indicator);
+        });
+
+        // スライド移動関数
+        function goToSlide(slideIndex) {
+            if (isTransitioning) return;
+            
+            isTransitioning = true;
+            currentSlide = slideIndex;
+            
+            // トラックを移動
+            const slideWidth = track.querySelector('.testimonial-item').offsetWidth;
+            track.style.transform = `translateX(-${slideIndex * slideWidth}px)`;
+            
+            // インジケーターを更新
+            updateIndicators();
+            
+            setTimeout(() => {
+                isTransitioning = false;
+            }, 500);
+        }
+
+        // インジケーター更新
+        function updateIndicators() {
+            const allIndicators = indicators.querySelectorAll('.testimonial-indicator');
+            allIndicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentSlide);
             });
         }
 
-        // 既存のコンテンツをクリア
-        sliderContainer.innerHTML = '';
-        sliderContainer.appendChild(track);
+        // 次のスライドへ
+        function nextSlide() {
+            const nextIndex = (currentSlide + 1) % testimonials.length;
+            goToSlide(nextIndex);
+        }
 
-        // タッチ操作の実装
-        let startX = 0;
-        let scrollLeft = 0;
-        let isDown = false;
+        // 前のスライドへ
+        function prevSlide() {
+            const prevIndex = (currentSlide - 1 + testimonials.length) % testimonials.length;
+            goToSlide(prevIndex);
+        }
 
-        track.addEventListener('mousedown', (e) => {
-            isDown = true;
-            startX = e.pageX - track.offsetLeft;
-            scrollLeft = track.scrollLeft;
-            track.style.animationPlayState = 'paused';
+        // ナビゲーションボタンのイベントリスナー
+        const prevBtn = sliderContainer.querySelector('.testimonial-nav-prev');
+        const nextBtn = sliderContainer.querySelector('.testimonial-nav-next');
+        
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        // タッチ/スワイプ操作の実装
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let isDragging = false;
+
+        const trackContainer = sliderContainer.querySelector('.testimonial-track-container');
+
+        trackContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            isDragging = true;
         });
 
-        track.addEventListener('mouseleave', () => {
-            isDown = false;
-            track.style.animationPlayState = 'running';
+        trackContainer.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            touchEndX = e.touches[0].clientX;
         });
 
-        track.addEventListener('mouseup', () => {
-            isDown = false;
-            track.style.animationPlayState = 'running';
+        trackContainer.addEventListener('touchend', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            const diff = touchStartX - touchEndX;
+            const threshold = 50; // スワイプの閾値
+
+            if (Math.abs(diff) > threshold) {
+                if (diff > 0) {
+                    nextSlide(); // 左スワイプで次へ
+                } else {
+                    prevSlide(); // 右スワイプで前へ
+                }
+            }
         });
 
-        track.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - track.offsetLeft;
-            const walk = (x - startX) * 2;
-            track.scrollLeft = scrollLeft - walk;
+        // マウスドラッグ操作（デスクトップ）
+        let mouseStartX = 0;
+        let mouseEndX = 0;
+        let isMouseDragging = false;
+
+        trackContainer.addEventListener('mousedown', (e) => {
+            mouseStartX = e.clientX;
+            isMouseDragging = true;
+            trackContainer.style.cursor = 'grabbing';
         });
 
-        // タッチイベント
-        track.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].pageX - track.offsetLeft;
-            scrollLeft = track.scrollLeft;
-            track.style.animationPlayState = 'paused';
+        window.addEventListener('mousemove', (e) => {
+            if (!isMouseDragging) return;
+            mouseEndX = e.clientX;
         });
 
-        track.addEventListener('touchend', () => {
-            track.style.animationPlayState = 'running';
+        window.addEventListener('mouseup', () => {
+            if (!isMouseDragging) return;
+            isMouseDragging = false;
+            trackContainer.style.cursor = 'grab';
+            
+            const diff = mouseStartX - mouseEndX;
+            const threshold = 50;
+
+            if (Math.abs(diff) > threshold) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
         });
 
-        track.addEventListener('touchmove', (e) => {
-            const x = e.touches[0].pageX - track.offsetLeft;
-            const walk = (x - startX) * 2;
-            track.scrollLeft = scrollLeft - walk;
+        // ウィンドウリサイズ時の処理
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                goToSlide(currentSlide);
+            }, 250);
         });
     }
 
