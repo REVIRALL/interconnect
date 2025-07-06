@@ -74,12 +74,17 @@
 /* スマートフォン版 (768px以下) */
 @media (max-width: 768px) {
     .hero {
-        min-height: 80vh !important;
-        padding: 100px 0 60px !important;
+        min-height: 100vh !important;
+        padding: 0 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
     .hero-content {
         padding: 0 20px;
+        position: relative;
+        z-index: 2;
     }
     
     .hero h2 {
@@ -107,8 +112,8 @@
 /* 小型スマートフォン版 (480px以下) */
 @media (max-width: 480px) {
     .hero {
-        min-height: 70vh !important;
-        padding: 90px 0 50px !important;
+        min-height: 100vh !important;
+        padding: 0 !important;
     }
     
     .hero-content {
@@ -204,33 +209,60 @@
     }
 }
 
-/* モバイル: 60vh */
+/* モバイル: 100vh フルスクリーン */
 @media (max-width: 768px) {
     .hero {
-        height: 60vh !important;
-        min-height: 60vh !important;
-        padding: 80px 0 40px !important;
+        height: 100vh !important;
+        min-height: 100vh !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
     .hero-video-container {
-        height: 60vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
     }
     
     .hero-video {
-        /* モバイルでは画面に合わせて調整 */
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: cover !important;
+        object-position: center center;
+    }
+    
+    /* ヒーローコンテンツの位置調整 */
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        padding: 0 20px;
+        margin-top: 0;
     }
 }
 
-/* 小型モバイル: 60vh維持 */
+/* 小型モバイル: 100vh維持 */
 @media (max-width: 480px) {
     .hero {
-        height: 60vh !important;
-        min-height: 60vh !important;
-        padding: 70px 0 30px !important;
+        height: 100vh !important;
+        min-height: 100vh !important;
+        padding: 0 !important;
+    }
+    
+    .hero-video-container {
+        height: 100vh;
     }
 }
 
