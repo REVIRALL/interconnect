@@ -11,7 +11,7 @@
 }
 
 /* ナビゲーションバーの統一 */
-.navbar {
+.navbar:not(.scrolled) {
     background: var(--unified-bg) !important;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);

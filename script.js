@@ -85,34 +85,35 @@ if (ctaButton) {
 }
 
 // ナビゲーションバーのスクロール効果
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 100) {
-        navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
-        navbar.style.backdropFilter = 'blur(10px)';
-    } else {
-        navbar.style.backgroundColor = '#ffffff';
-        navbar.style.backdropFilter = 'none';
-    }
-});
+if (navbar) {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+}
 
 // 統計数字のアニメーション
 const animateStats = () => {
     const stats = document.querySelectorAll('.stat-number');
     
     stats.forEach(stat => {
-        const target = parseInt(stat.textContent);
-        const suffix = stat.textContent.includes('+') ? '+' : 
-                      stat.textContent.includes('%') ? '%' : '';
+        const textContent = stat.textContent;
+        const numericValue = parseInt(textContent.replace(/[^0-9]/g, ''));
+        const suffix = textContent.includes('+') ? '+' : 
+                      textContent.includes('%') ? '%' : '';
         let current = 0;
-        const increment = target / 100;
+        const increment = numericValue / 100;
         
         const updateCounter = () => {
-            if (current < target) {
+            if (current < numericValue) {
                 current += increment;
                 stat.textContent = Math.ceil(current) + suffix;
                 requestAnimationFrame(updateCounter);
             } else {
-                stat.textContent = target + suffix;
+                stat.textContent = numericValue + suffix;
             }
         };
         
@@ -151,8 +152,9 @@ sections.forEach(section => {
 });
 
 // フォームの送信処理
-contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
+if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
     
     // フォームデータの取得
     const formData = new FormData(contactForm);
@@ -190,7 +192,8 @@ contactForm.addEventListener('submit', (e) => {
         submitButton.textContent = originalText;
         submitButton.disabled = false;
     }, 2000);
-});
+    });
+}
 
 // 通知表示機能
 function showNotification(message, type) {
