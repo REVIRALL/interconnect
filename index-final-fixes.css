@@ -1,0 +1,372 @@
+/* index.html 最終修正CSS */
+
+/* ========================================
+   1. ヒーローセクションのテキスト修正
+   ======================================== */
+
+/* ヒーローセクション全体のセンタリング */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    position: relative;
+}
+
+.hero-content {
+    text-align: center !important;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    position: relative;
+    z-index: 2;
+}
+
+/* メインタイトルの改行制御とセンタリング */
+.hero h2 {
+    text-align: center !important;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    font-size: 3.5rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 30px;
+    font-weight: 700;
+    color: white;
+}
+
+/* サブテキストのセンタリング */
+.hero p {
+    text-align: center !important;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    font-size: 1.25rem !important;
+    line-height: 1.8 !important;
+    margin-bottom: 40px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* デスクトップ・タブレットでは改行を表示 */
+@media (min-width: 769px) {
+    .hero h2 br,
+    .hero p br {
+        display: inline;
+    }
+}
+
+/* モバイルでは改行を非表示 */
+@media (max-width: 768px) {
+    .hero h2 br,
+    .hero p br {
+        display: none;
+    }
+    
+    .hero h2 {
+        font-size: 2.2rem !important;
+        line-height: 1.5 !important;
+    }
+    
+    .hero p {
+        font-size: 1.05rem !important;
+    }
+}
+
+/* ========================================
+   2. ご利用の流れセクション - センタリングとレスポンシブ最適化
+   ======================================== */
+
+/* セクションタイトルの中央寄せ */
+.service-flow .section-title {
+    text-align: center !important;
+    margin-bottom: 24px;
+}
+
+.service-flow .section-subtitle {
+    text-align: center !important;
+}
+
+.service-flow .section-description {
+    text-align: center !important;
+}
+
+/* フローステップのレスポンシブ修正 */
+@media (max-width: 768px) {
+    .flow-timeline {
+        flex-direction: column;
+        gap: 40px;
+        padding: 0 20px;
+    }
+    
+    .flow-timeline::before {
+        display: none;
+    }
+    
+    .flow-step {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+    
+    .flow-number {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    
+    .flow-title {
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+    
+    .flow-description {
+        font-size: 14px;
+        padding: 20px;
+        max-width: 100%;
+        background: #f8f9fa;
+    }
+}
+
+@media (max-width: 480px) {
+    .flow-step {
+        padding: 24px 20px;
+    }
+    
+    .flow-number {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    
+    .flow-title {
+        font-size: 16px;
+    }
+    
+    .flow-description {
+        font-size: 13px;
+        padding: 16px;
+    }
+}
+
+/* ========================================
+   3. メンバーの声セクション - タイトル中央寄せとスライダー修正
+   ======================================== */
+
+/* セクションタイトルの中央寄せ */
+.testimonials .section-title {
+    text-align: center !important;
+    margin-bottom: 24px;
+}
+
+.testimonials .section-subtitle {
+    text-align: center !important;
+}
+
+.testimonials .section-description {
+    text-align: center !important;
+}
+
+/* スライダーの修正 */
+.testimonial-slider {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 60px;
+}
+
+.testimonial-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonial-track-container {
+    overflow: hidden;
+    margin: 0;
+}
+
+.testimonial-track {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.testimonial-item {
+    flex: 0 0 100%;
+    width: 100%;
+    padding: 40px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* ナビゲーションボタンの修正 */
+.testimonial-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.testimonial-nav:hover {
+    background: var(--primary-blue);
+    color: white;
+    border-color: var(--primary-blue);
+}
+
+.testimonial-nav-prev {
+    left: 0;
+}
+
+.testimonial-nav-next {
+    right: 0;
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+    .testimonial-slider {
+        padding: 0 40px;
+    }
+    
+    .testimonial-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    .testimonial-item {
+        padding: 30px 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .testimonial-slider {
+        padding: 0 30px;
+    }
+    
+    .testimonial-nav {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+}
+
+/* ========================================
+   4. 謎の四つの四角い枠を削除
+   ======================================== */
+
+/* プロセスステップの矢印を削除（レスポンシブ時に枠として表示される可能性） */
+@media (max-width: 768px) {
+    .process-arrow {
+        display: none !important;
+    }
+    
+    /* フロータイムラインの不要な要素を非表示 */
+    .flow-timeline::before,
+    .flow-timeline::after {
+        display: none !important;
+    }
+    
+    /* その他の不要な装飾要素を非表示 */
+    .join-process .process-arrow,
+    .join-process::before,
+    .join-process::after {
+        display: none !important;
+    }
+}
+
+/* ========================================
+   5. 料金プランに契約期間を追加
+   ======================================== */
+
+/* 契約期間の表示を追加 */
+.plan-contract-period {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
+.pricing-card.featured .plan-contract-period {
+    color: #555;
+}
+
+/* 既存の料金プランセクションのタイトル中央寄せ */
+.pricing .section-title {
+    text-align: center !important;
+}
+
+.pricing .section-subtitle {
+    text-align: center !important;
+}
+
+.pricing .section-description {
+    text-align: center !important;
+}
+
+/* ========================================
+   追加の全体的な修正
+   ======================================== */
+
+/* すべてのセクションタイトルを中央寄せ */
+.section-title {
+    text-align: center !important;
+}
+
+.section-subtitle {
+    text-align: center !important;
+}
+
+.section-description {
+    text-align: center !important;
+}
+
+/* レスポンシブ時のコンテナ調整 */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 20px;
+    }
+    
+    section {
+        padding: 60px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 16px;
+    }
+    
+    section {
+        padding: 50px 0;
+    }
+}
+
+/* スムーズスクロール */
+html {
+    scroll-behavior: smooth;
+}
+
+/* タッチデバイスでのタップハイライト無効化 */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
