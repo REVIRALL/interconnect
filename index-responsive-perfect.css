@@ -235,6 +235,17 @@ section {
     }
 }
 
+/* モバイル改行スタイル */
+.mobile-break {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-break {
+        display: block;
+    }
+}
+
 /* スマートフォン対応 (768px以下) */
 @media (max-width: 768px) {
     .container {

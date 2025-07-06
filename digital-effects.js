@@ -48,10 +48,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const displayText = text.substring(0, index + 1);
             element.innerHTML = displayText + '<span class="cursor">|</span>';
             
-            // 次の文字
+            // 次の文字 (2.5倍速に変更)
             setTimeout(() => {
                 typeWriter(element, text, index + 1, callback);
-            }, 50 + Math.random() * 50); // ランダムな遅延
+            }, 20 + Math.random() * 20); // ランダムな遅延（元の速度の2.5倍）
         } else {
             // カーソルを削除
             element.innerHTML = text;

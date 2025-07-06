@@ -589,10 +589,27 @@
 
 /* CTA セクション */
 .cta-section {
-    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
     padding: 100px 0;
     text-align: center;
     color: white;
+    position: relative;
+}
+
+.cta-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 0;
+}
+
+.cta-section .container {
+    position: relative;
+    z-index: 1;
 }
 
 .cta-title {
@@ -648,6 +665,88 @@
     color: var(--primary-blue);
 }
 
+/* メンバーの声スライダー修正 */
+.testimonial-slider {
+    position: relative;
+    overflow: hidden;
+    padding: 0 60px;
+}
+
+.testimonial-wrapper {
+    position: relative;
+}
+
+.testimonial-track-container {
+    overflow: hidden;
+    margin: 0;
+}
+
+.testimonial-track {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.testimonial-item {
+    flex: 0 0 100%;
+    padding: 40px;
+}
+
+.testimonial-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.testimonial-nav:hover {
+    background: var(--primary-blue);
+    color: white;
+    border-color: var(--primary-blue);
+}
+
+.testimonial-nav-prev {
+    left: 0;
+}
+
+.testimonial-nav-next {
+    right: 0;
+}
+
+.testimonial-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+}
+
+.testimonial-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #e0e0e0;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.testimonial-indicator.active {
+    background: var(--primary-blue);
+    width: 30px;
+    border-radius: 5px;
+}
+
 /* レスポンシブ対応 */
 @media (max-width: 992px) {
     .achievement-grid {
@@ -671,9 +770,28 @@
     .pricing-card.featured {
         transform: none;
     }
+    
+    .pricing-grid.single-plan {
+        max-width: 600px;
+        margin: 0 auto;
+    }
 }
 
 @media (max-width: 768px) {
+    .testimonial-slider {
+        padding: 0 40px;
+    }
+    
+    .testimonial-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    .testimonial-item {
+        padding: 24px 20px;
+    }
+    
     .section {
         padding: 60px 0;
     }

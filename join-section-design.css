@@ -97,7 +97,6 @@
     font-weight: bold;
     margin: 0 auto 24px;
     position: relative;
-    transform: rotate(45deg);
     box-shadow: 0 5px 20px rgba(238, 90, 36, 0.3);
 }
 
@@ -117,11 +116,6 @@
     background: linear-gradient(135deg, #4834d4 0%, #686de0 100%);
 }
 
-.step-number::after {
-    content: attr(data-step);
-    position: absolute;
-    transform: rotate(-45deg);
-}
 
 .process-step h3 {
     font-size: 20px;

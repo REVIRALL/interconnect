@@ -13,27 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!loginBtn.getAttribute('href')) {
             loginBtn.setAttribute('href', 'login.html');
         }
-        
-        // モバイルでのクリックイベント強化
-        if (isMobile) {
-            loginBtn.addEventListener('touchstart', function(e) {
-                e.stopPropagation();
-            });
-            
-            loginBtn.addEventListener('touchend', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                window.location.href = 'login.html';
-            });
-        }
-        
-        // デスクトップでのクリックイベント
-        loginBtn.addEventListener('click', function(e) {
-            if (!isMobile) {
-                e.preventDefault();
-                window.location.href = 'login.html';
-            }
-        });
     }
     
     // レジスターボタンの処理
@@ -42,45 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!registerBtn.getAttribute('href')) {
             registerBtn.setAttribute('href', 'register.html');
         }
-        
-        // モバイルでのクリックイベント強化
-        if (isMobile) {
-            registerBtn.addEventListener('touchstart', function(e) {
-                e.stopPropagation();
-            });
-            
-            registerBtn.addEventListener('touchend', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                window.location.href = 'register.html';
-            });
-        }
-        
-        // デスクトップでのクリックイベント
-        registerBtn.addEventListener('click', function(e) {
-            if (!isMobile) {
-                e.preventDefault();
-                window.location.href = 'register.html';
-            }
-        });
     }
-    
-    // ナビメニュー内のリンクも修正
-    const navMenuLinks = document.querySelectorAll('.nav-menu a');
-    navMenuLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        
-        // 外部リンクでない場合の処理
-        if (href && !href.startsWith('#') && !href.startsWith('http')) {
-            if (isMobile) {
-                link.addEventListener('touchend', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    window.location.href = href;
-                });
-            }
-        }
-    });
     
     // デバッグ情報
     console.log('Mobile login fix loaded');
