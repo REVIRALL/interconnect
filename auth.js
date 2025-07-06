@@ -625,8 +625,25 @@ const auth = new AuthSystem();
 // パスワード表示切り替え
 function togglePassword(inputId) {
     const input = document.getElementById(inputId);
-    const button = input.nextElementSibling;
+    if (!input) {
+        console.error(`Input element with id '${inputId}' not found`);
+        return;
+    }
+    
+    // buttonを探す（複数の方法で）
+    const button = input.nextElementSibling || 
+                  document.querySelector(`[onclick="togglePassword('${inputId}')"]`);
+    
+    if (!button) {
+        console.error(`Toggle button for '${inputId}' not found`);
+        return;
+    }
+    
     const icon = button.querySelector('i');
+    if (!icon) {
+        console.error(`Icon element in toggle button not found`);
+        return;
+    }
     
     if (input.type === 'password') {
         input.type = 'text';
@@ -884,19 +901,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // ソーシャルログイン機能は上部で既に定義済み
 // 重複を削除
 
-// パスワード表示切り替え
-function togglePassword(inputId) {
-    const input = document.getElementById(inputId);
-    const button = document.querySelector(`[onclick="togglePassword('${inputId}')"]`);
-    
-    if (input.type === 'password') {
-        input.type = 'text';
-        button.innerHTML = '<i class="fas fa-eye-slash"></i>';
-    } else {
-        input.type = 'password';
-        button.innerHTML = '<i class="fas fa-eye"></i>';
-    }
-}
+// 重複関数を削除（上部で既に定義済み）
 
 // グローバルに公開
 window.loginWithGoogle = loginWithGoogle;
