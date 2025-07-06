@@ -21,30 +21,33 @@ class AuthSystem {
         // デモ用管理者アカウントを追加
         if (this.users.length === 0) {
             // 初期化時に非同期処理を実行
-            this.initializeDefaultUsers();
+            this.initializeDefaultUsers().catch(error => {
+                console.error('Failed to initialize auth:', error);
+            });
         }
     }
 
     // デフォルトユーザーの初期化（非同期）
     async initializeDefaultUsers() {
-        if (this.users.length === 0) {
-            this.users.push({
-                id: 'admin-001',
-                email: 'admin@interconnect.jp',
-                password: await this.hashPassword('admin123'),
-                firstName: '管理者',
-                lastName: 'システム',
-                company: 'INTERCONNECT',
-                position: 'システム管理者',
-                industry: 'IT・テクノロジー',
-                phone: '03-1234-5678',
-                companySize: '11-50名',
-                motivation: 'システム管理',
-                role: 'admin',
-                status: 'approved',
-                createdAt: new Date().toISOString(),
-                profileImage: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%23e0e0e0"/%3E%3Ctext x="50" y="50" text-anchor="middle" dominant-baseline="middle" fill="%23999" font-family="Arial,sans-serif" font-size="30"%3EUser%3C/text%3E%3C/svg%3E'
-            });
+        try {
+            if (this.users.length === 0) {
+                this.users.push({
+                    id: 'admin-001',
+                    email: 'admin@interconnect.jp',
+                    password: await this.hashPassword('admin123'),
+                    firstName: '管理者',
+                    lastName: 'システム',
+                    company: 'INTERCONNECT',
+                    position: 'システム管理者',
+                    industry: 'IT・テクノロジー',
+                    phone: '03-1234-5678',
+                    companySize: '11-50名',
+                    motivation: 'システム管理',
+                    role: 'admin',
+                    status: 'approved',
+                    createdAt: new Date().toISOString(),
+                    profileImage: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%23e0e0e0"/%3E%3Ctext x="50" y="50" text-anchor="middle" dominant-baseline="middle" fill="%23999" font-family="Arial,sans-serif" font-size="30"%3EUser%3C/text%3E%3C/svg%3E'
+                });
             
             // デモ用一般ユーザーを追加
             this.users.push({
@@ -64,8 +67,11 @@ class AuthSystem {
                 createdAt: new Date().toISOString(),
                 profileImage: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%23e0e0e0"/%3E%3Ctext x="50" y="50" text-anchor="middle" dominant-baseline="middle" fill="%23999" font-family="Arial,sans-serif" font-size="30"%3EUser%3C/text%3E%3C/svg%3E'
             });
-            
-            this.saveUsers();
+                
+                this.saveUsers();
+            }
+        } catch (error) {
+            console.error('Failed to initialize default users:', error);
         }
     }
 
@@ -311,6 +317,9 @@ class AuthSystem {
                 const user = this.users.find(u => u.email === email);
                 
                 if (!user) {
+                    if (window.securityManager) {
+                        window.securityManager.trackLoginAttempt(email, false);
+                    }
                     reject(new Error('メールアドレスまたはパスワードが正しくありません'));
                     return;
                 }
@@ -324,6 +333,9 @@ class AuthSystem {
                 }
                 
                 if (!passwordValid) {
+                    if (window.securityManager) {
+                        window.securityManager.trackLoginAttempt(email, false);
+                    }
                     reject(new Error('メールアドレスまたはパスワードが正しくありません'));
                     return;
                 }
@@ -687,7 +699,7 @@ async function loginWithLinkedIn() {
     }
 }
 
-async function loginWithLine() {
+async function loginWithLINE() {
     try {
         showNotification('LINEアカウントで認証中...', 'info');
         const result = await auth.socialLogin('LINE');
@@ -851,38 +863,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // 認証チェックは auth-check.js に委譲
     // ダッシュボードアクセス制御
-    if (window.location.pathname.includes('dashboard.html')) {
-        if (!auth.isLoggedIn()) {
-            window.location.href = 'login.html';
-            return;
-        }
-    }
+    // if (window.location.pathname.includes('dashboard.html')) {
+    //     if (!auth.isLoggedIn()) {
+    //         window.location.href = 'login.html';
+    //         return;
+    //     }
+    // }
 
     // 管理者ページアクセス制御
-    if (window.location.pathname.includes('admin')) {
-        if (!auth.isAdmin()) {
-            window.location.href = 'dashboard.html';
-            return;
-        }
-    }
+    // if (window.location.pathname.includes('admin')) {
+    //     if (!auth.isAdmin()) {
+    //         window.location.href = 'dashboard.html';
+    //         return;
+    //     }
+    // }
 });
 
-// ソーシャルログイン機能（デモ版）
-function loginWithGoogle() {
-    showNotification('Google ログインは開発中です', 'info');
-    // 実装時は Google OAuth 2.0 を使用
-}
-
-function loginWithLinkedIn() {
-    showNotification('LinkedIn ログインは開発中です', 'info');
-    // 実装時は LinkedIn OAuth を使用
-}
-
-function loginWithLine() {
-    showNotification('LINE ログインは開発中です', 'info');
-    // 実装時は LINE Login を使用
-}
+// ソーシャルログイン機能は上部で既に定義済み
+// 重複を削除
 
 // パスワード表示切り替え
 function togglePassword(inputId) {
@@ -901,7 +901,7 @@ function togglePassword(inputId) {
 // グローバルに公開
 window.loginWithGoogle = loginWithGoogle;
 window.loginWithLinkedIn = loginWithLinkedIn;
-window.loginWithLine = loginWithLine;
+window.loginWithLINE = loginWithLINE;
 window.togglePassword = togglePassword;
 
 // ログアウト関数（グローバル）
