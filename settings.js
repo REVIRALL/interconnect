@@ -555,6 +555,8 @@ function createNotification(message, type) {
         notification.style.background = '#28a745';
     } else if (type === 'error') {
         notification.style.background = '#dc3545';
+    } else if (type === 'warning') {
+        notification.style.background = '#ffc107';
     }
     
     notification.textContent = message;
@@ -693,4 +695,29 @@ function resetAllSettingsLegacy() {
     setTimeout(() => {
         location.reload();
     }, 1000);
+}
+
+// プライバシー設定を保存
+function savePrivacySettings() {
+    const privacySettings = {
+        profileVisibility: document.querySelector('select[name="profileVisibility"]').value,
+        contactVisibility: document.querySelector('select[name="contactVisibility"]').value,
+        showOnlineStatus: document.querySelector('#privacy .toggle-switch input[type="checkbox"]:nth-of-type(1)').checked,
+        appearInSearch: document.querySelector('#privacy .setting-item:nth-child(4) input[type="checkbox"]').checked,
+        showInRecommendations: document.querySelector('#privacy .setting-item:nth-child(5) input[type="checkbox"]').checked
+    };
+    
+    // 設定を保存
+    const settings = JSON.parse(localStorage.getItem('userSettings') || '{}');
+    settings.privacy = privacySettings;
+    localStorage.setItem('userSettings', JSON.stringify(settings));
+    
+    showSuccessMessage('プライバシー設定を保存しました');
+    
+    // Supabase統合がある場合
+    if (settingsServiceInstance) {
+        settingsServiceInstance.saveUserSettings(settings).catch(error => {
+            console.error('Failed to save privacy settings to Supabase:', error);
+        });
+    }
 }
