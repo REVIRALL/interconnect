@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ダッシュボード - INTERCONNECT</title>
-    <link rel="stylesheet" href="styles.css">
+        <!-- Design System CSS -->
+    <link rel="stylesheet" href="design-system.css">
+    <link rel="stylesheet" href="design-system-effects.css">
+    <link rel="stylesheet" href="design-system-integration.css">
+    
+    <!-- Legacy CSS (will be gradually replaced) -->
+<link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="loading.css">
     <link rel="stylesheet" href="dark-mode.css">
@@ -15,13 +21,15 @@
     <link rel="stylesheet" href="mobile-header-fix.css">
     <link rel="stylesheet" href="mobile-click-fix.css">
     <link rel="stylesheet" href="unified-colors.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+        <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="accessibility-improvements.css">
     <link rel="stylesheet" href="responsive-design-fix.css">
     <link rel="stylesheet" href="button-section-optimization.css">
     <link rel="stylesheet" href="button-mobile-enhance.css">
-    <script src="security-utils.js"></script>
+    <!-- Legacy JS -->
+<script src="security-utils.js"></script>
     <script src="error-handler.js"></script>
     <script src="notification-manager.js"></script>
     <script src="performance-utils.js"></script>
@@ -329,7 +337,7 @@
             <!-- 操作ログセクション -->
             <div class="dashboard-section">
                 <div class="section-header">
-                    <h2 class="section-title"><i class="fas fa-history"></i> 操作ログ</h2>
+                    <h2 class="section-title animate-on-scroll"><i class="fas fa-history"></i> 操作ログ</h2>
                     <button class="dashboard-button">すべて表示</button>
                 </div>
                 <div class="activity-log">
@@ -360,5 +368,6 @@
     <script src="dashboard-nav-fix.js"></script>
     <script src="dashboard-navigation-override.js"></script>
     <script src="auth-logout-fix.js"></script>
+    <script src="design-system.js"></script>
 </body>
 </html>
