@@ -1,0 +1,75 @@
+/* 白いもやや光沢効果を完全に削除するCSS */
+
+/* ボタンの白い光沢効果を削除 */
+.btn::before,
+.btn::after,
+.register-btn::before,
+.register-btn::after,
+.login-btn::before,
+.login-btn::after,
+.cta-button::before,
+.cta-button::after,
+.auth-button::before,
+.auth-button::after,
+.social-btn::before,
+.social-btn::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* ロゴの白い光沢効果を削除 */
+.logo h1::before,
+.logo h1::after,
+.loading-text::before,
+.loading-text::after,
+.auth-header h1::before,
+.auth-header h1::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* ボタンのホバー時の白い効果を削除 */
+.btn:hover::before,
+.btn:hover::after,
+.register-btn:hover::before,
+.register-btn:hover::after,
+.login-btn:hover::before,
+.login-btn:hover::after {
+    display: none !important;
+}
+
+/* design-system.cssの光沢効果を無効化 */
+.glass-effect::before,
+.glass-effect::after,
+.neumorphic::before,
+.neumorphic::after {
+    display: none !important;
+}
+
+/* グラデーション内の白い部分を調整 */
+.register-btn {
+    background: var(--primary-blue) !important;
+}
+
+.login-btn {
+    background: var(--primary-blue) !important;
+    color: #ffffff !important;
+}
+
+/* ボタンホバー時のシンプルな効果 */
+.register-btn:hover {
+    background: var(--primary-blue-dark) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(30, 91, 168, 0.4);
+}
+
+.login-btn:hover {
+    background: var(--primary-blue-dark) !important;
+    transform: translateY(-2px);
+}
+
+/* 透明度のある要素を調整 */
+.hero-video-overlay {
+    background: rgba(0, 0, 0, 0.4) !important;
+    backdrop-filter: none !important;
+}
