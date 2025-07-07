@@ -229,6 +229,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 goToSlide(currentSlide);
             }, 250);
         });
+
+        // 自動スライド機能は無効化されています
+        // 手動のナビゲーション（左右矢印、インジケーター、スワイプ）のみ有効
     }
 
     // 個別のメンバーの声アイテムを作成

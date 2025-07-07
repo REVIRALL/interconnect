@@ -217,10 +217,10 @@ body {
 
 .login-btn {
     display: inline-block;
-    background: transparent;
+    background: var(--primary-blue);
     color: #ffffff;
     padding: 0.7rem 1.4rem;
-    border: 2px solid #ffffff;
+    border: 2px solid var(--primary-blue);
     border-radius: 30px;
     font-weight: 600;
     transition: all 0.3s ease;
@@ -235,10 +235,10 @@ body {
 }
 
 .login-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--primary-blue-dark);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
-    border-color: var(--primary-yellow);
+    box-shadow: 0 5px 15px rgba(0, 82, 204, 0.3);
+    border-color: var(--primary-blue-dark);
 }
 
 .register-btn {
