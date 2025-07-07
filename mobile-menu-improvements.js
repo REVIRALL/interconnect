@@ -42,10 +42,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 <span>通知</span>
                 <span class="mobile-badge" id="mobileNotificationCount">5</span>
             </div>
+            <div class="mobile-action-item" onclick="handleMessages()">
+                <i class="fas fa-envelope"></i>
+                <span>メッセージ</span>
+                <span class="mobile-badge" id="mobileMessageCount">3</span>
+            </div>
+            <div class="mobile-action-item" onclick="handleBusinessMatching()">
+                <i class="fas fa-handshake"></i>
+                <span>ビジネスマッチング</span>
+            </div>
             <div class="mobile-action-item" onclick="handleConnectionRequests()">
                 <i class="fas fa-user-plus"></i>
                 <span>接続リクエスト</span>
                 <span class="mobile-badge" id="mobileConnectionCount">0</span>
+            </div>
+            <div class="mobile-action-item" onclick="handleInvite()">
+                <i class="fas fa-share-alt"></i>
+                <span>招待</span>
             </div>
             <div class="mobile-action-item" onclick="handleProfile()">
                 <i class="fas fa-user-circle"></i>
@@ -168,6 +181,21 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     // その他のハンドラー
+    window.handleMessages = function() {
+        closeHamburgerMenu();
+        window.location.href = 'messages.html';
+    };
+    
+    window.handleBusinessMatching = function() {
+        closeHamburgerMenu();
+        window.location.href = 'business.html';
+    };
+    
+    window.handleInvite = function() {
+        closeHamburgerMenu();
+        window.location.href = 'invite.html';
+    };
+    
     window.handleProfile = function() {
         closeHamburgerMenu();
         window.location.href = 'profile.html';
@@ -245,8 +273,24 @@ document.addEventListener('DOMContentLoaded', function() {
         connectionBtn.addEventListener('click', handleConnectionRequests);
     }
     
+    // ロゴにリンクを追加
+    function setupLogoLink() {
+        const logo = document.querySelector('.logo');
+        if (logo && !logo.querySelector('a')) {
+            const logoText = logo.innerHTML;
+            logo.innerHTML = '';
+            const logoLink = document.createElement('a');
+            logoLink.href = isLoggedIn ? 'dashboard.html' : 'index.html';
+            logoLink.innerHTML = logoText;
+            logoLink.style.textDecoration = 'none';
+            logoLink.style.color = 'inherit';
+            logo.appendChild(logoLink);
+        }
+    }
+    
     // 初期設定
     setupMobileMenu();
+    setupLogoLink();
     
     // ウィンドウリサイズ時に再設定
     let resizeTimer;

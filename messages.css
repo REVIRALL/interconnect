@@ -352,6 +352,17 @@
     margin: 0;
     font-size: 0.9rem;
     line-height: 1.4;
+    color: inherit;
+}
+
+/* 送信メッセージの文字色を確実に白にする */
+.message.sent .message-bubble p {
+    color: var(--white) !important;
+}
+
+/* 受信メッセージの文字色を確実に黒にする */
+.message:not(.sent) .message-bubble p {
+    color: var(--text-dark) !important;
 }
 
 .message-time {
@@ -578,10 +589,28 @@
 }
 
 /* レスポンシブデザイン */
+
+/* タブレット対応 */
+@media (max-width: 1024px) {
+    .messages-layout {
+        grid-template-columns: 300px 1fr;
+    }
+    
+    .messages-header {
+        padding: 1.2rem;
+    }
+    
+    .messages-header h2 {
+        font-size: 1.1rem;
+    }
+}
+
+/* モバイル対応 */
 @media (max-width: 768px) {
     .messages-layout {
         grid-template-columns: 1fr;
         position: relative;
+        height: calc(100vh - 60px);
     }
     
     .messages-sidebar {
@@ -591,10 +620,97 @@
         height: 100%;
         z-index: 1000;
         transition: left 0.3s ease;
+        background: var(--white);
     }
     
     .messages-sidebar.active {
         left: 0;
+    }
+    
+    /* モバイルメニュートグルボタン */
+    .mobile-toggle-btn {
+        display: block;
+        background: none;
+        border: none;
+        color: var(--primary-blue);
+        font-size: 1.2rem;
+        padding: 0.5rem;
+        cursor: pointer;
+    }
+    
+    .conversation-item {
+        padding: 1rem;
+    }
+    
+    .conversation-avatar img {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .conversation-header-bar {
+        padding: 0.8rem 1rem;
+    }
+    
+    .messages-container {
+        padding: 1rem 0.8rem;
+        height: calc(100vh - 180px);
+    }
+    
+    .message {
+        max-width: 85%;
+    }
+    
+    .message-bubble {
+        padding: 0.8rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .message-input-area {
+        padding: 0.8rem;
+    }
+    
+    .input-container {
+        gap: 0.5rem;
+    }
+    
+    .input-container textarea {
+        padding: 0.8rem;
+        font-size: 0.95rem;
+        min-height: 40px;
+        max-height: 120px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 1rem;
+        max-height: 90vh;
+    }
+    
+    .compose-btn span {
+        display: none;
+    }
+    
+    .compose-btn {
+        padding: 0.6rem;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        justify-content: center;
+    }
+}
+
+/* 小型モバイル対応 */
+@media (max-width: 480px) {
+    .messages-layout {
+        height: calc(100vh - 56px);
+    }
+    
+    .messages-header {
+        padding: 1rem;
+    }
+    
+    .messages-header h2 {
+        font-size: 1rem;
     }
     
     .conversation-item {
@@ -606,54 +722,119 @@
         height: 40px;
     }
     
-    .conversation-header-bar {
-        padding: 1rem;
+    .user-name {
+        font-size: 0.9rem;
+    }
+    
+    .last-message {
+        font-size: 0.8rem;
     }
     
     .messages-container {
-        padding: 0.8rem;
+        padding: 0.8rem 0.5rem;
+        height: calc(100vh - 160px);
     }
     
     .message {
-        max-width: 85%;
+        max-width: 90%;
     }
     
     .message-bubble {
-        padding: 0.6rem 0.8rem;
+        padding: 0.7rem 0.9rem;
+        font-size: 0.9rem;
+        border-radius: 15px;
+    }
+    
+    .message-avatar img {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .conversation-header-bar {
+        padding: 0.7rem;
+    }
+    
+    .user-info h3 {
+        font-size: 1rem;
+    }
+    
+    .message-input-area {
+        padding: 0.6rem;
     }
     
     .input-container textarea {
         padding: 0.6rem 0.8rem;
-    }
-    
-    .modal-content {
-        width: 95%;
-        margin: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    /* Button responsive optimizations */
-    .compose-btn,
-    .filter-btn,
-    .action-btn,
-    .toolbar-btn,
-    .close-modal {
-        padding: 0.4rem 0.6rem;
-        font-size: 0.75rem;
-        min-width: 30px;
+        font-size: 0.9rem;
+        min-height: 38px;
     }
     
     .send-btn {
-        width: 35px;
-        height: 35px;
-        min-width: 35px;
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
+        font-size: 1rem;
+    }
+    
+    /* ボタンの最適化 */
+    .filter-btn {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.75rem;
+    }
+    
+    .action-btn,
+    .toolbar-btn {
+        padding: 0.4rem;
+        font-size: 0.9rem;
     }
     
     .btn-primary,
     .btn-secondary {
         padding: 0.5rem 1rem;
         font-size: 0.85rem;
-        min-width: 80px;
+    }
+    
+    /* モーダルの調整 */
+    .modal-content {
+        width: calc(100% - 20px);
+        margin: 10px;
+    }
+    
+    .modal-header {
+        padding: 1rem;
+    }
+    
+    .modal-header h3 {
+        font-size: 1.1rem;
+    }
+}
+
+/* 極小デバイス対応 */
+@media (max-width: 375px) {
+    .messages-header h2 {
+        font-size: 0.95rem;
+    }
+    
+    .messages-container {
+        height: calc(100vh - 150px);
+    }
+    
+    .message-bubble {
+        font-size: 0.85rem;
+        padding: 0.6rem 0.8rem;
+    }
+    
+    .message-time {
+        font-size: 0.7rem;
+    }
+    
+    .user-info h3 {
+        font-size: 0.95rem;
+    }
+}
+
+/* デスクトップでのモバイル専用要素を非表示 */
+@media (min-width: 769px) {
+    .mobile-toggle-btn {
+        display: none;
     }
 }

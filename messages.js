@@ -1262,3 +1262,80 @@ document.addEventListener('keydown', function(event) {
         closeCompose();
     }
 });
+
+// モバイルサイドバートグル機能
+function toggleMessagesSidebar() {
+    const sidebar = document.querySelector('.messages-sidebar');
+    if (sidebar) {
+        sidebar.classList.toggle('active');
+    }
+}
+
+// DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    // 初期化処理
+    initializeConversations();
+    updateConversationListAvatars();
+    updateUserAvatars();
+    
+    // デフォルト会話を選択
+    selectConversation(1);
+    
+    // イベントリスナー設定
+    setupEventListeners();
+    
+    // モバイルトグルボタンを追加
+    if (window.innerWidth <= 768) {
+        const conversationHeader = document.querySelector('.conversation-header-bar');
+        if (conversationHeader && !conversationHeader.querySelector('.mobile-toggle-btn')) {
+            const toggleBtn = document.createElement('button');
+            toggleBtn.className = 'mobile-toggle-btn';
+            toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            toggleBtn.onclick = toggleMessagesSidebar;
+            conversationHeader.insertBefore(toggleBtn, conversationHeader.firstChild);
+        }
+    }
+    
+    // ウィンドウリサイズ時の処理
+    window.addEventListener('resize', function() {
+        const toggleBtn = document.querySelector('.mobile-toggle-btn');
+        const conversationHeader = document.querySelector('.conversation-header-bar');
+        
+        if (window.innerWidth <= 768) {
+            if (!toggleBtn && conversationHeader) {
+                const newToggleBtn = document.createElement('button');
+                newToggleBtn.className = 'mobile-toggle-btn';
+                newToggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                newToggleBtn.onclick = toggleMessagesSidebar;
+                conversationHeader.insertBefore(newToggleBtn, conversationHeader.firstChild);
+            }
+        } else {
+            if (toggleBtn) {
+                toggleBtn.remove();
+            }
+            const sidebar = document.querySelector('.messages-sidebar');
+            if (sidebar) {
+                sidebar.classList.remove('active');
+            }
+        }
+    });
+    
+    // メッセージ入力欄の高さ自動調整
+    const messageInput = document.getElementById('messageInput');
+    if (messageInput) {
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+    }
+    
+    // Enterキーで送信（Shift+Enterで改行）
+    if (messageInput) {
+        messageInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    }
+});
