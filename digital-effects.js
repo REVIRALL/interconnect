@@ -66,7 +66,7 @@ window.digitalEffects = {
         
         // HTMLタグを考慮した文字表示
         const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = text;
+        tempDiv.textContent = text;
         const plainText = tempDiv.textContent || tempDiv.innerText || '';
         
         if (index < plainText.length) {
@@ -81,7 +81,11 @@ window.digitalEffects = {
             
             // 文字を1つずつ表示（HTMLタグを保持）
             const displayText = text.substring(0, index + 1);
-            element.innerHTML = displayText + '<span class="cursor">|</span>';
+            element.textContent = displayText;
+            const cursor = document.createElement('span');
+            cursor.className = 'cursor';
+            cursor.textContent = '|';
+            element.appendChild(cursor);
             
             // 次の文字 (2.5倍速に変更)
             setTimeout(() => {
@@ -89,7 +93,7 @@ window.digitalEffects = {
             }, 20 + Math.random() * 20); // ランダムな遅延（元の速度の2.5倍）
         } else {
             // カーソルを削除
-            element.innerHTML = text;
+            element.textContent = text;
             element.classList.add('typewriter-complete');
             console.log('Typewriter effect completed for:', element.tagName);
             
@@ -220,7 +224,7 @@ window.digitalEffects = {
         
         let currentNumber = 0;
         const increment = targetNumber / 50;
-        const timer = setInterval(() => {
+        const timer = (window.safeSetInterval || setInterval)(() => {
             currentNumber += increment;
             
             if (currentNumber >= targetNumber) {
@@ -272,7 +276,7 @@ window.digitalEffects = {
             let checkCount = 0;
             const maxChecks = 50; // 最大5秒待機
             
-            const checkPreloader = setInterval(() => {
+            const checkPreloader = (window.safeSetInterval || setInterval)(() => {
                 checkCount++;
                 
                 // プリローダーが非表示になったか、フェードアウトクラスが追加されたか

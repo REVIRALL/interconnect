@@ -292,7 +292,12 @@ class EventHistoryManager {
             </div>
         `;
 
-        container.innerHTML = html;
+        // 安全な HTML 挿入
+        if (window.SecurityUtils) {
+            window.SecurityUtils.safeSetHTML(container, html);
+        } else {
+            container.innerHTML = html; // フォールバック
+        }
         
         // フィルターイベントの設定
         this.setupFilterEvents();
@@ -517,7 +522,12 @@ class EventHistoryManager {
         // 結果を表示
         const listContainer = document.getElementById('historyList');
         if (listContainer) {
-            listContainer.innerHTML = this.renderHistoryItems(history);
+            // 安全な HTML 挿入
+            if (window.SecurityUtils) {
+                window.SecurityUtils.safeSetHTML(listContainer, this.renderHistoryItems(history));
+            } else {
+                listContainer.innerHTML = this.renderHistoryItems(history); // フォールバック
+            }
         }
     }
 
