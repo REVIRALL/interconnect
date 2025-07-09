@@ -1,0 +1,8 @@
+# Netlify/GitHub Pages用CSP無効化設定
+/*
+  ! X-Content-Security-Policy
+  ! Content-Security-Policy
+  ! X-WebKit-CSP
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin

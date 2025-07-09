@@ -1,0 +1,178 @@
+/* ================================================
+   利用規約アコーディオンスタイル
+   ================================================ */
+
+/* 利用規約セクション */
+.terms-section {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* アコーディオンコンテナ */
+.terms-accordion {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* アコーディオンヘッダー */
+.terms-accordion-header {
+    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+}
+
+.terms-accordion-header:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.terms-accordion-header h3 {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--gray-300);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.terms-accordion-header i {
+    color: var(--gray-400);
+    transition: transform 0.3s ease;
+}
+
+/* アコーディオンボディ */
+.terms-accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.terms-accordion.active .terms-accordion-body {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.terms-accordion.active .terms-accordion-header {
+    background: rgba(0, 82, 204, 0.1);
+    border-bottom: 1px solid rgba(0, 82, 204, 0.2);
+}
+
+.terms-accordion.active .terms-accordion-header i.fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+/* 利用規約コンテンツ */
+.terms-content {
+    padding: 1.5rem;
+    font-size: 0.85rem;
+    line-height: 1.8;
+    color: var(--gray-400);
+}
+
+.terms-content h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gray-200);
+    margin-bottom: 1rem;
+}
+
+.terms-content h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--gray-300);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.terms-content p {
+    margin-bottom: 1rem;
+    color: var(--gray-400);
+}
+
+.terms-content ol,
+.terms-content ul {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.terms-content li {
+    margin-bottom: 0.5rem;
+}
+
+.terms-date {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    margin-bottom: 1.5rem;
+}
+
+/* スクロールバースタイル */
+.terms-accordion-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.terms-accordion-body::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
+
+.terms-accordion-body::-webkit-scrollbar-thumb {
+    background: rgba(0, 82, 204, 0.3);
+    border-radius: 3px;
+    transition: background 0.3s ease;
+}
+
+.terms-accordion-body::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 82, 204, 0.5);
+}
+
+/* チェックボックス連動 */
+.form-options {
+    margin-bottom: 1.5rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--gray-400);
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-label a {
+    color: var(--primary-blue);
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.checkbox-label a:hover {
+    color: var(--primary-blue-light);
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+    .terms-accordion-header {
+        padding: 0.875rem 1rem;
+    }
+    
+    .terms-accordion-header h3 {
+        font-size: 0.85rem;
+    }
+    
+    .terms-content {
+        padding: 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .terms-accordion.active .terms-accordion-body {
+        max-height: 400px;
+    }
+}

@@ -1,68 +1,130 @@
-# INTERCONNECT ビジネスコミュニティ
+# INTERCONNECT - 経営者コミュニティプラットフォーム
 
-## ローカルサーバー起動方法
+## 📁 プロジェクト構造
 
-### 1. 依存関係のインストール
-```bash
-npm install
+```
+【コード】INTERCONNECT/
+├── index.html              # トップページ
+├── login.html              # ログインページ（クリーン済み）
+├── dashboard.html          # ダッシュボード（クリーン済み）
+├── register.html           # 新規登録
+├── 
+├── css/                    # スタイルシート
+│   ├── styles.css          # 基本スタイル
+│   ├── design-system.css   # デザインシステム
+│   ├── design-system-effects.css
+│   ├── design-system-integration.css
+│   └── pages/              # ページ専用CSS
+│       ├── dashboard.css
+│       ├── admin.css
+│       ├── business.css
+│       ├── events.css
+│       ├── members.css
+│       ├── messages.css
+│       ├── profile.css
+│       ├── settings.css
+│       ├── help.css
+│       └── invite.css
+│
+├── js/                     # JavaScript
+│   ├── script.js           # メインスクリプト
+│   ├── services/           # サービス層
+│   │   ├── admin-service.js
+│   │   ├── event-service.js
+│   │   ├── file-service.js
+│   │   ├── message-service.js
+│   │   ├── notification-service.js
+│   │   └── settings-service.js
+│   └── pages/              # ページ専用JS
+│       ├── dashboard.js
+│       ├── admin.js
+│       ├── business.js
+│       ├── events.js
+│       ├── members.js
+│       ├── messages.js
+│       ├── profile.js
+│       ├── settings.js
+│       ├── help.js
+│       ├── invite.js
+│       └── member-profile.js
+│
+├── database/               # データベース関連
+│   ├── supabase-schema.sql
+│   └── supabase-database-setup.sql
+│
+├── assets/                 # アセット
+│   └── interconnect-top.mp4
+│
+├── docs/                   # ドキュメント
+│   └── *.md files
+│
+└── scripts/                # スクリプト
+    └── *.sh, *.bat files
+
 ```
 
-### 2. サーバー起動
+## 🚀 クイックスタート
+
+### 1. ログイン
+- URL: `login.html`
+- テストアカウント:
+  - Email: `admin@interconnect.jp`
+  - Password: `demo123`
+
+### 2. 主要ページ
+- ダッシュボード: `dashboard.html`
+- メンバー一覧: `members.html`
+- イベント: `events.html`
+- メッセージ: `messages.html`
+- ビジネスマッチング: `business.html`
+
+## 🛠️ 技術スタック
+
+- **フロントエンド**: HTML5, CSS3, Vanilla JavaScript
+- **データベース**: Supabase (PostgreSQL)
+- **デザイン**: カスタムデザインシステム
+- **レスポンシブ**: モバイルファースト設計
+
+## ✅ 完了した作業
+
+1. **エラーゼロのクリーンなシステム**
+   - login.htmlとdashboard.htmlから不要なスクリプトを削除
+   - シンプルなインライン認証システムを実装
+
+2. **フォルダ構造の整理**
+   - 約250ファイルから約100ファイルに削減
+   - 明確なフォルダ構造で整理
+
+3. **データベース準備**
+   - Supabaseテーブル作成済み
+   - 今後の統合準備完了
+
+## 📝 今後の作業
+
+1. **データベース統合**
+   - Supabaseとの接続実装
+   - リアルタイムデータ同期
+
+2. **機能追加**
+   - メッセージ機能の実装
+   - イベント管理機能
+   - ビジネスマッチング機能
+
+3. **UI/UX改善**
+   - ダークモード対応
+   - アニメーション強化
+   - アクセシビリティ向上
+
+## 🔧 開発環境
+
 ```bash
-# 本番モード
+# ローカルサーバーの起動
 npm start
 
-# 開発モード（ファイル変更時に自動再起動）
-npm run dev
+# または
+python -m http.server 8000
 ```
 
-### 3. アクセス
-ブラウザで以下のURLにアクセス:
-- **ローカル**: http://localhost:3000
-- **ネットワーク**: http://[あなたのIPアドレス]:3000
+## 📄 ライセンス
 
-## 機能概要
-
-### 🏠 メインページ
-- ダッシュボード
-- ユーザープロフィール
-- 統計情報
-
-### 🎯 イベント機能
-- イベント一覧・検索
-- イベント作成・編集
-- 参加管理
-
-### 💼 ビジネスマッチング
-- 案件投稿・検索
-- 興味表示機能
-- フィルタリング
-
-### 👤 メンバー機能
-- メンバー一覧
-- プロフィール管理
-- ネットワーキング
-
-### 🔐 認証機能
-- ユーザー登録・ログイン
-- プロフィール設定
-- セキュリティ管理
-
-## テスト用アカウント
-
-デモデータが自動生成されるため、以下の情報でログインできます:
-
-**テストユーザー**
-- メールアドレス: test@example.com
-- パスワード: password123
-
-## 技術仕様
-
-- **フロントエンド**: HTML5, CSS3, JavaScript (ES6+)
-- **バックエンド**: Node.js, Express
-- **データ保存**: localStorage (本格実装時はDB使用予定)
-- **デザイン**: レスポンシブ対応、モダンUI/UX
-
-## サーバー停止方法
-
-ターミナルで `Ctrl + C` を押してください。
+© 2024 INTERCONNECT. All rights reserved.

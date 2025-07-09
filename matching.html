@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>マッチング - INTERCONNECT</title>
+    
+    <!-- Design System CSS -->
+    <link rel="stylesheet" href="css/design-system.css">
+    <link rel="stylesheet" href="css/design-system-effects.css">
+    <link rel="stylesheet" href="css/design-system-integration.css">
+    
+    <!-- Legacy CSS (will be gradually replaced) -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/pages/dashboard.css">
+    <link rel="stylesheet" href="css/pages/matching.css">
+    <link rel="stylesheet" href="css/pages/matching-premium.css">
+    <link rel="stylesheet" href="loading.css">
+    <link rel="stylesheet" href="dark-mode.css">
+    <link rel="stylesheet" href="notification.css">
+    <link rel="stylesheet" href="dashboard-improvements.css">
+    <link rel="stylesheet" href="unified-colors.css">
+    <link rel="stylesheet" href="css/sidebar-active-fix.css">
+    <link rel="stylesheet" href="logo-blue-update.css">
+    <link rel="stylesheet" href="logo-consistent.css">
+    <link rel="stylesheet" href="css/sidebar-override-final.css">
+    <link rel="stylesheet" href="css/sidebar-final-fix.css">
+    
+    <!-- 最終オーバーライド -->
+    <style>
+        /* 絶対的な最終修正 */
+        li.nav-item.active > a.nav-link {
+            background: linear-gradient(135deg, #0052cc 0%, #1a73e8 100%) !important;
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+        
+        li.nav-item.active > a.nav-link * {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+        
+        /* プリローダー強制削除 */
+        .preloader, .loading, .loader {
+            display: none !important;
+        }
+    </style>
+    
+    <!-- 見えない問題を修正 -->
+    <link rel="stylesheet" href="css/fix-invisible-buttons.css">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="accessibility-improvements.css">
+    <link rel="stylesheet" href="css/responsive/responsive-all.css">
+    <link rel="stylesheet" href="button-section-optimization.css">
+    <link rel="stylesheet" href="css/responsive/mobile-all.css">
+    
+    <!-- 環境設定 -->
+    <script src="env-config.js"></script>
+    
+    <!-- Supabase -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    
+    <!-- 開発用: 認証バイパス（本番では削除） -->
+    <script src="dev-auth-bypass.js"></script>
+    
+    <!-- プリローダー強制削除 -->
+    <script src="preloader-killer.js"></script>
+    
+    <!-- Services -->
+    <script src="js/services/tldv-service.js"></script>
+    <script src="js/services/dify-service.js"></script>
+    <script src="js/services/matching-engine.js"></script>
+    <script src="js/services/matching-engine-mock.js"></script>
+</head>
+<body class="dashboard-body">
+    <!-- サイドバー -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>INTERCONNECT</h2>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>ダッシュボード</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>プロフィール</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="members.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>メンバー</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="events.html" class="nav-link">
+                        <i class="fas fa-calendar"></i>
+                        <span>イベント</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="messages.html" class="nav-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>メッセージ</span>
+                        <span class="badge" id="messageCount">0</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="business.html" class="nav-link">
+                        <i class="fas fa-handshake"></i>
+                        <span>ビジネス</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="matching.html" class="nav-link">
+                        <i class="fas fa-magic"></i>
+                        <span>AIマッチング</span>
+                        <span class="badge new">AI</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="invite.html" class="nav-link">
+                        <i class="fas fa-share-alt"></i>
+                        <span>招待</span>
+                    </a>
+                </li>
+                <li class="nav-item admin-only">
+                    <a href="admin.html" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>管理</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23e0e0e0'/%3E%3C/svg%3E"  alt="プロフィール画像" class="user-avatar lazy">
+                <div class="user-details">
+                    <span class="user-name" id="sidebarUserName">ゲスト</span>
+                    <span class="user-role" id="sidebarUserRole">メンバー</span>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+    
+    <!-- メインコンテンツ -->
+    <main class="main-content">
+        <header class="dashboard-header">
+            <div>
+                <h1>AIマッチング</h1>
+                <div class="dashboard-nav">
+                    <a href="dashboard.html" class="nav-mobile-item"><i class="fas fa-chart-line"></i> ダッシュボード</a>
+                    <a href="members.html" class="nav-mobile-item"><i class="fas fa-users"></i> メンバー</a>
+                    <a href="events.html" class="nav-mobile-item"><i class="fas fa-calendar"></i> イベント</a>
+                    <a href="messages.html" class="nav-mobile-item"><i class="fas fa-envelope"></i> メッセージ <span class="badge">3</span></a>
+                    <a href="business.html" class="nav-mobile-item"><i class="fas fa-handshake"></i> ビジネスマッチング</a>
+                    <a href="matching.html" class="nav-mobile-item active"><i class="fas fa-magic"></i> AIマッチング <span class="badge new">AI</span></a>
+                    <a href="settings.html" class="nav-mobile-item"><i class="fas fa-cog"></i> 設定</a>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="sync-button" onclick="syncTranscripts()">
+                    <i class="fas fa-sync"></i>
+                    <span>同期</span>
+                </button>
+                <button class="connection-requests-btn" title="接続リクエスト">
+                    <i class="fas fa-user-plus"></i>
+                    <span class="connection-request-count" id="connectionCount">0</span>
+                </button>
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-count" id="notificationCount">0</span>
+                </button>
+                <div class="user-menu">
+                    <button class="user-menu-btn">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23e0e0e0'/%3E%3C/svg%3E"  alt="プロフィール画像" class="lazy">
+                        <span id="headerUserName">ゲスト</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-menu-dropdown">
+                        <a href="profile.html">プロフィール</a>
+                        <a href="settings.html">設定</a>
+                        <a href="help.html">ヘルプ</a>
+                        <hr>
+                        <a href="#logout" onclick="logout()">ログアウト</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="dashboard-content">
+            <div class="page-header">
+                <p>トランスクリプト分析による最適なビジネスパートナーの発見</p>
+            </div>
+            
+            <!-- フィルターセクション -->
+            <div class="matching-filters">
+                <div class="filter-group">
+                    <label>スコア範囲</label>
+                    <select id="scoreFilter" onchange="filterMatches()">
+                        <option value="all">すべて表示</option>
+                        <option value="90">90点以上</option>
+                        <option value="80">80点以上</option>
+                        <option value="70">70点以上</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>マッチタイプ</label>
+                    <select id="typeFilter" onchange="filterMatches()">
+                        <option value="all">すべて</option>
+                        <option value="synergy">シナジー型</option>
+                        <option value="complementary">補完型</option>
+                        <option value="similar">類似型</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>業界</label>
+                    <select id="industryFilter" onchange="filterMatches()">
+                        <option value="all">すべて</option>
+                        <option value="technology">テクノロジー</option>
+                        <option value="marketing">マーケティング</option>
+                        <option value="finance">ファイナンス</option>
+                        <option value="manufacturing">製造業</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- 統計情報 -->
+            <div class="matching-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="totalMatches">0</h3>
+                        <p>マッチング候補</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="highScoreMatches">0</h3>
+                        <p>高スコア（80点以上）</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="avgScore">0</h3>
+                        <p>平均スコア</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="connectedCount">0</h3>
+                        <p>コネクト済み</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- マッチング結果グリッド -->
+            <div class="matching-grid" id="matchingGrid">
+                <!-- 動的に生成 -->
+                <div class="loading-placeholder">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>マッチングデータを読み込んでいます...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- マッチング詳細モーダル -->
+    <div class="modal" id="matchingDetailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>マッチング詳細</h2>
+                <button class="modal-close" onclick="closeMatchingDetail()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="matchingDetailContent">
+                <!-- 動的に生成 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script>
+        // シンプルな認証チェック
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ マッチングページ起動');
+            
+            // ログイン状態をチェック
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+            const userEmail = sessionStorage.getItem('userEmail');
+            const userName = sessionStorage.getItem('userName') || 'ゲスト';
+            
+            if (!isLoggedIn || isLoggedIn !== 'true') {
+                // 未ログインの場合はログインページへ
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // ユーザー情報を表示
+            const userNameElements = document.querySelectorAll('.user-name');
+            userNameElements.forEach(el => {
+                el.textContent = userName;
+            });
+            
+            const userEmailElements = document.querySelectorAll('.user-email');
+            userEmailElements.forEach(el => {
+                el.textContent = userEmail;
+            });
+            
+            // サイドバートグル
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.querySelector('.sidebar');
+            
+            if (sidebarToggle && sidebar) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('collapsed');
+                });
+            }
+            
+            // ログアウト機能
+            window.logout = function() {
+                sessionStorage.clear();
+                window.location.href = 'login.html';
+            };
+            
+            // ユーザーメニュー
+            const userMenuBtn = document.querySelector('.user-menu-btn');
+            const userMenuDropdown = document.querySelector('.user-menu-dropdown');
+            
+            if (userMenuBtn && userMenuDropdown) {
+                userMenuBtn.addEventListener('click', function() {
+                    userMenuDropdown.style.display = 
+                        userMenuDropdown.style.display === 'block' ? 'none' : 'block';
+                });
+                
+                // クリックアウトで閉じる
+                document.addEventListener('click', function(e) {
+                    if (!userMenuBtn.contains(e.target) && !userMenuDropdown.contains(e.target)) {
+                        userMenuDropdown.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+    <script src="js/pages/matching.js"></script>
+    <script src="js/pages/matching-auth-integration.js"></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+/* 全ページでロゴの色を統一するCSS */
+
+/* ダッシュボードのサイドバーロゴも青系グラデーションに統一 */
+.sidebar-header h2 {
+    background: var(--logo-gradient-blue) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: transparent !important;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+/* ダッシュボードのサイドバーロゴのホバー効果 */
+.sidebar-header h2:hover {
+    background: var(--logo-gradient-blue-hover) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* ログインページのヘッダーロゴ */
+.auth-container h1,
+.auth-header h1 {
+    background: var(--logo-gradient-blue) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: transparent !important;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+/* 全ページ共通のロゴ強制適用 */
+h1:contains("INTERCONNECT"),
+.logo h1,
+.navbar .logo h1,
+.sidebar-header h2,
+.auth-header h1,
+.loading-text {
+    background: var(--logo-gradient-blue) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: transparent !important;
+}
+
+/* タグラインの色も統一 */
+.logo .tagline,
+.auth-header .tagline {
+    color: rgba(79, 195, 247, 0.9) !important;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+}
+
+/* unified-colors.cssの上書きを強制 */
+.navbar:not(.scrolled) .logo h1,
+.navbar.scrolled .logo h1 {
+    background: var(--logo-gradient-blue) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: transparent !important;
+}
+
+/* ダークモード時も同じ色を維持 */
+@media (prefers-color-scheme: dark) {
+    .logo h1,
+    .sidebar-header h2,
+    .auth-header h1 {
+        background: var(--logo-gradient-blue) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+    }
+}

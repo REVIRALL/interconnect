@@ -1,0 +1,13 @@
+# 環境変数の設定例
+# このファイルをコピーして .env という名前で保存してください
+
+# TL;DV API設定
+TLDV_API_KEY=ここにTL;DVのAPIキーを貼り付け
+
+# Dify API設定
+DIFY_API_KEY=ここにDifyのAPIキーを貼り付け
+DIFY_WORKFLOW_ID=ここにDifyのワークフローIDを貼り付け
+
+# Supabase設定
+SUPABASE_URL=https://あなたのプロジェクト.supabase.co
+SUPABASE_ANON_KEY=ここにSupabaseのAnon Keyを貼り付け

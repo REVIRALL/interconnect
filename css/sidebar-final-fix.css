@@ -1,0 +1,95 @@
+/* ================================================
+   サイドバー最終修正 - 最高優先度
+   すべてのCSSの最後に読み込む必要があります
+   ================================================ */
+
+/* デバッグ用: アクティブな要素を確実に青くする */
+li.nav-item.active > a,
+li.nav-item.active > a.nav-link,
+.nav-item.active > a,
+.nav-item.active > a.nav-link,
+.sidebar li.nav-item.active > a,
+.sidebar li.nav-item.active > a.nav-link,
+.sidebar .nav-item.active .nav-link,
+.sidebar .nav-item.active a {
+    background: #0052cc !important;
+    background-image: linear-gradient(135deg, #0052cc 0%, #1a73e8 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(0, 82, 204, 0.3) !important;
+    border: none !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+/* アイコンを白く */
+li.nav-item.active > a i,
+li.nav-item.active > a.nav-link i,
+.nav-item.active > a i,
+.nav-item.active > a.nav-link i,
+.sidebar li.nav-item.active > a i,
+.sidebar li.nav-item.active > a.nav-link i,
+.sidebar .nav-item.active .nav-link i,
+.sidebar .nav-item.active a i {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+/* テキストを白く */
+li.nav-item.active > a span,
+li.nav-item.active > a.nav-link span,
+.nav-item.active > a span,
+.nav-item.active > a.nav-link span,
+.sidebar li.nav-item.active > a span,
+.sidebar li.nav-item.active > a.nav-link span,
+.sidebar .nav-item.active .nav-link span,
+.sidebar .nav-item.active a span {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    background: none !important;
+    background-clip: unset !important;
+    -webkit-background-clip: unset !important;
+}
+
+/* ホバー時も維持 */
+li.nav-item.active > a:hover,
+li.nav-item.active > a.nav-link:hover,
+.nav-item.active > a:hover,
+.nav-item.active > a.nav-link:hover,
+.sidebar li.nav-item.active > a:hover,
+.sidebar li.nav-item.active > a.nav-link:hover,
+.sidebar .nav-item.active .nav-link:hover,
+.sidebar .nav-item.active a:hover {
+    background: #0052cc !important;
+    background-image: linear-gradient(135deg, #0052cc 0%, #1a73e8 100%) !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+/* バッジの修正 */
+.nav-item.active .badge,
+.nav-item.active .nav-link .badge,
+.sidebar .nav-item.active .badge,
+.sidebar .nav-item.active .nav-link .badge {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+/* 通常のリンク（非アクティブ）のスタイル */
+.sidebar .nav-link,
+.sidebar a.nav-link,
+.nav-link,
+a.nav-link {
+    background: transparent !important;
+    color: #e0e0e0 !important;
+    -webkit-text-fill-color: #e0e0e0 !important;
+}
+
+/* ホバー時（非アクティブ） */
+.sidebar .nav-link:hover,
+.sidebar a.nav-link:hover,
+.nav-link:hover,
+a.nav-link:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}

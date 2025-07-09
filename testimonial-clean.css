@@ -1,0 +1,290 @@
+/* メンバーの声セクション - クリーンなグリッドレイアウト */
+
+/* セクション全体のスタイル */
+.testimonials {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* 背景の装飾 */
+.testimonials::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(0, 82, 204, 0.05) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+/* セクションタイトル */
+.testimonials .section-subtitle {
+    font-size: 0.875rem;
+    color: var(--primary-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.testimonials .section-title {
+    font-size: 2.5rem;
+    color: var(--gray-900);
+    text-align: center;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.testimonials .section-description {
+    font-size: 1.125rem;
+    color: var(--gray-600);
+    text-align: center;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* グリッドレイアウト */
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+/* カードスタイル */
+.testimonial-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* カードホバー効果 */
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* 引用符のデコレーション */
+.testimonial-card::before {
+    content: '"';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 80px;
+    color: rgba(0, 82, 204, 0.1);
+    font-family: Georgia, serif;
+    line-height: 1;
+}
+
+/* コンテンツエリア */
+.testimonial-content {
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+.testimonial-content p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--gray-700);
+    font-style: italic;
+}
+
+/* 著者情報 */
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.author-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.author-info {
+    flex: 1;
+}
+
+.author-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 0 0 0.25rem 0;
+}
+
+.author-title {
+    font-size: 0.875rem;
+    color: var(--primary-blue);
+    margin: 0 0 0.125rem 0;
+}
+
+.author-company {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    margin: 0;
+}
+
+/* タブレット対応 */
+@media (max-width: 1024px) {
+    .testimonial-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+    
+    .testimonial-card {
+        padding: 2rem;
+    }
+    
+    .testimonials .section-title {
+        font-size: 2rem;
+    }
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+    .testimonials {
+        padding: 60px 0;
+    }
+    
+    .testimonial-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .testimonial-card {
+        padding: 1.75rem;
+    }
+    
+    .testimonial-card::before {
+        font-size: 60px;
+        top: 15px;
+        left: 15px;
+    }
+    
+    .testimonial-content p {
+        font-size: 1rem;
+    }
+    
+    .testimonials .section-title {
+        font-size: 1.75rem;
+    }
+    
+    .testimonials .section-description {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+    
+    .author-avatar {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .author-name {
+        font-size: 1rem;
+    }
+    
+    .author-title,
+    .author-company {
+        font-size: 0.8125rem;
+    }
+}
+
+/* 小型モバイル対応 */
+@media (max-width: 480px) {
+    .testimonial-grid {
+        padding: 0 0.5rem;
+    }
+    
+    .testimonial-card {
+        padding: 1.5rem;
+    }
+    
+    .testimonial-content {
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* アニメーション */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.testimonial-card {
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.testimonial-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.testimonial-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.testimonial-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+/* アクセシビリティ向上 */
+.testimonial-card:focus-within {
+    outline: 2px solid var(--primary-blue);
+    outline-offset: 2px;
+}
+
+/* ダークモード対応（必要に応じて） */
+@media (prefers-color-scheme: dark) {
+    .testimonials {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    }
+    
+    .testimonial-card {
+        background: #2a2a2a;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .testimonial-content p {
+        color: #e0e0e0;
+    }
+    
+    .author-name {
+        color: #ffffff;
+    }
+    
+    .author-title {
+        color: #81d4fa;
+    }
+    
+    .author-company {
+        color: #b0b0b0;
+    }
+    
+    .testimonial-author {
+        border-top-color: rgba(255, 255, 255, 0.1);
+    }
+}

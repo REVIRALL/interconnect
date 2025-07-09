@@ -1,13 +1,7 @@
 /* ロゴカラーを青系に変更するCSS */
 
-/* INTERCONNECTロゴの白強めの水色グラデーション定義 */
-:root {
-    --logo-gradient-blue: linear-gradient(135deg, #b3e5fc 0%, #e0f7fa 100%);
-    --logo-gradient-blue-hover: linear-gradient(135deg, #81d4fa 0%, #b3e5fc 100%);
-    --logo-text-blue: #81d4fa;
-    --logo-text-blue-dark: #4fc3f7;
-    --logo-text-blue-light: #e0f7fa;
-}
+/* ロゴカラーはvariables.cssで定義済み */
+/* 以下のスタイルはvariables.cssの変数を使用 */
 
 /* ヘッダーのロゴスタイル更新 */
 .logo h1 {

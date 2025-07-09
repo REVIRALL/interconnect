@@ -273,15 +273,27 @@ class AdvancedSearch {
         if (!resultsContainer) return;
 
         if (results.length === 0) {
-            resultsContainer.innerHTML = `
-                <div class="no-results">
-                    <i class="fas fa-search"></i>
-                    <p>検索条件に一致する結果が見つかりませんでした</p>
-                    <button class="btn-secondary" onclick="advancedSearch.clearSearch()">
-                        検索条件をクリア
-                    </button>
-                </div>
-            `;
+            // 安全な要素作成
+            resultsContainer.innerHTML = ''; // 一旦クリア
+            
+            const noResultsDiv = document.createElement('div');
+            noResultsDiv.className = 'no-results';
+            
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-search';
+            
+            const message = document.createElement('p');
+            message.textContent = '検索条件に一致する結果が見つかりませんでした';
+            
+            const clearButton = document.createElement('button');
+            clearButton.className = 'btn-secondary';
+            clearButton.textContent = '検索条件をクリア';
+            clearButton.onclick = () => advancedSearch.clearSearch();
+            
+            noResultsDiv.appendChild(icon);
+            noResultsDiv.appendChild(message);
+            noResultsDiv.appendChild(clearButton);
+            resultsContainer.appendChild(noResultsDiv);
             return;
         }
 

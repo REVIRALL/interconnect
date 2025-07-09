@@ -1,0 +1,41 @@
+/* ================================================
+   サイドバー最終オーバーライド
+   unified-colors.cssの後に読み込む必要があります
+   ================================================ */
+
+/* アクティブ状態 - 最終的な強制スタイル */
+.nav-item.active .nav-link,
+.nav-item.active a,
+.sidebar .nav-item.active .nav-link,
+.sidebar .nav-item.active a,
+li.nav-item.active > a.nav-link {
+    background: linear-gradient(135deg, #0052cc, #1a73e8) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(0, 82, 204, 0.3) !important;
+    border: none !important;
+}
+
+/* アクティブ状態のアイコン */
+.nav-item.active .nav-link i,
+.nav-item.active a i,
+.sidebar .nav-item.active .nav-link i,
+.sidebar .nav-item.active a i {
+    color: #ffffff !important;
+}
+
+/* アクティブ状態のテキスト */
+.nav-item.active .nav-link span,
+.nav-item.active a span,
+.sidebar .nav-item.active .nav-link span,
+.sidebar .nav-item.active a span {
+    color: #ffffff !important;
+}
+
+/* ホバー状態を確実にオーバーライド */
+.nav-item.active .nav-link:hover,
+.nav-item.active a:hover,
+.sidebar .nav-item.active .nav-link:hover,
+.sidebar .nav-item.active a:hover {
+    background: linear-gradient(135deg, #0052cc, #1a73e8) !important;
+    color: #ffffff !important;
+}

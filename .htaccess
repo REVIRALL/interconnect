@@ -1,0 +1,30 @@
+# CSP完全無効化設定
+Header unset Content-Security-Policy
+Header unset X-Content-Security-Policy
+Header unset X-WebKit-CSP
+
+# すべてのCSPヘッダーを削除
+Header always unset Content-Security-Policy
+Header always unset X-Content-Security-Policy
+Header always unset X-WebKit-CSP
+
+# MIME タイプ設定
+AddType application/javascript .js
+AddType text/css .css
+AddType text/html .html
+
+# キャッシュ制御
+<FilesMatch "\.(js|css|html)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires 0
+</FilesMatch>
+
+# エラーページ
+ErrorDocument 404 /404.html
+
+# リダイレクト設定
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.html [L]

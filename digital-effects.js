@@ -1,12 +1,22 @@
 // デジタルエフェクトのJavaScript実装
 
-// design-system.jsとの競合を避けるため、グローバル変数で初期化状態を管理
-window.digitalEffectsInitialized = false;
-
-document.addEventListener('DOMContentLoaded', function() {
-    // 既に初期化されている場合はスキップ
-    if (window.digitalEffectsInitialized) return;
-    window.digitalEffectsInitialized = true;
+// INTERCONNECT名前空間を使用
+window.digitalEffects = {
+    initialized: false,
+    
+    init: function() {
+        if (this.initialized) return;
+        if (window.INTERCONNECT && window.INTERCONNECT.digitalEffectsInitialized) return;
+        
+        this.initialized = true;
+        if (window.INTERCONNECT) {
+            window.INTERCONNECT.digitalEffectsInitialized = true;
+        }
+        
+        this.initializeEffects();
+    },
+    
+    initializeEffects: function() {
     
     // 1. タイプライターエフェクト with グリッチ
     function initTypewriterEffect() {
@@ -299,4 +309,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 初期化実行
     init();
+    }
+};
+
+// 自動初期化（DOMContentLoadedを使用）
+document.addEventListener('DOMContentLoaded', function() {
+    window.digitalEffects.init();
 });

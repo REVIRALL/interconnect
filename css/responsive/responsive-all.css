@@ -1,0 +1,382 @@
+/* ================================================
+   レスポンシブ統合CSS
+   
+   統合元ファイル:
+   - responsive-improvements.css
+   - responsive-fixes.css
+   - index-responsive-perfect.css
+   
+   最終更新: 2025-01-08
+   ================================================ */
+
+/* ========================================
+   基本設定
+   ======================================== */
+
+/* viewport設定とコンテナ幅の最適化 */
+html {
+    overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+    min-width: 320px;
+}
+
+/* 全体的なコンテナ幅の制御 */
+.container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+    .container {
+        max-width: 100%;
+        padding: 0 20px;
+    }
+}
+
+/* ========================================
+   タブレット対応 (768px - 1024px)
+   ======================================== */
+@media (max-width: 1024px) and (min-width: 769px) {
+    /* セクション共通 */
+    section {
+        padding: 80px 0;
+    }
+    
+    /* グリッドレイアウト調整 */
+    .features-grid,
+    .members-grid,
+    .pricing-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+    
+    /* カードサイズ調整 */
+    .feature-card,
+    .member-card,
+    .pricing-card {
+        padding: 30px 25px;
+    }
+    
+    /* タイポグラフィ */
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 2rem; }
+    h3 { font-size: 1.75rem; }
+    
+    /* ナビゲーション調整 */
+    .nav-menu {
+        gap: 30px;
+    }
+    
+    .nav-menu a {
+        font-size: 15px;
+    }
+}
+
+/* ========================================
+   モバイル基本対応 (768px以下)
+   ======================================== */
+@media (max-width: 768px) {
+    /* ヒーローセクション */
+    .hero {
+        min-height: 500px;
+        padding: 100px 0 60px;
+    }
+    
+    .hero-video {
+        object-fit: cover;
+        object-position: center;
+    }
+    
+    .hero h2 {
+        font-size: 2rem;
+        line-height: 1.3;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .hero p br {
+        display: none;
+    }
+    
+    /* ハンバーガーメニュー表示 */
+    .hamburger {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        position: relative;
+        z-index: 1003;
+        background: transparent;
+        border: none;
+        padding: 8px;
+    }
+    
+    .hamburger span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background-color: var(--unified-text);
+        margin: 3px 0;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translateY(8px);
+    }
+    
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translateY(-8px);
+    }
+    
+    /* ナビゲーションメニュー */
+    .nav-menu {
+        position: fixed;
+        top: 70px;
+        right: -100%;
+        width: 100%;
+        max-width: 300px;
+        background: var(--unified-bg);
+        flex-direction: column;
+        padding: 30px 20px;
+        transition: right 0.3s ease;
+        height: calc(100vh - 70px);
+        overflow-y: auto;
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+        gap: 0;
+    }
+    
+    .nav-menu.active {
+        right: 0;
+    }
+    
+    .nav-menu a,
+    .nav-menu .login-btn,
+    .nav-menu .register-btn,
+    .nav-menu .contact-btn {
+        width: 100%;
+        padding: 15px 20px;
+        margin: 5px 0;
+        text-align: center;
+        border-radius: 8px;
+    }
+    
+    /* グリッドレイアウト */
+    .features-grid,
+    .members-grid,
+    .pricing-grid,
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    /* カードレイアウト */
+    .feature-card,
+    .member-card,
+    .pricing-card,
+    .stat-card {
+        padding: 25px 20px;
+    }
+    
+    /* テーブルのレスポンシブ対応 */
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    /* フォーム要素 */
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea,
+    select {
+        width: 100%;
+        font-size: 16px; /* iOS zoom防止 */
+    }
+}
+
+/* ========================================
+   文字はみ出し修正（responsive-fixes.css より）
+   ======================================== */
+.features-list {
+    max-width: 100%;
+    overflow: hidden;
+    padding: 0 20px;
+}
+
+.feature {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    overflow: hidden;
+}
+
+.feature h3,
+.feature p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.4;
+    max-width: 100%;
+}
+
+/* ========================================
+   メニューオーバーレイ
+   ======================================== */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1001;
+}
+
+.menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ========================================
+   セクション共通レスポンシブ
+   ======================================== */
+@media (max-width: 768px) {
+    /* セクションパディング */
+    section {
+        padding: 60px 0;
+    }
+    
+    /* セクションタイトル */
+    .section-title {
+        font-size: 1.75rem;
+        margin-bottom: 1rem;
+    }
+    
+    .section-subtitle {
+        font-size: 0.875rem;
+    }
+    
+    .section-description {
+        font-size: 1rem;
+        padding: 0 20px;
+    }
+    
+    /* 横スクロール防止 */
+    * {
+        max-width: 100%;
+    }
+    
+    img,
+    video,
+    iframe {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* テキストの改行調整 */
+    h1, h2, h3, h4, h5, h6, p {
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+}
+
+/* ========================================
+   404ページ専用レスポンシブ
+   ======================================== */
+@media (max-width: 768px) {
+    .error-404 h1 {
+        font-size: 6rem;
+    }
+    
+    .error-404 h2 {
+        font-size: 1.5rem;
+    }
+    
+    .error-404 .error-message {
+        max-width: 90%;
+    }
+}
+
+/* ========================================
+   プリント対応
+   ======================================== */
+@media print {
+    /* 不要な要素を非表示 */
+    .navbar,
+    .hamburger,
+    .menu-overlay,
+    .footer,
+    .cta,
+    .back-to-top {
+        display: none !important;
+    }
+    
+    /* リンクのURL表示 */
+    a[href^="http"]:after {
+        content: " (" attr(href) ")";
+    }
+    
+    /* ページブレイク制御 */
+    h1, h2, h3 {
+        page-break-after: avoid;
+    }
+    
+    section {
+        page-break-inside: avoid;
+    }
+}
+
+/* ========================================
+   アクセシビリティ向上
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* フォーカス可視化 */
+*:focus {
+    outline: 2px solid var(--primary-blue);
+    outline-offset: 2px;
+}
+
+/* スキップリンク */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--primary-blue);
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+    z-index: 100;
+}
+
+.skip-link:focus {
+    top: 0;
+}

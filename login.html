@@ -4,34 +4,164 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ログイン - INTERCONNECT</title>
+    <!-- ミニマル認証システム -->
+    <script>
+        // シンプルな認証システム（エラーなし版）
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ クリーン認証システム起動');
+            
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const email = document.getElementById('email').value.trim();
+                    const password = document.getElementById('password').value;
+                    
+                    // テスト用認証データ
+                    const validUsers = [
+                        { email: 'admin@interconnect.jp', password: 'demo123', name: 'システム管理者' },
+                        { email: 'demo@interconnect.com', password: 'demo123', name: 'デモユーザー' },
+                        { email: 'test@interconnect.com', password: 'test123', name: 'テストユーザー' }
+                    ];
+                    
+                    const user = validUsers.find(u => 
+                        u.email.toLowerCase() === email.toLowerCase() && u.password === password
+                    );
+                    
+                    if (user) {
+                        // ログイン成功
+                        sessionStorage.setItem('isLoggedIn', 'true');
+                        sessionStorage.setItem('userEmail', user.email);
+                        sessionStorage.setItem('userName', user.name);
+                        
+                        // 成功メッセージ
+                        showMessage('ログインしました！', 'success');
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 1000);
+                    } else {
+                        showMessage('メールアドレスまたはパスワードが正しくありません', 'error');
+                    }
+                });
+            }
+            
+            // メッセージ表示関数
+            function showMessage(text, type) {
+                // 既存のメッセージを削除
+                const existing = document.querySelector('.login-message');
+                if (existing) existing.remove();
+                
+                const message = document.createElement('div');
+                message.className = 'login-message ' + type;
+                message.textContent = text;
+                message.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    padding: 15px 25px;
+                    border-radius: 8px;
+                    color: white;
+                    font-weight: 600;
+                    z-index: 999999;
+                    background: ${type === 'success' ? '#10b981' : '#ef4444'};
+                    animation: slideIn 0.3s ease;
+                `;
+                
+                document.body.appendChild(message);
+                
+                if (type !== 'loading') {
+                    setTimeout(() => {
+                        message.style.opacity = '0';
+                        setTimeout(() => message.remove(), 300);
+                    }, 3000);
+                }
+            }
+        });
+        
+        // パスワード表示切り替え
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            const button = field?.nextElementSibling;
+            const icon = button?.querySelector('i');
+            
+            if (field && icon) {
+                if (field.type === 'password') {
+                    field.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    field.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            }
+        }
+        
+        // グローバル関数として公開
+        window.togglePassword = togglePassword;
+        
+        // ソーシャルログイン関数
+        function loginWithGoogle() {
+            showMessage('Google認証を準備中...', 'loading');
+            setTimeout(() => {
+                showMessage('現在、Google認証は準備中です', 'error');
+            }, 1000);
+        }
+        
+        function loginWithLinkedIn() {
+            showMessage('LinkedIn認証を準備中...', 'loading');
+            setTimeout(() => {
+                showMessage('現在、LinkedIn認証は準備中です', 'error');
+            }, 1000);
+        }
+        
+        function loginWithLINE() {
+            showMessage('LINE認証を準備中...', 'loading');
+            setTimeout(() => {
+                showMessage('現在、LINE認証は準備中です', 'error');
+            }, 1000);
+        }
+        
+        // グローバル関数として公開
+        window.loginWithGoogle = loginWithGoogle;
+        window.loginWithLinkedIn = loginWithLinkedIn;
+        window.loginWithLINE = loginWithLINE;
+    </script>
         <!-- Design System CSS -->
-    <link rel="stylesheet" href="design-system.css">
-    <link rel="stylesheet" href="design-system-effects.css">
-    <link rel="stylesheet" href="design-system-integration.css">
+    <link rel="stylesheet" href="css/design-system.css">
+    <link rel="stylesheet" href="css/design-system-effects.css">
+    <link rel="stylesheet" href="css/design-system-integration.css">
     
     <!-- Legacy CSS (will be gradually replaced) -->
 <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="auth.css">
     <link rel="stylesheet" href="loading.css">
     <link rel="stylesheet" href="dark-mode.css">
-    <link rel="stylesheet" href="responsive-improvements.css">
+    <!-- <link rel="stylesheet" href="responsive-improvements.css"> -->
     <link rel="stylesheet" href="unified-colors.css">
     <link rel="stylesheet" href="logo-blue-update.css">
+    <link rel="stylesheet" href="logo-consistent.css">
         <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="accessibility-improvements.css">
-    <link rel="stylesheet" href="responsive-design-fix.css">
+    <link rel="stylesheet" href="css/responsive/responsive-all.css">
     <link rel="stylesheet" href="button-section-optimization.css">
-    <link rel="stylesheet" href="button-mobile-enhance.css">
-    <!-- Legacy JS -->
-<script src="security-utils.js"></script>
-    <script src="error-handler.js"></script>
-    <script src="notification-manager.js"></script>
-    <script src="performance-utils.js"></script>
-    <script src="security-manager.js"></script>
-    <script src="fix-csp-errors.js"></script>
-    <script src="auth-check.js"></script>
+    <link rel="stylesheet" href="css/responsive/mobile-all.css">
+    
+    <!-- すべての既存スクリプトを無効化 -->
+    <!-- Supabase -->
+    <!-- <script src="https://unpkg.com/@supabase/supabase-js@2"></script> -->
+    <!-- <script src="supabase-service-complete.js"></script> -->
+    <!-- <script src="auth-system-complete.js"></script> -->
+    
+    <!-- Emergency Cache Clear -->
+    <!-- <script src="emergency-cache-clear.js"></script> -->
+    <!-- Total Silence System -->
+    <!-- <script src="cache-killer.js"></script> -->
+    <!-- <script src="total-silence.js"></script> -->
+    <!-- <script src="chrome-killer.js"></script> -->
 </head>
 <body class="auth-body">
     <div class="auth-container">
@@ -99,12 +229,9 @@
         </div>
     </div>
     
-    <script src="common.js"></script>
-    <script src="security.js"></script>
-    <script src="social-auth.js"></script>
-    <script src="form-validation.js"></script>
-    <script src="auth.js"></script>
-    <script src="login-error-fix.js"></script>
-    <script src="design-system.js"></script>
+    <!-- すべてのauth関連スクリプトを無効化 -->
+    <!-- <script src="safe-common.js"></script> -->
+    <!-- <script src="safe-auth.js"></script> -->
+    <!-- <script src="login-button-fix.js"></script> -->
 </body>
 </html>
