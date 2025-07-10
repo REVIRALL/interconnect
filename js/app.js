@@ -82,12 +82,14 @@
         }
         
         // Close mobile menu when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!navToggler.contains(e.target) && !navMenu.contains(e.target)) {
-                navMenu.classList.remove('show');
-                navToggler.classList.remove('active');
-            }
-        });
+        if (navToggler && navMenu) {
+            document.addEventListener('click', function(e) {
+                if (!navToggler.contains(e.target) && !navMenu.contains(e.target)) {
+                    navMenu.classList.remove('show');
+                    navToggler.classList.remove('active');
+                }
+            });
+        }
         
         // Active nav link highlighting
         const currentPath = window.location.pathname;
@@ -424,6 +426,17 @@
         throttle,
         openModal,
         closeModal
+    };
+    
+    // Scroll to about section
+    window.scrollToAbout = function() {
+        const aboutSection = document.getElementById('about');
+        if (aboutSection) {
+            aboutSection.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
     };
 
     /**
