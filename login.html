@@ -127,11 +127,43 @@
         window.loginWithGoogle = loginWithGoogle;
         window.loginWithLinkedIn = loginWithLinkedIn;
         window.loginWithLINE = loginWithLINE;
+        
+        // showMessage関数も公開
+        window.showMessage = function(text, type) {
+            // 既存のメッセージを削除
+            const existing = document.querySelector('.login-message');
+            if (existing) existing.remove();
+            
+            const message = document.createElement('div');
+            message.className = 'login-message ' + type;
+            message.textContent = text;
+            message.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 600;
+                z-index: 999999;
+                background: ${type === 'success' ? '#10b981' : '#ef4444'};
+                animation: slideIn 0.3s ease;
+            `;
+            
+            document.body.appendChild(message);
+            
+            if (type !== 'loading') {
+                setTimeout(() => {
+                    message.style.opacity = '0';
+                    setTimeout(() => message.remove(), 300);
+                }, 3000);
+            }
+        };
     </script>
         <!-- Design System CSS -->
     <link rel="stylesheet" href="css/design-system.css">
-    <link rel="stylesheet" href="css/design-system-effects.css">
-    <link rel="stylesheet" href="css/design-system-integration.css">
+    <!-- <link rel="stylesheet" href="css/design-system-effects.css"> -->
+    <!-- <link rel="stylesheet" href="css/design-system-integration.css"> 統合デザインシステムに統合済み -->
     
     <!-- Legacy CSS (will be gradually replaced) -->
 <link rel="stylesheet" href="styles.css">
@@ -147,7 +179,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="accessibility-improvements.css">
     <link rel="stylesheet" href="css/responsive/responsive-all.css">
-    <link rel="stylesheet" href="button-section-optimization.css">
+    <!-- button-section-optimization.css は統一デザインシステムに統合済みのため削除 -->
+    <!-- <link rel="stylesheet" href="button-section-optimization.css"> -->
     <link rel="stylesheet" href="css/responsive/mobile-all.css">
     
     <!-- すべての既存スクリプトを無効化 -->
@@ -162,6 +195,12 @@
     <!-- <script src="cache-killer.js"></script> -->
     <!-- <script src="total-silence.js"></script> -->
     <!-- <script src="chrome-killer.js"></script> -->
+    
+    <!-- キャッシュクリア -->
+    <script src="cache-clear.js"></script>
+    
+    <!-- 復旧された機能 -->
+    <script src="js/restored-functions.js"></script>
 </head>
 <body class="auth-body">
     <div class="auth-container">

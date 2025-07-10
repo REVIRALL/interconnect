@@ -1,0 +1,21 @@
+# Auto Deploy Configuration
+# このファイルで自動デプロイの設定を管理します
+
+# デプロイ先の設定
+DEPLOY_TARGET="github-pages"  # netlify, render, github-pages, custom
+
+# 自動コミットの設定
+AUTO_COMMIT_ENABLED=true
+COMMIT_PREFIX="自動更新"
+
+# ブランチ設定
+DEFAULT_BRANCH="main"
+
+# デプロイ前のチェック
+RUN_TESTS=false
+RUN_LINT=false
+RUN_BUILD=false
+
+# 通知設定
+NOTIFY_ON_SUCCESS=true
+NOTIFY_ON_FAILURE=true

@@ -4,45 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>INTERCONNECT - 経営者コミュニティ</title>
-    <!-- Design System CSS -->
-    <link rel="stylesheet" href="css/design-system.css">
-    <link rel="stylesheet" href="css/design-system-effects.css">
-    <link rel="stylesheet" href="css/design-system-integration.css">
+    <!-- Unified Design System -->
+    <link rel="stylesheet" href="css/interconnect-design-system.css">
+    <link rel="stylesheet" href="css/main.css">
     
-    <!-- Legacy CSS (will be gradually replaced) -->
+    <!-- Legacy CSS (temporarily kept until fully migrated) -->
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="loading.css">
-    <link rel="stylesheet" href="dark-mode.css">
-    <link rel="stylesheet" href="index-improvements.css">
-    <link rel="stylesheet" href="text-layout-improvements.css">
-    <link rel="stylesheet" href="unified-colors.css">
-    <link rel="stylesheet" href="button-section-optimization.css">
-    <link rel="stylesheet" href="join-section-design.css">
-    <!-- <link rel="stylesheet" href="hero-center-fix.css"> -->
-    <link rel="stylesheet" href="digital-effects.css">
-    <link rel="stylesheet" href="digital-effects-override.css">
-    <link rel="stylesheet" href="index-final-fixes.css">
-    <link rel="stylesheet" href="logo-blue-update.css">
-    <link rel="stylesheet" href="logo-consistent.css">
-    <link rel="stylesheet" href="remove-white-effects.css">
-    <link rel="stylesheet" href="testimonial-clean.css">
-    <link rel="stylesheet" href="css/fix-invisible-buttons.css">
-    <!-- <link rel="stylesheet" href="navbar-height-fix.css"> -->
-    <!-- <link rel="stylesheet" href="hero-text-break-fix.css"> -->
-    <!-- <link rel="stylesheet" href="container-padding-fix.css"> -->
-    
-    <!-- 統合CSS（テスト用に追加） -->
-    <link rel="stylesheet" href="css/base/variables.css">
-    <link rel="stylesheet" href="css/responsive/mobile-all.css">
-    <link rel="stylesheet" href="css/responsive/responsive-all.css">
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Total Silence System -->
     
-    <!-- プリローダー強制削除 -->
-    <script src="preloader-killer.js"></script>
+    <!-- Core JavaScript -->
+    <script src="js/app.js" defer></script>
 </head>
 <body>
     <!-- プリローダー -->
@@ -78,8 +53,10 @@
 
     <section class="hero">
         <div class="hero-video-container">
-            <video class="hero-video" autoplay muted loop playsinline preload="auto">
+            <video class="hero-video" autoplay muted loop playsinline preload="auto" id="heroVideo">
+                <source src="assets/interconnect-top.mp4" type="video/mp4">
                 <source src="interconnect-top.mp4" type="video/mp4">
+                動画を再生できません。ブラウザが対応していない可能性があります。
             </video>
             <div class="hero-video-overlay"></div>
         </div>
@@ -582,29 +559,12 @@
     </footer>
 
     <script>
-        // スクロール機能
-        function scrollToAbout() {
-            const aboutSection = document.getElementById('about');
-            if (aboutSection) {
-                aboutSection.scrollIntoView({ 
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        }
-    </script>
-    <script>
-        // ページ固有の初期化処理
+        // Page-specific initialization
         document.addEventListener('DOMContentLoaded', function() {
-            // プリローダー制御（ローディング時間を長めに）
+            // Remove preloader immediately
             const preloader = document.getElementById('preloader');
             if (preloader) {
-                setTimeout(() => {
-                    preloader.classList.add('fade-out');
-                    setTimeout(() => {
-                        preloader.style.display = 'none';
-                    }, 800);
-                }, 1500);
+                preloader.style.display = 'none';
             }
             
             // スクロールアニメーション
@@ -628,7 +588,8 @@
             });
             
             // お問い合わせフォーム処理
-            const contactValidator = setupContactFormValidation();
+            console.log('setupContactFormValidation function check:', typeof window.setupContactFormValidation);
+            const contactValidator = (typeof window.setupContactFormValidation === 'function') ? window.setupContactFormValidation() : null;
             if (contactValidator) {
                 contactValidator.setSubmitHandler(async (data) => {
                     // デモ: フォーム送信処理

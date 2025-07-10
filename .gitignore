@@ -1,39 +1,37 @@
-# Dependencies
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
 # Environment variables
 .env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*.local
 
-# OS files
+# API keys and tokens
+*.key
+*.token
+
+# IDE
+.vscode/
+.idea/
+
+# OS
 .DS_Store
 Thumbs.db
 
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
+# Logs
+*.log
+logs/
 
-# Build files
+# Dependencies
+node_modules/
+.npm/
+
+# Build outputs
 dist/
 build/
 
-# Logs
-logs/
-*.log
-
 # Temporary files
 *.tmp
-*.temp
-.cache/
+*.swp
+*~
 
-# Personal Access Tokens
-*token*
-*TOKEN*
+# Claude Code
+.claude/
+.claude.json.backup

@@ -1,43 +1,39 @@
-/* ===================================================================
-   INTERCONNECT Design System
-   モダンでプレミアムなデザインシステム
-   =================================================================== */
+/* INTERCONNECT Unified Design System */
+/* This file consolidates all design variables and replaces conflicting definitions */
 
-/* ===================================================================
-   1. CSS Variables & Theme Configuration
-   =================================================================== */
 :root {
-    /* カラーパレット - プレミアムグラデーション */
-    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-    --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-    --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-    --danger-gradient: linear-gradient(135deg, #f857a6 0%, #ff5858 100%);
-    
-    /* プライマリーカラー */
-    --primary: #667eea;
-    --primary-light: #7c8ff5;
-    --primary-lighter: #a5b4fc;
-    --primary-dark: #5a67d8;
-    --primary-darker: #4c51bf;
-    
-    /* セカンダリーカラー */
-    --secondary: #f093fb;
-    --secondary-light: #f5a9fc;
-    --secondary-dark: #e879f9;
-    
-    /* ニュートラルカラー */
-    --neutral-50: #fafbfc;
-    --neutral-100: #f4f5f7;
-    --neutral-200: #e9ecef;
-    --neutral-300: #dee2e6;
-    --neutral-400: #ced4da;
-    --neutral-500: #adb5bd;
-    --neutral-600: #6c757d;
-    --neutral-700: #495057;
-    --neutral-800: #343a40;
-    --neutral-900: #212529;
+  /* Primary Brand Colors */
+  --primary-color: #2563eb;        /* Main blue */
+  --primary-hover: #1d4ed8;        /* Darker blue for hover */
+  --primary-light: #60a5fa;        /* Light blue */
+  --primary-dark: #1e40af;         /* Dark blue */
+  
+  --secondary-color: #fbbf24;      /* Yellow */
+  --secondary-hover: #f59e0b;      /* Darker yellow */
+  --secondary-light: #fde68a;      /* Light yellow */
+  
+  --accent-color: #10b981;         /* Green */
+  --accent-hover: #059669;         /* Darker green */
+  
+  /* Status Colors */
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+  --info-color: #3b82f6;
+  
+  /* Neutral Colors */
+  --white: #ffffff;
+  --black: #000000;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
     
     /* ガラスモーフィズム効果 */
     --glass-bg: rgba(255, 255, 255, 0.1);

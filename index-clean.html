@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INTERCONNECT - 経営者コミュニティ</title>
+    
+    <!-- Unified Design System - Only 2 CSS files needed! -->
+    <link rel="stylesheet" href="css/interconnect-design-system.css">
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Core JavaScript -->
+    <script src="js/app.js" defer></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-brand">
+                <h1>INTERCONNECT</h1>
+                <span class="tagline">経営者コミュニティ</span>
+            </a>
+            
+            <button class="navbar-toggler" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <ul class="navbar-nav">
+                <li class="nav-item"><a href="#about" class="nav-link">コミュニティについて</a></li>
+                <li class="nav-item"><a href="#features" class="nav-link">特徴</a></li>
+                <li class="nav-item"><a href="#members" class="nav-link">メンバー</a></li>
+                <li class="nav-item"><a href="#events" class="nav-link">イベント</a></li>
+                <li class="nav-item"><a href="login.html" class="nav-link btn btn-outline btn-sm">ログイン</a></li>
+                <li class="nav-item"><a href="register.html" class="nav-link btn btn-primary btn-sm">新規登録</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-video-container">
+            <video class="hero-video" autoplay muted loop playsinline preload="metadata">
+                <source src="interconnect-top.mp4" type="video/mp4">
+                動画を再生できません。
+            </video>
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">経営者のための<br>プレミアムコミュニティ</h1>
+            <p class="hero-subtitle">志を共にする経営者たちと、新たなビジネスの可能性を創造する</p>
+            <div class="hero-buttons">
+                <a href="register.html" class="btn btn-secondary btn-lg">無料で始める</a>
+                <a href="#about" class="btn btn-outline btn-lg" style="color: white; border-color: white;">詳しく見る</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="text-center mb-8">INTERCONNECTとは</h2>
+            <div class="grid md:grid-cols-2 gap-8 align-items-center">
+                <div>
+                    <h3 class="mb-4">経営者による、経営者のための場所</h3>
+                    <p class="text-lg mb-4">
+                        INTERCONNECTは、志の高い経営者が集まり、互いに学び、成長し、
+                        新たなビジネスチャンスを創出するプレミアムコミュニティです。
+                    </p>
+                    <p class="mb-6">
+                        業界の垣根を超えた交流から生まれる新しいアイデア、
+                        経験豊富なメンターからの実践的なアドバイス、
+                        そして信頼できるビジネスパートナーとの出会い。
+                        すべてがここにあります。
+                    </p>
+                    <a href="#features" class="btn btn-primary">詳細を見る</a>
+                </div>
+                <div>
+                    <img src="assets/about-image.jpg" alt="INTERCONNECT コミュニティ" class="rounded-lg shadow-lg">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="text-center mb-4">INTERCONNECTの特徴</h2>
+            <p class="text-center text-lg text-secondary mb-12">
+                経営者の成長と成功を加速させる、6つの価値
+            </p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="feature-title">厳選されたメンバー</h3>
+                    <p class="feature-description">
+                        審査を通過した優秀な経営者のみが参加。
+                        質の高いネットワーキングを実現します。
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3 class="feature-title">実践的な学び</h3>
+                    <p class="feature-description">
+                        成功した経営者による実践的なセミナーや
+                        ワークショップを定期的に開催。
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="feature-title">ビジネスマッチング</h3>
+                    <p class="feature-description">
+                        AIを活用した最適なビジネスパートナーの
+                        マッチングサービスを提供。
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">成長支援</h3>
+                    <p class="feature-description">
+                        メンタリングプログラムや
+                        成長戦略の相談サービスを利用可能。
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 class="feature-title">グローバル展開</h3>
+                    <p class="feature-description">
+                        海外展開を支援する情報提供と
+                        国際的なネットワークへのアクセス。
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">安心・安全</h3>
+                    <p class="feature-description">
+                        厳格なプライバシー保護と
+                        信頼できる環境での交流を保証。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Members Section -->
+    <section id="members" class="section">
+        <div class="container">
+            <h2 class="text-center mb-12">活躍するメンバー</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <img src="assets/member1.jpg" alt="メンバー1" class="rounded-full w-32 h-32 mx-auto mb-4">
+                        <h4 class="mb-2">山田 太郎</h4>
+                        <p class="text-secondary mb-3">株式会社サンプル CEO</p>
+                        <p class="text-sm">
+                            IT業界で20年の経験を持ち、複数の成功したスタートアップを創業。
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body text-center">
+                        <img src="assets/member2.jpg" alt="メンバー2" class="rounded-full w-32 h-32 mx-auto mb-4">
+                        <h4 class="mb-2">佐藤 花子</h4>
+                        <p class="text-secondary mb-3">株式会社イノベーション 代表取締役</p>
+                        <p class="text-sm">
+                            革新的な製品開発で業界をリード。女性経営者のロールモデル。
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body text-center">
+                        <img src="assets/member3.jpg" alt="メンバー3" class="rounded-full w-32 h-32 mx-auto mb-4">
+                        <h4 class="mb-2">鈴木 一郎</h4>
+                        <p class="text-secondary mb-3">グローバルテック株式会社 創業者</p>
+                        <p class="text-sm">
+                            海外展開のエキスパート。アジア各国でビジネスを展開。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-8">
+                <a href="members.html" class="btn btn-primary">全てのメンバーを見る</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events" class="section bg-light">
+        <div class="container">
+            <h2 class="text-center mb-12">最新イベント</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="card">
+                    <div class="card-body">
+                        <span class="badge bg-primary text-white mb-3">セミナー</span>
+                        <h4 class="mb-3">DX推進による経営革新</h4>
+                        <p class="text-secondary mb-4">
+                            デジタルトランスフォーメーションを成功させた経営者が、
+                            実践的な導入方法と成功の秘訣を共有します。
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-sm text-secondary">2024年2月15日（木）19:00〜</span>
+                            <a href="#" class="btn btn-sm btn-outline">詳細を見る</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <span class="badge bg-success text-white mb-3">ネットワーキング</span>
+                        <h4 class="mb-3">月例交流会</h4>
+                        <p class="text-secondary mb-4">
+                            毎月開催される交流会で、新しいビジネスパートナーと出会い、
+                            アイデアを共有する機会を提供します。
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-sm text-secondary">2024年2月20日（火）18:30〜</span>
+                            <a href="#" class="btn btn-sm btn-outline">詳細を見る</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-8">
+                <a href="events.html" class="btn btn-primary">全てのイベントを見る</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section bg-primary text-white">
+        <div class="container text-center">
+            <h2 class="mb-4">今すぐINTERCONNECTに参加しよう</h2>
+            <p class="text-xl mb-8">
+                あなたのビジネスを次のステージへ。<br>
+                志を共にする経営者たちが待っています。
+            </p>
+            <div class="d-flex justify-content-center gap-4">
+                <a href="register.html" class="btn btn-secondary btn-lg">無料で始める</a>
+                <a href="#contact" class="btn btn-outline btn-lg" style="color: white; border-color: white;">お問い合わせ</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">INTERCONNECT</h3>
+                    <p class="text-sm">
+                        経営者による、経営者のための<br>
+                        プレミアムコミュニティ
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-title">サービス</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about" class="footer-link">コミュニティについて</a></li>
+                        <li><a href="#features" class="footer-link">特徴</a></li>
+                        <li><a href="members.html" class="footer-link">メンバー</a></li>
+                        <li><a href="events.html" class="footer-link">イベント</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-title">サポート</h4>
+                    <ul class="footer-links">
+                        <li><a href="help.html" class="footer-link">ヘルプセンター</a></li>
+                        <li><a href="privacy.html" class="footer-link">プライバシーポリシー</a></li>
+                        <li><a href="terms.html" class="footer-link">利用規約</a></li>
+                        <li><a href="#contact" class="footer-link">お問い合わせ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-title">フォローする</h4>
+                    <div class="d-flex gap-3 mt-4">
+                        <a href="#" class="text-2xl text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-2xl text-gray-400 hover:text-white"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-2xl text-gray-400 hover:text-white"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 INTERCONNECT. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal-backdrop">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">お問い合わせ</h3>
+                <button class="modal-close" onclick="closeContactModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label class="form-label">お名前</label>
+                        <input type="text" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">メールアドレス</label>
+                        <input type="email" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">お問い合わせ内容</label>
+                        <textarea class="form-textarea" rows="4" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeContactModal()">キャンセル</button>
+                <button class="btn btn-primary">送信する</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core JavaScript -->
+    <script>
+        // Mobile menu toggle
+        const navToggler = document.querySelector('.navbar-toggler');
+        const navMenu = document.querySelector('.navbar-nav');
+        
+        navToggler?.addEventListener('click', () => {
+            navMenu.classList.toggle('show');
+        });
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    navMenu.classList.remove('show');
+                }
+            });
+        });
+        
+        // Contact modal
+        function openContactModal() {
+            const modal = document.getElementById('contactModal');
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeContactModal() {
+            const modal = document.getElementById('contactModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+        
+        // Open modal on contact link click
+        document.querySelectorAll('a[href="#contact"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                openContactModal();
+            });
+        });
+        
+        // Close modal on backdrop click
+        document.getElementById('contactModal')?.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-backdrop')) {
+                closeContactModal();
+            }
+        });
+        
+        // Video error handling
+        const video = document.querySelector('.hero-video');
+        if (video) {
+            video.addEventListener('error', () => {
+                console.error('Video failed to load');
+                // Hide video container and show static background
+                video.parentElement.style.display = 'none';
+            });
+        }
+    </script>
+</body>
+</html>
