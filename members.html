@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>メンバー - INTERCONNECT</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/buttons.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/members.css">
+    <link rel="stylesheet" href="css/notifications.css">
+    <link rel="stylesheet" href="css/responsive-menu.css">
+    <link rel="stylesheet" href="css/user-menu-zindex-only.css">
+</head>
+<body>
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <button class="mobile-menu-toggle" id="membersSidebarToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <h1>INTERCONNECT</h1>
+        <div class="mobile-header-actions">
+            <a href="notifications.html" class="notification-btn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <div class="mobile-nav-header">
+            <h1>INTERCONNECT</h1>
+            <button class="mobile-nav-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="mobile-nav-menu">
+            <ul>
+                <li>
+                    <a href="dashboard.html" class="mobile-nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>ダッシュボード</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="mobile-nav-link active">
+                        <i class="fas fa-users"></i>
+                        <span>メンバー</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="events.html" class="mobile-nav-link">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>イベント</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="messages.html" class="mobile-nav-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>メッセージ</span>
+                        <span class="badge">3</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="matching.html" class="mobile-nav-link">
+                        <i class="fas fa-handshake"></i>
+                        <span>マッチング</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="profile.html" class="mobile-nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>プロフィール</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="settings.html" class="mobile-nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>設定</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="mobile-nav-footer">
+            <a href="#" class="mobile-nav-link" onclick="logout(); return false;">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>ログアウト</span>
+            </a>
+        </div>
+    </nav>
+    
+    <!-- Mobile Backdrop -->
+    <div class="mobile-backdrop"></div>
+
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="membersSidebar">
+            <div class="sidebar-header">
+                <h1>INTERCONNECT</h1>
+                <button class="sidebar-toggle" aria-label="メニュー">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html" class="sidebar-link">
+                            <i class="fas fa-home"></i>
+                            <span>ダッシュボード</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-link active">
+                            <i class="fas fa-users"></i>
+                            <span>メンバー</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="events.html" class="sidebar-link">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>イベント</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="messages.html" class="sidebar-link">
+                            <i class="fas fa-envelope"></i>
+                            <span>メッセージ</span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="matching.html" class="sidebar-link">
+                            <i class="fas fa-handshake"></i>
+                            <span>マッチング</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="profile.html" class="sidebar-link">
+                            <i class="fas fa-user"></i>
+                            <span>プロフィール</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html" class="sidebar-link">
+                            <i class="fas fa-cog"></i>
+                            <span>設定</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="#" class="sidebar-link" onclick="logout(); return false;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>ログアウト</span>
+                </a>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <h1>メンバー</h1>
+                    <p>コミュニティメンバーの一覧</p>
+                </div>
+                
+                <div class="header-right">
+                    <a href="notifications.html" class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </a>
+                    
+                    <div class="user-menu">
+                        <button class="user-menu-btn">
+                            <img src="assets/user-placeholder.svg" alt="User">
+                            <span class="user-name">ユーザー名</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        
+                        <div class="user-dropdown">
+                            <a href="profile.html">プロフィール</a>
+                            <a href="settings.html">設定</a>
+                            <hr>
+                            <a href="#" onclick="logout(); return false;">ログアウト</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Members Content -->
+            <div class="content-container">
+                <!-- Results Info -->
+                <div class="results-info">
+                    <div class="results-count">
+                        <span>156</span>名のメンバー
+                    </div>
+                    <div class="view-mode">
+                        <button class="active" title="グリッド表示">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button title="リスト表示">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Search and Filter -->
+                <div class="members-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="メンバーを検索..." class="search-input">
+                    </div>
+                    
+                    <div class="filter-controls">
+                        <select class="filter-select">
+                            <option value="">業界で絞る</option>
+                            <option value="it">IT・テクノロジー</option>
+                            <option value="finance">金融・保険</option>
+                            <option value="manufacturing">製造業</option>
+                            <option value="retail">小売・流通</option>
+                            <option value="healthcare">医療・ヘルスケア</option>
+                        </select>
+                        
+                        <select class="filter-select">
+                            <option value="">役職で絞る</option>
+                            <option value="executive">経営者・役員</option>
+                            <option value="manager">管理職</option>
+                            <option value="specialist">専門職</option>
+                            <option value="general">一般社員</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Members Grid -->
+                <div class="members-grid">
+                    <!-- Member Card 1 -->
+                    <div class="member-card">
+                        <div class="member-header">
+                            <img src="assets/user-placeholder.svg" alt="Member" class="member-avatar">
+                            <div class="member-info">
+                                <h3>山田 太郎</h3>
+                                <p class="member-title">代表取締役CEO</p>
+                                <p class="member-company">株式会社テックイノベーション</p>
+                            </div>
+                        </div>
+                        <div class="member-tags">
+                            <span class="tag">IT</span>
+                            <span class="tag">AI</span>
+                            <span class="tag">DX推進</span>
+                        </div>
+                        <div class="member-stats">
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>156 コネクション</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-handshake"></i>
+                                <span>23 マッチング</span>
+                            </div>
+                        </div>
+                        <div class="member-actions">
+                            <a href="profile.html?user=1" class="btn btn-primary btn-small">
+                                <i class="fas fa-user"></i>
+                                <span class="btn-text">プロフィール</span>
+                            </a>
+                            <button class="btn btn-outline btn-small" onclick="alert('コネクト申請を送信しました')">
+                                <i class="fas fa-plus"></i>
+                                <span class="btn-text">コネクト</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Member Card 2 -->
+                    <div class="member-card">
+                        <div class="member-header">
+                            <img src="assets/user-placeholder.svg" alt="Member" class="member-avatar">
+                            <div class="member-info">
+                                <h3>佐藤 花子</h3>
+                                <p class="member-title">マーケティング部長</p>
+                                <p class="member-company">グローバルコマース株式会社</p>
+                            </div>
+                        </div>
+                        <div class="member-tags">
+                            <span class="tag">マーケティング</span>
+                            <span class="tag">EC</span>
+                            <span class="tag">グローバル</span>
+                        </div>
+                        <div class="member-stats">
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>234 コネクション</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-handshake"></i>
+                                <span>45 マッチング</span>
+                            </div>
+                        </div>
+                        <div class="member-actions">
+                            <a href="profile.html?user=1" class="btn btn-primary btn-small">
+                                <i class="fas fa-user"></i>
+                                <span class="btn-text">プロフィール</span>
+                            </a>
+                            <button class="btn btn-outline btn-small" onclick="alert('コネクト申請を送信しました')">
+                                <i class="fas fa-plus"></i>
+                                <span class="btn-text">コネクト</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Member Cards -->
+                    <div class="member-card">
+                        <div class="member-header">
+                            <img src="assets/user-placeholder.svg" alt="Member" class="member-avatar">
+                            <div class="member-info">
+                                <h3>高橋 健一</h3>
+                                <p class="member-title">CTO</p>
+                                <p class="member-company">デジタルソリューションズ</p>
+                            </div>
+                        </div>
+                        <div class="member-tags">
+                            <span class="tag">開発</span>
+                            <span class="tag">クラウド</span>
+                            <span class="tag">DevOps</span>
+                        </div>
+                        <div class="member-stats">
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>198 コネクション</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-handshake"></i>
+                                <span>34 マッチング</span>
+                            </div>
+                        </div>
+                        <div class="member-actions">
+                            <a href="profile.html?user=3" class="btn btn-primary btn-small">
+                                <i class="fas fa-user"></i>
+                                <span class="btn-text">プロフィール</span>
+                            </a>
+                            <button class="btn btn-outline btn-small" onclick="alert('コネクト申請を送信しました')">
+                                <i class="fas fa-plus"></i>
+                                <span class="btn-text">コネクト</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="member-card">
+                        <div class="member-header">
+                            <img src="assets/user-placeholder.svg" alt="Member" class="member-avatar">
+                            <div class="member-info">
+                                <h3>伊藤 美咲</h3>
+                                <p class="member-title">人事部長</p>
+                                <p class="member-company">タレントマネジメント株式会社</p>
+                            </div>
+                        </div>
+                        <div class="member-tags">
+                            <span class="tag">人材開発</span>
+                            <span class="tag">採用</span>
+                            <span class="tag">組織開発</span>
+                        </div>
+                        <div class="member-stats">
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>312 コネクション</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-handshake"></i>
+                                <span>67 マッチング</span>
+                            </div>
+                        </div>
+                        <div class="member-actions">
+                            <a href="profile.html?user=4" class="btn btn-primary btn-small">
+                                <i class="fas fa-user"></i>
+                                <span class="btn-text">プロフィール</span>
+                            </a>
+                            <button class="btn btn-outline btn-small" onclick="alert('コネクト申請を送信しました')">
+                                <i class="fas fa-plus"></i>
+                                <span class="btn-text">コネクト</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="member-card">
+                        <div class="member-header">
+                            <img src="assets/user-placeholder.svg" alt="Member" class="member-avatar">
+                            <div class="member-info">
+                                <h3>渡辺 裕太</h3>
+                                <p class="member-title">営業本部長</p>
+                                <p class="member-company">セールスフォース株式会社</p>
+                            </div>
+                        </div>
+                        <div class="member-tags">
+                            <span class="tag">営業戦略</span>
+                            <span class="tag">BtoB</span>
+                            <span class="tag">CRM</span>
+                        </div>
+                        <div class="member-stats">
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>423 コネクション</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-handshake"></i>
+                                <span>89 マッチング</span>
+                            </div>
+                        </div>
+                        <div class="member-actions">
+                            <a href="profile.html?user=5" class="btn btn-primary btn-small">
+                                <i class="fas fa-user"></i>
+                                <span class="btn-text">プロフィール</span>
+                            </a>
+                            <button class="btn btn-outline btn-small" onclick="alert('コネクト申請を送信しました')">
+                                <i class="fas fa-plus"></i>
+                                <span class="btn-text">コネクト</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="member-card">
+                        <div class="member-header">
+                            <img src="assets/user-placeholder.svg" alt="Member" class="member-avatar">
+                            <div class="member-info">
+                                <h3>中村 さくら</h3>
+                                <p class="member-title">プロダクトマネージャー</p>
+                                <p class="member-company">イノベーションラボ</p>
+                            </div>
+                        </div>
+                        <div class="member-tags">
+                            <span class="tag">プロダクト開発</span>
+                            <span class="tag">UI/UX</span>
+                            <span class="tag">アジャイル</span>
+                        </div>
+                        <div class="member-stats">
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>267 コネクション</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-handshake"></i>
+                                <span>52 マッチング</span>
+                            </div>
+                        </div>
+                        <div class="member-actions">
+                            <a href="profile.html?user=6" class="btn btn-primary btn-small">
+                                <i class="fas fa-user"></i>
+                                <span class="btn-text">プロフィール</span>
+                            </a>
+                            <button class="btn btn-outline btn-small" onclick="alert('コネクト申請を送信しました')">
+                                <i class="fas fa-plus"></i>
+                                <span class="btn-text">コネクト</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination">
+                    <button class="btn btn-outline" disabled>
+                        <i class="fas fa-chevron-left"></i>
+                        <span>前へ</span>
+                    </button>
+                    <div class="page-numbers">
+                        <button class="page-number active">1</button>
+                        <button class="page-number">2</button>
+                        <button class="page-number">3</button>
+                        <button class="page-number">4</button>
+                        <button class="page-number">5</button>
+                    </div>
+                    <button class="btn btn-outline">
+                        <span>次へ</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/error-prevention.js"></script>
+    <script src="js/null-check-fixes.js"></script>
+    <script src="js/safe-dom-utils.js"></script>
+    <script src="js/safe-storage.js"></script>
+    <script src="js/debug-logger.js"></script>
+    <script src="js/responsive-menu-simple.js"></script>
+    <script src="js/dashboard.js"></script>
+    <!-- <script src="js/notifications.js"></script> -->
+</body>
+</html>
