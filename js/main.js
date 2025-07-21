@@ -1,37 +1,14 @@
 /**
- * INTERCONNECT Main JavaScript - Memory Leak Fixed Version
+ * INTERCONNECT Main JavaScript
  */
 
 (function() {
     'use strict';
 
-    // クリーンアップ用の参照を保持
-    let cleanupFunctions = [];
-    let observers = [];
-    let timeouts = [];
-    let eventListeners = [];
-
-    // イベントリスナーの管理用ヘルパー
-    function addEventListener(element, event, handler, options) {
-        element.addEventListener(event, handler, options);
-        eventListeners.push({ element, event, handler, options });
-    }
-
-    // タイムアウトの管理用ヘルパー
-    function setManagedTimeout(fn, delay) {
-        const timeoutId = setTimeout(fn, delay);
-        timeouts.push(timeoutId);
-        return timeoutId;
-    }
-
     // Wait for DOM to be ready
     document.addEventListener('DOMContentLoaded', function() {
         initializeApp();
     });
-
-    // ページ遷移時のクリーンアップ
-    window.addEventListener('beforeunload', cleanup);
-    window.addEventListener('pagehide', cleanup);
 
     /**
      * Initialize all app features
@@ -54,15 +31,14 @@
 
         // Mobile menu toggle
         if (navToggler) {
-            const toggleHandler = function() {
+            navToggler.addEventListener('click', function() {
                 navMenu.classList.toggle('active');
                 this.classList.toggle('active');
-            };
-            addEventListener(navToggler, 'click', toggleHandler);
+            });
         }
 
         // Close mobile menu when clicking outside
-        const documentClickHandler = function(e) {
+        document.addEventListener('click', function(e) {
             if (navToggler && navMenu && 
                 !navToggler.contains(e.target) && 
                 !navMenu.contains(e.target)) {
@@ -74,12 +50,11 @@
                 spans[1].style.opacity = '';
                 spans[2].style.transform = '';
             }
-        };
-        addEventListener(document, 'click', documentClickHandler);
+        });
 
         // Close mobile menu on link click
         navLinks.forEach(link => {
-            const linkClickHandler = function() {
+            link.addEventListener('click', function() {
                 if (navMenu.classList.contains('show')) {
                     navMenu.classList.remove('active');
                     
@@ -93,13 +68,12 @@
                         }
                     }
                 }
-            };
-            addEventListener(link, 'click', linkClickHandler);
+            });
         });
 
         // Navbar scroll effect
         let lastScroll = 0;
-        const scrollHandler = function() {
+        window.addEventListener('scroll', function() {
             const currentScroll = window.pageYOffset;
             
             if (navbar) {
@@ -113,8 +87,7 @@
             }
             
             lastScroll = currentScroll;
-        };
-        addEventListener(window, 'scroll', scrollHandler, { passive: true });
+        });
     }
 
     /**
@@ -123,7 +96,7 @@
     function initScrollEffects() {
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            const smoothScrollHandler = function(e) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href').substring(1);
                 const targetElement = document.getElementById(targetId);
@@ -138,14 +111,13 @@
                         behavior: 'smooth'
                     });
                 }
-            };
-            addEventListener(anchor, 'click', smoothScrollHandler);
+            });
         });
 
         // Scroll indicator click
         const scrollIndicator = document.querySelector('.scroll-indicator');
         if (scrollIndicator) {
-            const scrollIndicatorHandler = function() {
+            scrollIndicator.addEventListener('click', function() {
                 const aboutSection = document.getElementById('about');
                 if (aboutSection) {
                     const navHeight = document.querySelector('.navbar').offsetHeight;
@@ -156,8 +128,7 @@
                         behavior: 'smooth'
                     });
                 }
-            };
-            addEventListener(scrollIndicator, 'click', scrollIndicatorHandler);
+            });
         }
 
         // Intersection Observer for animations
@@ -171,13 +142,9 @@
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
                     entry.target.style.transform = 'translateY(0)';
-                    observer.unobserve(entry.target); // 一度表示したら監視を停止
                 }
             });
         }, observerOptions);
-
-        // Observerを管理リストに追加
-        observers.push(observer);
 
         // Observe elements
         const animatedElements = document.querySelectorAll('.about-item, .feature-card, .event-card, .achievement-item');
@@ -196,7 +163,7 @@
         const contactForm = document.getElementById('contactForm');
         
         if (contactForm) {
-            const submitHandler = function(e) {
+            contactForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
                 // Get form data
@@ -224,13 +191,12 @@
                 
                 // Reset form
                 contactForm.reset();
-            };
-            addEventListener(contactForm, 'submit', submitHandler);
+            });
         }
     }
 
     /**
-     * Initialize video handling with robust error handling and cleanup
+     * Initialize video handling with robust error handling and fallback
      */
     function initVideoHandling() {
         const heroVideoContainer = document.querySelector('.hero-video-container');
@@ -244,8 +210,6 @@
         // Track video load attempts
         let loadAttempts = 0;
         const maxAttempts = 3;
-        let loadingTimeout = null;
-        let retryTimeout = null;
         
         // Create fallback image element
         const fallbackImage = document.createElement('div');
@@ -269,10 +233,6 @@
             console.log('Showing fallback image');
             heroVideo.style.display = 'none';
             fallbackImage.style.display = 'block';
-            // ビデオのソースを解放
-            heroVideo.pause();
-            heroVideo.removeAttribute('src');
-            heroVideo.load();
         }
 
         // Function to check video source
@@ -292,7 +252,7 @@
         }
 
         // Handle various video errors
-        const errorHandler = function(e) {
+        heroVideo.addEventListener('error', function(e) {
             loadAttempts++;
             console.error(`Video load error (attempt ${loadAttempts}/${maxAttempts}):`, e);
             
@@ -300,25 +260,28 @@
                 showFallback();
             } else {
                 // Try to reload the video
-                retryTimeout = setManagedTimeout(function() {
+                setTimeout(function() {
                     heroVideo.load();
                 }, 1000 * loadAttempts);
             }
-        };
-        addEventListener(heroVideo, 'error', errorHandler);
+        });
 
         // Handle source element errors
         const videoSource = heroVideo.querySelector('source');
         if (videoSource) {
-            const sourceErrorHandler = function(e) {
+            videoSource.addEventListener('error', function(e) {
                 console.error('Video source error:', e);
                 showFallback();
-            };
-            addEventListener(videoSource, 'error', sourceErrorHandler);
+            });
         }
 
+        // Check if video can be played
+        heroVideo.addEventListener('loadedmetadata', function() {
+            console.log('Video metadata loaded successfully');
+        });
+
         // Handle successful video load
-        const canPlayHandler = function() {
+        heroVideo.addEventListener('canplay', function() {
             console.log('Video can play');
             loadAttempts = 0; // Reset attempts on success
             heroVideo.classList.remove('loading');
@@ -334,13 +297,19 @@
                     })
                     .catch(function(error) {
                         console.warn('Autoplay was prevented:', error);
+                        // Video is loaded but autoplay failed - this is okay
+                        // User can still play manually if needed
                     });
             }
-        };
-        addEventListener(heroVideo, 'canplay', canPlayHandler);
+        });
+
+        // Handle stalled video
+        heroVideo.addEventListener('stalled', function() {
+            console.warn('Video stalled');
+        });
 
         // Handle slow loading
-        loadingTimeout = setManagedTimeout(function() {
+        let loadingTimeout = setTimeout(function() {
             if (heroVideo.readyState < 3) { // HAVE_FUTURE_DATA
                 console.warn('Video loading timeout - showing fallback');
                 showFallback();
@@ -348,15 +317,10 @@
         }, 30000); // 30 second timeout for Netlify CDN
 
         // Clear timeout if video loads successfully
-        const canPlayThroughHandler = function() {
-            if (loadingTimeout) {
-                clearTimeout(loadingTimeout);
-                const index = timeouts.indexOf(loadingTimeout);
-                if (index > -1) timeouts.splice(index, 1);
-            }
+        heroVideo.addEventListener('canplaythrough', function() {
+            clearTimeout(loadingTimeout);
             console.log('Video loaded completely');
-        };
-        addEventListener(heroVideo, 'canplaythrough', canPlayThroughHandler);
+        });
 
         // Performance optimization: pause video when not visible
         let videoObserver = new IntersectionObserver(function(entries) {
@@ -376,48 +340,17 @@
         }, { threshold: 0.25 });
 
         videoObserver.observe(heroVideo);
-        observers.push(videoObserver);
 
-        // クリーンアップ関数を追加
-        cleanupFunctions.push(function() {
-            if (loadingTimeout) clearTimeout(loadingTimeout);
-            if (retryTimeout) clearTimeout(retryTimeout);
-            if (heroVideo) {
-                heroVideo.pause();
-                heroVideo.removeAttribute('src');
-                heroVideo.load();
+        // Check network status - skip for Netlify test environment
+        const isNetlify = window.location.hostname.includes('netlify') || window.location.hostname.includes('netlify.app');
+        
+        if (!isNetlify && 'connection' in navigator) {
+            const connection = navigator.connection;
+            if (connection.saveData || connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') {
+                console.log('Slow connection detected - showing fallback');
+                showFallback();
             }
-        });
+        }
     }
-
-    /**
-     * グローバルクリーンアップ関数
-     */
-    function cleanup() {
-        console.log('Cleaning up resources...');
-        
-        // すべてのタイムアウトをクリア
-        timeouts.forEach(timeout => clearTimeout(timeout));
-        timeouts = [];
-        
-        // すべてのObserverを切断
-        observers.forEach(observer => observer.disconnect());
-        observers = [];
-        
-        // すべてのイベントリスナーを削除
-        eventListeners.forEach(({ element, event, handler, options }) => {
-            element.removeEventListener(event, handler, options);
-        });
-        eventListeners = [];
-        
-        // カスタムクリーンアップ関数を実行
-        cleanupFunctions.forEach(fn => fn());
-        cleanupFunctions = [];
-    }
-
-    // パブリックAPIとして公開（必要に応じて）
-    window.INTERCONNECT = {
-        cleanup: cleanup
-    };
 
 })();
