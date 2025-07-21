@@ -24,10 +24,6 @@
     "url": "https://github.com/YOUR_USERNAME/INTERCONNECT/issues"
   },
   "homepage": "https://github.com/YOUR_USERNAME/INTERCONNECT#readme",
-  "dependencies": {
-    "node-fetch": "^2.6.7",
-    "@supabase/supabase-js": "^2.38.0"
-  },
   "devDependencies": {
     "netlify-cli": "^15.0.0"
   }
