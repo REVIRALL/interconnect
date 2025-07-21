@@ -308,13 +308,15 @@
             console.warn('Video stalled');
         });
 
-        // Handle slow loading
+        // Handle slow loading - reduced timeout
         let loadingTimeout = setTimeout(function() {
             if (heroVideo.readyState < 3) { // HAVE_FUTURE_DATA
-                console.warn('Video loading timeout - showing fallback');
-                showFallback();
+                console.warn('Video loading slowly - forcing display');
+                // Force show video instead of fallback
+                heroVideo.classList.remove('loading');
+                heroVideo.classList.add('loaded');
             }
-        }, 30000); // 30 second timeout for Netlify CDN
+        }, 3000); // 3 second timeout for faster display
 
         // Clear timeout if video loads successfully
         heroVideo.addEventListener('canplaythrough', function() {
