@@ -1,82 +1,16 @@
-# Netlify設定ファイル
+# シンプルなNetlify設定ファイル
 
 [build]
-  # ビルドコマンド（静的サイトの場合は不要）
-  command = "echo 'No build command required for static site'"
-  # 公開ディレクトリ
   publish = "."
-  # Node.jsのバージョン
-  environment = { NODE_VERSION = "18" }
-
-[build.environment]
-  # ビルド時の環境変数
-  NETLIFY_USE_YARN = "false"
 
 [[headers]]
-  # セキュリティヘッダー
   for = "/*"
   [headers.values]
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
+    X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    Content-Security-Policy = "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://*.supabase.co; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' data: https://cdn.jsdelivr.net; connect-src 'self' https://*.supabase.co wss://*.supabase.co;"
+    X-XSS-Protection = "1; mode=block"
 
 [[redirects]]
-  # SPAのためのリダイレクト設定
   from = "/*"
   to = "/index.html"
   status = 200
-  conditions = {Role = ["admin", "user"]}
-
-[[redirects]]
-  # 管理者ページへのリダイレクト
-  from = "/admin"
-  to = "/admin.html"
-  status = 200
-
-[[redirects]]
-  # APIエンドポイントのプロキシ（Supabase）
-  from = "/api/*"
-  to = "https://YOUR_SUPABASE_PROJECT.supabase.co/:splat"
-  status = 200
-  force = true
-
-[functions]
-  # Netlify Functionsのディレクトリ
-  directory = "netlify/functions"
-  node_bundler = "esbuild"
-
-[[plugins]]
-  # プラグイン: 画像最適化
-  package = "@netlify/plugin-image-optim"
-
-[[plugins]]
-  # プラグイン: Lighthouseパフォーマンステスト
-  package = "@netlify/plugin-lighthouse"
-  
-  [plugins.inputs]
-    # パフォーマンステストの設定
-    performance = 0.9
-    accessibility = 0.9
-    best-practices = 0.9
-    seo = 0.9
-
-[context.production]
-  # 本番環境の設定
-  environment = { ENVIRONMENT = "production" }
-
-[context.deploy-preview]
-  # プレビューデプロイの設定
-  environment = { ENVIRONMENT = "preview" }
-
-[context.branch-deploy]
-  # ブランチデプロイの設定
-  environment = { ENVIRONMENT = "development" }
-
-[dev]
-  # ローカル開発サーバーの設定
-  command = "npm run dev"
-  port = 3000
-  targetPort = 3000
-  autoLaunch = true
