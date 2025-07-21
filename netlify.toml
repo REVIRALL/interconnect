@@ -47,21 +47,20 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
-# プラグインは一旦コメントアウト（必要に応じて後で有効化）
-# [[plugins]]
-#   # プラグイン: 画像最適化
-#   package = "@netlify/plugin-image-optim"
-# 
-# [[plugins]]
-#   # プラグイン: Lighthouseパフォーマンステスト
-#   package = "@netlify/plugin-lighthouse"
-#   
-#   [plugins.inputs]
-#     # パフォーマンステストの設定
-#     performance = 0.9
-#     accessibility = 0.9
-#     best-practices = 0.9
-#     seo = 0.9
+[[plugins]]
+  # プラグイン: 画像最適化
+  package = "@netlify/plugin-image-optim"
+
+[[plugins]]
+  # プラグイン: Lighthouseパフォーマンステスト
+  package = "@netlify/plugin-lighthouse"
+  
+  [plugins.inputs]
+    # パフォーマンステストの設定
+    performance = 0.9
+    accessibility = 0.9
+    best-practices = 0.9
+    seo = 0.9
 
 [context.production]
   # 本番環境の設定

@@ -25,8 +25,6 @@
   },
   "homepage": "https://github.com/YOUR_USERNAME/INTERCONNECT#readme",
   "devDependencies": {
-    "netlify-cli": "^15.0.0",
-    "@netlify/plugin-image-optim": "^1.0.3",
-    "@netlify/plugin-lighthouse": "^6.0.0"
+    "netlify-cli": "^15.0.0"
   }
 }
