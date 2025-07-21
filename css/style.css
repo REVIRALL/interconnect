@@ -257,26 +257,14 @@ ul {
     z-index: 0;
 }
 
-/* Video loading state - improved visibility */
+/* Video loading state */
 .hero-video.loading {
-    opacity: 0.3; /* Show video partially while loading */
+    opacity: 0;
     transition: opacity 0.5s ease;
 }
 
 .hero-video.loaded {
     opacity: 1;
-}
-
-/* Immediate video display fallback */
-.hero-video {
-    opacity: 1 !important; /* Force visibility after 3 seconds */
-    animation: fadeInVideo 3s ease-in-out;
-}
-
-@keyframes fadeInVideo {
-    0% { opacity: 0; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
 }
 
 .hero-content {
