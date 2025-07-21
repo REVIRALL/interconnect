@@ -284,8 +284,10 @@
         heroVideo.addEventListener('canplay', function() {
             console.log('Video can play');
             loadAttempts = 0; // Reset attempts on success
+            // Immediately show video
             heroVideo.classList.remove('loading');
             heroVideo.classList.add('loaded');
+            clearTimeout(loadingTimeout);
             
             // Try to play the video
             const playPromise = heroVideo.play();
@@ -308,13 +310,15 @@
             console.warn('Video stalled');
         });
 
-        // Handle slow loading
+        // Handle slow loading - reduced timeout
         let loadingTimeout = setTimeout(function() {
             if (heroVideo.readyState < 3) { // HAVE_FUTURE_DATA
-                console.warn('Video loading timeout - showing fallback');
-                showFallback();
+                console.warn('Video loading timeout - attempting fallback');
+                // Don't show fallback immediately - let CSS handle initial display
+                heroVideo.classList.remove('loading');
+                heroVideo.classList.add('loaded');
             }
-        }, 30000); // 30 second timeout for Netlify CDN
+        }, 5000); // 5 second timeout for initial display
 
         // Clear timeout if video loads successfully
         heroVideo.addEventListener('canplaythrough', function() {
