@@ -298,6 +298,26 @@ body::before {
     box-shadow: 0 10px 30px rgba(0, 102, 255, 0.2);
 }
 
+/* LINEログインボタン */
+.line-button {
+    background: #00C300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.line-button:hover {
+    background: #00A300;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 195, 0, 0.3);
+}
+
+.line-button i {
+    font-size: 1.5rem;
+}
+
 /* フッターエリア */
 .auth-footer {
     text-align: center;

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINE認証中 - INTERCONNECT</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth-unified.css">
+    
+    <style>
+        .callback-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .callback-card {
+            background: white;
+            border-radius: 20px;
+            padding: 48px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+        }
+        
+        .callback-icon {
+            font-size: 4rem;
+            color: #00C300;
+            margin-bottom: 24px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .callback-title {
+            font-size: 1.5rem;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+        }
+        
+        .callback-message {
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+        
+        .error-message {
+            color: #dc2626;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="callback-container">
+        <div class="callback-card">
+            <i class="fab fa-line callback-icon"></i>
+            <h2 class="callback-title">LINE認証処理中</h2>
+            <p class="callback-message">しばらくお待ちください...</p>
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/supabase-client.js"></script>
+    <script>
+        // Supabaseが準備できるまで待つ
+        window.addEventListener('supabaseReady', function() {
+            handleLineCallback();
+        });
+        
+        async function handleLineCallback() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            const state = urlParams.get('state');
+            const error = urlParams.get('error');
+            const errorDescription = urlParams.get('error_description');
+            
+            // エラーチェック
+            if (error) {
+                showError(`認証エラー: ${errorDescription || error}`);
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 3000);
+                return;
+            }
+            
+            // stateチェック（CSRF対策）
+            const savedState = sessionStorage.getItem('line_state');
+            if (!state || state !== savedState) {
+                showError('不正なリクエストです');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 3000);
+                return;
+            }
+            
+            // codeが存在しない場合
+            if (!code) {
+                showError('認証コードが取得できませんでした');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 3000);
+                return;
+            }
+            
+            try {
+                // ここで本来はバックエンドAPIを呼び出してLINEトークンを検証し、
+                // Supabaseユーザーを作成/ログインする処理を行う
+                
+                // デモ用：直接ダッシュボードへリダイレクト
+                // 実際の実装では、サーバーサイドでLINE APIを呼び出し、
+                // ユーザー情報を取得してSupabaseにユーザーを作成する必要があります
+                
+                console.log('LINE認証コード:', code);
+                
+                // 仮のユーザー情報を保存（デモ用）
+                localStorage.setItem('user', JSON.stringify({
+                    id: 'line_' + Date.now(),
+                    email: 'line_user@example.com',
+                    name: 'LINEユーザー',
+                    provider: 'line'
+                }));
+                
+                // 成功メッセージ
+                document.querySelector('.callback-message').textContent = '認証成功！リダイレクトしています...';
+                
+                // ダッシュボードへリダイレクト
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
+                
+            } catch (err) {
+                console.error('LINE認証エラー:', err);
+                showError('認証処理中にエラーが発生しました');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 3000);
+            }
+        }
+        
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
