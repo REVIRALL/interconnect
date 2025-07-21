@@ -205,7 +205,9 @@ exports.handler = asyncHandler(async (event, context) => {
             statusCode: 200,
             headers: {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Origin': process.env.ALLOWED_ORIGINS || '*',
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Methods': 'POST, OPTIONS'
             },
             body: JSON.stringify({
                 user: {
@@ -217,12 +219,4 @@ exports.handler = asyncHandler(async (event, context) => {
                 session_url: session.properties.action_link
             })
         };
-
-    } catch (error) {
-        console.error('LINE auth error:', error);
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ error: 'Internal server error' })
-        };
-    }
-};
+});
