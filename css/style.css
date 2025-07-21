@@ -257,14 +257,10 @@ ul {
     z-index: 0;
 }
 
-/* Video loading state - improved for faster display */
-.hero-video {
-    opacity: 1;
-    transition: opacity 0.3s ease;
-}
-
+/* Video loading state */
 .hero-video.loading {
-    opacity: 0.7; /* Show partially while loading */
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
 .hero-video.loaded {

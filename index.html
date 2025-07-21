@@ -21,14 +21,16 @@
     <!-- Preload critical video for better performance on Netlify -->
     <link rel="preload" as="video" href="assets/interconnect-top.mp4" type="video/mp4">
     
-    <!-- Styles - Optimized loading order -->
+    <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/buttons.css">
+    <link rel="stylesheet" href="css/notifications.css">
     <link rel="stylesheet" href="css/navbar-fresh.css">
+    <link rel="stylesheet" href="css/homepage-modern.css">
+    <link rel="stylesheet" href="css/homepage-complete.css">
     <link rel="stylesheet" href="css/contact-balanced.css">
     <link rel="stylesheet" href="css/scroll-animations.css">
     <link rel="stylesheet" href="css/loading-screen.css">
-    <link rel="stylesheet" href="css/notifications.css">
     <link rel="stylesheet" href="css/hero-mobile-breaks.css">
     <link rel="stylesheet" href="css/news-category-mobile-fix.css">
 </head>
@@ -62,7 +64,7 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-video-container">
-            <video class="hero-video" autoplay muted loop playsinline preload="auto">
+            <video class="hero-video loading" autoplay muted loop playsinline preload="auto">
                 <source src="assets/interconnect-top.mp4" type="video/mp4">
             </video>
             <img class="hero-fallback" src="assets/hero-fallback.svg" alt="INTERCONNECT">
@@ -705,8 +707,7 @@
     <script src="js/null-check-fixes.js"></script>
     <script src="js/safe-dom-utils.js"></script>
     <script src="js/safe-storage.js"></script>
-    <!-- Loading screen temporarily disabled for faster video display -->
-    <!-- <script src="js/loading-screen.js"></script> -->
+    <script src="js/loading-screen.js"></script>
     <script src="js/main.js"></script>
     <script src="js/scroll-fade.js"></script>
 </body>
