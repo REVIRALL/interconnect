@@ -119,30 +119,51 @@
             }
             
             try {
-                // ここで本来はバックエンドAPIを呼び出してLINEトークンを検証し、
-                // Supabaseユーザーを作成/ログインする処理を行う
+                // バックエンドAPIを呼び出してLINE認証を処理
+                const response = await fetch('/.netlify/functions/line-auth', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        code: code,
+                        redirect_uri: window.location.origin + '/line-callback.html'
+                    })
+                });
                 
-                // デモ用：直接ダッシュボードへリダイレクト
-                // 実際の実装では、サーバーサイドでLINE APIを呼び出し、
-                // ユーザー情報を取得してSupabaseにユーザーを作成する必要があります
+                if (!response.ok) {
+                    const error = await response.json();
+                    showError(error.error || '認証処理に失敗しました');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 3000);
+                    return;
+                }
                 
-                console.log('LINE認証コード:', code);
+                const data = await response.json();
                 
-                // 仮のユーザー情報を保存（デモ用）
+                // ユーザー情報を保存
                 localStorage.setItem('user', JSON.stringify({
-                    id: 'line_' + Date.now(),
-                    email: 'line_user@example.com',
-                    name: 'LINEユーザー',
+                    id: data.user.id,
+                    email: data.user.email,
+                    name: data.user.display_name,
+                    picture: data.user.picture_url,
                     provider: 'line'
                 }));
                 
-                // 成功メッセージ
-                document.querySelector('.callback-message').textContent = '認証成功！リダイレクトしています...';
-                
-                // ダッシュボードへリダイレクト
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1000);
+                // Supabaseセッションを設定
+                if (data.session_url) {
+                    // セッションURLにアクセスして認証を完了
+                    window.location.href = data.session_url;
+                } else {
+                    // 成功メッセージ
+                    document.querySelector('.callback-message').textContent = '認証成功！リダイレクトしています...';
+                    
+                    // ダッシュボードへリダイレクト
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
+                }
                 
             } catch (err) {
                 console.error('LINE認証エラー:', err);

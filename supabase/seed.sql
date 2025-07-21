@@ -8,6 +8,13 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   avatar_url TEXT,
   bio TEXT,
   website TEXT,
+  line_user_id TEXT UNIQUE,
+  display_name TEXT,
+  picture_url TEXT,
+  email TEXT UNIQUE,
+  company TEXT,
+  position TEXT,
+  phone TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
@@ -89,8 +96,17 @@ CREATE POLICY "Users can insert own settings." ON public.settings
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO public.profiles (id, username, full_name, avatar_url)
-  VALUES (new.id, new.raw_user_meta_data->>'username', new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'avatar_url');
+  INSERT INTO public.profiles (id, username, full_name, avatar_url, email, line_user_id, display_name, picture_url)
+  VALUES (
+    new.id, 
+    new.raw_user_meta_data->>'username', 
+    new.raw_user_meta_data->>'full_name', 
+    new.raw_user_meta_data->>'avatar_url',
+    new.email,
+    new.raw_user_meta_data->>'line_user_id',
+    new.raw_user_meta_data->>'display_name',
+    new.raw_user_meta_data->>'picture_url'
+  );
   
   INSERT INTO public.settings (user_id)
   VALUES (new.id);
@@ -103,3 +119,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
+
+-- インデックスの作成（パフォーマンス向上）
+CREATE INDEX IF NOT EXISTS idx_profiles_line_user_id ON public.profiles(line_user_id);
+CREATE INDEX IF NOT EXISTS idx_profiles_email ON public.profiles(email);
