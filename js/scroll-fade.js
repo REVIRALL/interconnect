@@ -1,183 +1,174 @@
 /**
- * スクロールフェードインアニメーション（メモリリーク修正版）
+ * スクロールフェードインアニメーション
  */
 
-(function() {
-    'use strict';
+document.addEventListener('DOMContentLoaded', function() {
+    // IntersectionObserverのサポートチェック
+    if (!('IntersectionObserver' in window)) {
+        // サポートされていない場合は全て表示
+        const allElements = document.querySelectorAll('.service-card, .comparison-item, .case-study, .data-card, .pricing-card, .process-step, .faq-category, .news-month, .cta-card, .section-title');
+        allElements.forEach(element => {
+            element.style.opacity = '1';
+            element.style.transform = 'none';
+        });
+        return;
+    }
 
-    // リソース管理用
-    const observers = [];
-    const intervals = [];
-    const timeouts = [];
+    // フェードイン対象要素を取得
+    const fadeElements = document.querySelectorAll(
+        '.service-card, .comparison-item, .case-study, .data-card, ' +
+        '.pricing-card, .process-step, .faq-category, .news-month, ' +
+        '.cta-card, .section-title, .section-description, .about-item, ' +
+        '.feature-card, .event-card, .contact-item'
+    );
 
-    // フェードインアニメーション対象要素
-    const fadeElements = document.querySelectorAll('.fade-in');
-    
-    // オプション設定
-    const options = {
+    // Intersection Observer の設定
+    const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     };
-    
-    // IntersectionObserverの作成
-    const fadeObserver = new IntersectionObserver((entries) => {
+
+    const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                fadeObserver.unobserve(entry.target); // 一度表示したら監視を停止
+                observer.unobserve(entry.target);
             }
         });
-    }, options);
-    
-    observers.push(fadeObserver);
-    
-    // 各要素の監視開始
+    }, observerOptions);
+
+    // 各要素を監視
     fadeElements.forEach(element => {
-        fadeObserver.observe(element);
+        observer.observe(element);
     });
-    
-    // 特定セクションのスライドイン
-    const slideElements = document.querySelectorAll('.slide-in-left, .slide-in-right');
-    
-    const slideObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('slide-visible');
-                slideObserver.unobserve(entry.target); // 一度表示したら監視を停止
-            }
-        });
-    }, {
-        threshold: 0.2,
-        rootMargin: '0px'
-    });
-    
-    observers.push(slideObserver);
-    
-    slideElements.forEach(element => {
-        slideObserver.observe(element);
-    });
-    
-    // ヒーローセクションのタイプライターエフェクト
-    const heroTitle = document.querySelector('.hero-title');
-    const heroSubtitle = document.querySelector('.hero-subtitle');
-    
-    if (heroTitle && heroSubtitle) {
-        const titleText = heroTitle.textContent;
-        const subtitleText = heroSubtitle.textContent;
+
+    // ローディング完了チェック関数
+    function checkLoadingComplete() {
+        const loadingScreen = document.querySelector('.loading-screen');
         
-        heroTitle.textContent = '';
-        heroSubtitle.textContent = '';
-        heroSubtitle.style.opacity = '0';
-        
-        let titleIndex = 0;
-        const typeTitle = () => {
-            if (titleIndex < titleText.length) {
-                heroTitle.textContent += titleText.charAt(titleIndex);
-                titleIndex++;
-                const timeout = setTimeout(typeTitle, 50);
-                timeouts.push(timeout);
-            } else {
-                // タイトル完了後、サブタイトルを表示
-                heroSubtitle.style.opacity = '1';
-                heroSubtitle.style.transition = 'opacity 1s ease';
-                
-                let subtitleIndex = 0;
-                const typeSubtitle = () => {
-                    if (subtitleIndex < subtitleText.length) {
-                        heroSubtitle.textContent += subtitleText.charAt(subtitleIndex);
-                        subtitleIndex++;
-                        const timeout = setTimeout(typeSubtitle, 30);
-                        timeouts.push(timeout);
-                    }
-                };
-                const timeout = setTimeout(typeSubtitle, 500);
-                timeouts.push(timeout);
-            }
-        };
-        
-        // ページロード後に開始
-        const startTimeout = setTimeout(typeTitle, 1000);
-        timeouts.push(startTimeout);
+        if (!loadingScreen || loadingScreen.style.display === 'none' || 
+            !document.contains(loadingScreen) || loadingScreen.classList.contains('fade-out')) {
+            // ローディング完了後、少し遅延してからアニメーション開始
+            setTimeout(initHeroAnimation, 300);
+        } else {
+            // ローディング中の場合は100ms後に再チェック
+            setTimeout(checkLoadingComplete, 100);
+        }
     }
     
-    // セクションタイトルのアンダーライン効果
-    const sectionTitles = document.querySelectorAll('.section-title');
-    
-    const titleObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('underline-visible');
-                titleObserver.unobserve(entry.target); // 一度表示したら監視を停止
+    // シンプルなタイプライターエフェクト
+    function initHeroAnimation() {
+        const heroTitle = document.querySelector('.hero-title');
+        const heroSubtitle = document.querySelector('.hero-subtitle');
+        
+        if (!heroTitle) return;
+        
+        heroTitle.style.opacity = '1';
+        heroTitle.style.visibility = 'visible';
+        
+        // シンプルなタイプライターエフェクト（HTML対応版）
+        function typewriterEffect(element, callback) {
+            if (!element) {
+                if (callback) callback();
+                return;
+            }
+            
+            // innerHTMLを保存してHTMLタグを維持
+            const originalHTML = element.innerHTML;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = originalHTML;
+            const originalText = tempDiv.textContent || tempDiv.innerText || '';
+            
+            // シンプルな実装：最後に元のHTMLを復元するだけ
+            const htmlParts = [];
+            
+            element.innerHTML = '';
+            
+            let currentIndex = 0;
+            let currentHTML = '';
+            
+            function typeNextCharacter() {
+                if (currentIndex < originalText.length) {
+                    currentHTML += originalText[currentIndex];
+                    element.textContent = currentHTML;
+                    currentIndex++;
+                    setTimeout(typeNextCharacter, 20); // 20ms間隔（4倍速）
+                } else {
+                    // 最後に元のHTMLを設定して確実に改行を含める
+                    element.innerHTML = originalHTML;
+                    if (callback) setTimeout(callback, 200);
+                }
+            }
+            
+            setTimeout(typeNextCharacter, 200);
+        }
+        
+        // タイトルのタイプライター開始
+        typewriterEffect(heroTitle, () => {
+            // タイトル完了後、サブタイトルを開始
+            if (heroSubtitle) {
+                heroSubtitle.style.opacity = '1';
+                heroSubtitle.style.visibility = 'visible';
+                typewriterEffect(heroSubtitle);
             }
         });
-    }, {
-        threshold: 0.5
-    });
+    }
     
-    observers.push(titleObserver);
-    
+    // ローディング完了チェック開始
+    checkLoadingComplete();
+
+    // セクションタイトルのアニメーション
+    const sectionTitles = document.querySelectorAll('.section-title');
     sectionTitles.forEach(title => {
-        // アンダーライン要素を追加
-        const underline = document.createElement('span');
-        underline.className = 'title-underline';
-        title.appendChild(underline);
+        title.style.opacity = '0';
+        title.style.transform = 'translateY(20px)';
+        title.style.transition = 'all 0.8s ease';
+    });
+
+    const titleObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, 100);
+                titleObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    sectionTitles.forEach(title => {
         titleObserver.observe(title);
     });
-    
+
     // スクロールインジケーターのアニメーション
     const scrollIndicator = document.querySelector('.scroll-indicator');
-    
     if (scrollIndicator) {
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 100) {
-                scrollIndicator.style.opacity = '0';
-                scrollIndicator.style.pointerEvents = 'none';
-            } else {
-                scrollIndicator.style.opacity = '1';
-                scrollIndicator.style.pointerEvents = 'auto';
-            }
-        }, { passive: true });
-        
-        // 3秒後にフェード効果を適用
-        const fadeTimeout = setTimeout(() => {
+        scrollIndicator.style.opacity = '0';
+        setTimeout(() => {
+            scrollIndicator.style.opacity = '1';
             scrollIndicator.style.transition = 'opacity 1s ease';
         }, 3000);
-        timeouts.push(fadeTimeout);
     }
-    
-    // 数字カウントアップアニメーション（メモリリーク修正版）
+
+    // 数字カウントアップアニメーション
     const counterElements = document.querySelectorAll('.data-value');
-    const animatedCounters = new Set(); // 既にアニメーションした要素を記録
     
     const animateCounter = (element, target, suffix = '') => {
-        // 既にアニメーション済みならスキップ
-        if (animatedCounters.has(element)) return;
-        animatedCounters.add(element);
-        
         const duration = 2000; // 2秒
         const steps = 60;
         const stepDuration = duration / steps;
         let current = 0;
-        let stepCount = 0;
         
         // 数値とサフィックスを分離
         const numericTarget = parseFloat(target.replace(/[^0-9.]/g, ''));
-        
-        // NaNチェック
-        if (isNaN(numericTarget)) {
-            console.error('Invalid numeric target:', target);
-            element.textContent = target;
-            return;
-        }
-        
         const isPercentage = target.includes('%');
         const isCurrency = target.includes('億円') || target.includes('万円');
         
         const counter = setInterval(() => {
             current += numericTarget / steps;
-            stepCount++;
             
-            if (stepCount >= steps || current >= numericTarget) {
+            if (current >= numericTarget) {
                 current = numericTarget;
                 if (isPercentage) {
                     element.textContent = current.toFixed(1) + '%';
@@ -193,9 +184,6 @@
                     element.textContent = Math.floor(current) + suffix;
                 }
                 clearInterval(counter);
-                // インターバルをリストから削除
-                const index = intervals.indexOf(counter);
-                if (index > -1) intervals.splice(index, 1);
             } else {
                 // ランダムな数字でダララララ効果
                 const randomNum = Math.floor(Math.random() * numericTarget * 1.5);
@@ -214,56 +202,24 @@
                 }
             }
         }, stepDuration);
-        
-        intervals.push(counter);
     };
-    
+
     // 実績セクションのオブザーバー
     const performanceSection = document.querySelector('.performance-data');
     if (performanceSection) {
         const performanceObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // カウンターアニメーション開始
                     counterElements.forEach(element => {
-                        const targetValue = element.getAttribute('data-target') || element.textContent;
+                        const originalText = element.textContent;
                         element.textContent = '0';
-                        animateCounter(element, targetValue);
+                        animateCounter(element, originalText);
                     });
                     performanceObserver.unobserve(entry.target);
                 }
             });
-        }, {
-            threshold: 0.3
-        });
+        }, { threshold: 0.3 });
         
-        observers.push(performanceObserver);
         performanceObserver.observe(performanceSection);
     }
-    
-    // クリーンアップ関数
-    function cleanup() {
-        // すべてのObserverを切断
-        observers.forEach(observer => observer.disconnect());
-        
-        // すべてのインターバルをクリア
-        intervals.forEach(interval => clearInterval(interval));
-        
-        // すべてのタイムアウトをクリア
-        timeouts.forEach(timeout => clearTimeout(timeout));
-        
-        // イベントリスナーの削除
-        if (scrollIndicator) {
-            window.removeEventListener('scroll', () => {});
-        }
-    }
-    
-    // ページ遷移時のクリーンアップ
-    window.addEventListener('beforeunload', cleanup);
-    window.addEventListener('pagehide', cleanup);
-    
-    // パブリックAPIとして公開
-    if (!window.INTERCONNECT) window.INTERCONNECT = {};
-    window.INTERCONNECT.scrollFadeCleanup = cleanup;
-    
-})();
+});
