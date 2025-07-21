@@ -400,9 +400,9 @@ body::before {
 
 /* LINEログインボタン */
 .line-button {
-    background: #00C300;
-    color: white;
-    border: none;
+    background: #00C300 !important;
+    color: white !important;
+    border: none !important;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -414,7 +414,7 @@ body::before {
 }
 
 .line-button:hover {
-    background: #00B300;
+    background: #00B300 !important;
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(0, 195, 0, 0.3);
 }
