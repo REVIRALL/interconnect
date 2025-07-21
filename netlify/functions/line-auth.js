@@ -5,6 +5,18 @@
 
 const fetch = require('node-fetch');
 const { createClient } = require('@supabase/supabase-js');
+const { 
+    asyncHandler, 
+    ValidationError, 
+    AuthenticationError,
+    APIError 
+} = require('./utils/error-handler');
+const { 
+    validateRequest, 
+    getClientIP, 
+    checkRateLimit,
+    isValidRedirectURL 
+} = require('./utils/security');
 
 // Environment variables
 const LINE_CHANNEL_ID = process.env.LINE_CHANNEL_ID;
@@ -12,27 +24,45 @@ const LINE_CHANNEL_SECRET = process.env.LINE_CHANNEL_SECRET;
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 
+// 環境変数の検証
+if (!LINE_CHANNEL_ID || !LINE_CHANNEL_SECRET || !SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
+    throw new Error('Missing required environment variables');
+}
+
 // Initialize Supabase client with service key for admin operations
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 
-exports.handler = async (event, context) => {
-    // Only allow POST requests
-    if (event.httpMethod !== 'POST') {
-        return {
-            statusCode: 405,
-            body: JSON.stringify({ error: 'Method not allowed' })
-        };
+// 許可されたリダイレクトドメイン
+const ALLOWED_REDIRECT_DOMAINS = process.env.ALLOWED_DOMAINS ? 
+    process.env.ALLOWED_DOMAINS.split(',') : 
+    ['localhost', 'netlify.app'];
+
+exports.handler = asyncHandler(async (event, context) => {
+    // リクエストの検証
+    const validation = validateRequest(event, ['code', 'redirect_uri']);
+    if (!validation.valid) {
+        if (validation.response) {
+            return validation.response; // OPTIONS response
+        }
+        throw new ValidationError(validation.error.message);
     }
 
-    try {
-        const { code, redirect_uri } = JSON.parse(event.body);
+    const { code, redirect_uri } = validation.body;
 
-        if (!code || !redirect_uri) {
-            return {
-                statusCode: 400,
-                body: JSON.stringify({ error: 'Missing required parameters' })
-            };
-        }
+    // レート制限チェック
+    const clientIP = getClientIP(event);
+    const rateLimitResult = checkRateLimit(clientIP);
+    if (!rateLimitResult.allowed) {
+        throw new APIError('Too many requests', 429, {
+            retryAfter: rateLimitResult.retryAfter
+        });
+    }
+
+    // リダイレクトURLの検証
+    if (!isValidRedirectURL(redirect_uri, ALLOWED_REDIRECT_DOMAINS)) {
+        throw new ValidationError('Invalid redirect URI');
+    }
+
 
         // Exchange authorization code for access token
         const tokenResponse = await fetch('https://api.line.me/oauth2/v2.1/token', {
@@ -52,10 +82,7 @@ exports.handler = async (event, context) => {
         if (!tokenResponse.ok) {
             const error = await tokenResponse.text();
             console.error('LINE token exchange error:', error);
-            return {
-                statusCode: 400,
-                body: JSON.stringify({ error: 'Failed to exchange token' })
-            };
+            throw new AuthenticationError('Failed to exchange LINE token');
         }
 
         const tokenData = await tokenResponse.json();
@@ -74,10 +101,7 @@ exports.handler = async (event, context) => {
         });
 
         if (!verifyResponse.ok) {
-            return {
-                statusCode: 400,
-                body: JSON.stringify({ error: 'Invalid ID token' })
-            };
+            throw new AuthenticationError('Invalid LINE ID token');
         }
 
         const idTokenData = await verifyResponse.json();
@@ -90,10 +114,7 @@ exports.handler = async (event, context) => {
         });
 
         if (!profileResponse.ok) {
-            return {
-                statusCode: 400,
-                body: JSON.stringify({ error: 'Failed to get user profile' })
-            };
+            throw new APIError('Failed to get LINE user profile', 500);
         }
 
         const profile = await profileResponse.json();
@@ -122,10 +143,7 @@ exports.handler = async (event, context) => {
 
             if (updateError) {
                 console.error('Profile update error:', updateError);
-                return {
-                    statusCode: 500,
-                    body: JSON.stringify({ error: 'Failed to update profile' })
-                };
+                throw new APIError('Failed to update user profile', 500, { error: updateError.message });
             }
 
             userProfile = updatedProfile;
@@ -147,44 +165,31 @@ exports.handler = async (event, context) => {
 
             if (authError) {
                 console.error('Auth user creation error:', authError);
-                return {
-                    statusCode: 500,
-                    body: JSON.stringify({ error: 'Failed to create user' })
-                };
+                throw new APIError('Failed to create user', 500, { error: authError.message });
             }
 
-            // Then create user profile
-            const { data: newUser, error: createError } = await supabase
-                .from('users')
-                .insert({
-                    id: authData.user.id,
-                    email: email,
-                    line_user_id: profile.userId,
-                    display_name: profile.displayName,
-                    picture_url: profile.pictureUrl,
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString()
-                })
-                .select()
+            // The profile will be created automatically by the trigger,
+            // but we need to get it to return to the client
+            const { data: newProfile, error: profileError } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', authData.user.id)
                 .single();
 
-            if (createError) {
-                console.error('User profile creation error:', createError);
-                // Clean up auth user if profile creation fails
+            if (profileError || !newProfile) {
+                console.error('Profile retrieval error:', profileError);
+                // Clean up auth user if profile wasn't created
                 await supabase.auth.admin.deleteUser(authData.user.id);
-                return {
-                    statusCode: 500,
-                    body: JSON.stringify({ error: 'Failed to create user profile' })
-                };
+                throw new APIError('Failed to create user profile', 500, { error: profileError?.message });
             }
 
-            user = newUser;
+            userProfile = newProfile;
         }
 
         // Generate Supabase session
         const { data: session, error: sessionError } = await supabase.auth.admin.generateLink({
             type: 'magiclink',
-            email: user.email,
+            email: userProfile.email,
             options: {
                 redirectTo: `${process.env.URL}/dashboard.html`
             }
@@ -192,10 +197,7 @@ exports.handler = async (event, context) => {
 
         if (sessionError) {
             console.error('Session generation error:', sessionError);
-            return {
-                statusCode: 500,
-                body: JSON.stringify({ error: 'Failed to create session' })
-            };
+            throw new APIError('Failed to create session', 500, { error: sessionError.message });
         }
 
         // Return user data and session
@@ -207,10 +209,10 @@ exports.handler = async (event, context) => {
             },
             body: JSON.stringify({
                 user: {
-                    id: user.id,
-                    email: user.email,
-                    display_name: user.display_name,
-                    picture_url: user.picture_url
+                    id: userProfile.id,
+                    email: userProfile.email,
+                    display_name: userProfile.display_name,
+                    picture_url: userProfile.picture_url
                 },
                 session_url: session.properties.action_link
             })
