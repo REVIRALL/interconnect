@@ -91,3 +91,16 @@ To https://github.com/REVIRALL/interconnect.git
 ⏳ 前回の同期から28秒しか経過していません。
    次の同期まで272秒待機します...
 ✅ 2025-07-21 13:03:39 - 変更を同期します
+[main 7cf8cef] Auto-sync: 2025-07-21 13:03:39
+ 9 files changed, 456 insertions(+), 1 deletion(-)
+ create mode 100644 .env
+ create mode 100644 js/auth-supabase.js
+ create mode 100644 js/supabase-client.js
+ create mode 100644 line-callback.html
+ create mode 100644 supabase/migrations/001_create_users_table.sql
+To https://github.com/REVIRALL/interconnect.git
+   3bb1af4..7cf8cef  main -> main
+🚀 同期完了！
+⏳ 前回の同期から29秒しか経過していません。
+   次の同期まで271秒待機します...
+✅ 2025-07-21 13:08:16 - 変更を同期します
