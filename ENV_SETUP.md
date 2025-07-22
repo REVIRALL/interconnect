@@ -24,7 +24,7 @@ SUPABASE_SERVICE_KEY=your_service_key_here
 
 #### 必要な情報
 ```
-LINE_CHANNEL_ID=2007213003
+LINE_CHANNEL_ID=2007688616
 LINE_CHANNEL_SECRET=your_channel_secret_here
 ```
 
@@ -46,7 +46,7 @@ LINE_CHANNEL_SECRET=your_channel_secret_here
 ```
 SUPABASE_URL=https://whyoqhhzwtlxprhizmor.supabase.co
 SUPABASE_SERVICE_KEY=your_service_key_here
-LINE_CHANNEL_ID=2007213003
+LINE_CHANNEL_ID=2007688616
 LINE_CHANNEL_SECRET=your_channel_secret_here
 URL=https://your-site-name.netlify.app
 ```
