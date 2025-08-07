@@ -82,41 +82,47 @@
             
             // user_profilesまたはprofilesテーブルの場合
             if (table === 'user_profiles' || table === 'profiles') {
-                // eqメソッドをラップ
-                const originalEq = query.eq.bind(query);
-                query.eq = function(column, value) {
-                    // user_idカラムをidに変換
-                    if (column === 'user_id') {
-                        console.log(`[UserProfilesFix] ${table}.user_id を ${table}.id に変換`);
-                        return originalEq('id', value);
-                    }
-                    return originalEq(column, value);
-                };
+                // eqメソッドをラップ（存在確認付き）
+                if (query.eq && typeof query.eq === 'function') {
+                    const originalEq = query.eq.bind(query);
+                    query.eq = function(column, value) {
+                        // user_idカラムをidに変換
+                        if (column === 'user_id') {
+                            console.log(`[UserProfilesFix] ${table}.user_id を ${table}.id に変換`);
+                            return originalEq('id', value);
+                        }
+                        return originalEq(column, value);
+                    };
+                }
 
-                // selectメソッドをラップ
-                const originalSelect = query.select.bind(query);
-                query.select = function(columns = '*', options) {
-                    // columnsがstring型の場合、user_idをidに置換
-                    if (typeof columns === 'string' && columns.includes('user_id')) {
-                        const newColumns = columns.replace(/user_id/g, 'id');
-                        console.log(`[UserProfilesFix] SELECT句のuser_idをidに変換:`, {
-                            元: columns,
-                            修正後: newColumns
-                        });
-                        return originalSelect(newColumns, options);
-                    }
-                    return originalSelect(columns, options);
-                };
+                // selectメソッドをラップ（存在確認付き）
+                if (query.select && typeof query.select === 'function') {
+                    const originalSelect = query.select.bind(query);
+                    query.select = function(columns = '*', options) {
+                        // columnsがstring型の場合、user_idをidに置換
+                        if (typeof columns === 'string' && columns.includes('user_id')) {
+                            const newColumns = columns.replace(/user_id/g, 'id');
+                            console.log(`[UserProfilesFix] SELECT句のuser_idをidに変換:`, {
+                                元: columns,
+                                修正後: newColumns
+                            });
+                            return originalSelect(newColumns, options);
+                        }
+                        return originalSelect(columns, options);
+                    };
+                }
 
-                // filterメソッドをラップ
-                const originalFilter = query.filter.bind(query);
-                query.filter = function(column, operator, value) {
-                    if (column === 'user_id') {
-                        console.log(`[UserProfilesFix] filter: user_id を id に変換`);
-                        return originalFilter('id', operator, value);
-                    }
-                    return originalFilter(column, operator, value);
-                };
+                // filterメソッドをラップ（存在確認付き）
+                if (query.filter && typeof query.filter === 'function') {
+                    const originalFilter = query.filter.bind(query);
+                    query.filter = function(column, operator, value) {
+                        if (column === 'user_id') {
+                            console.log(`[UserProfilesFix] filter: user_id を id に変換`);
+                            return originalFilter('id', operator, value);
+                        }
+                        return originalFilter(column, operator, value);
+                    };
+                }
             }
             
             return query;
