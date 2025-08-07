@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="css/logout-button-fix.css">
     <link rel="stylesheet" href="css/share-modal-fix.css">
     <link rel="stylesheet" href="css/cashout-modal-complete.css">
+    <link rel="stylesheet" href="css/link-stats-style.css">
 </head>
 <body>
     <!-- Mobile Header (ダッシュボードと同じ) -->
@@ -466,7 +467,9 @@ AIを活用した次世代のビジネスマッチングサービスで、経営
     </div>
 
     <!-- Scripts -->
-    <!-- Service Workerログフィルター（最初に読み込む） -->
+    <!-- 通知重複修正（最優先） -->
+    <script src="js/fix-notification-duplication.js"></script>
+    <!-- Service Workerログフィルター -->
     <script src="js/service-worker-filter.js"></script>
     <!-- 紹介ページデバッグ -->
     <script src="js/referral-debug-network.js"></script>
