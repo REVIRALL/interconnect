@@ -459,8 +459,21 @@
 
     // キャッシュアウトモーダルを開く
     function openCashoutModal() {
-        if (window.openCashoutModal) {
-            window.openCashoutModal();
+        console.log('[ReferralUnified] キャッシュアウトモーダルを開く');
+        console.log('[ReferralUnified] 利用可能ポイント:', referralStats.availablePoints);
+        
+        if (window.cashoutModal && window.cashoutModal.open) {
+            window.cashoutModal.open(referralStats.availablePoints);
+        } else {
+            console.error('[ReferralUnified] cashoutModalが初期化されていません');
+            // フォールバック: cashout-modal.jsの読み込みを待つ
+            setTimeout(() => {
+                if (window.cashoutModal && window.cashoutModal.open) {
+                    window.cashoutModal.open(referralStats.availablePoints);
+                } else {
+                    alert('キャッシュアウト機能の初期化に失敗しました。ページを再読み込みしてください。');
+                }
+            }, 1000);
         }
     }
 
