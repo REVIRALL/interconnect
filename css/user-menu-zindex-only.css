@@ -1,42 +1,45 @@
 /* ===========================
-   User Menu Z-Index Fix Only
-   ユーザーメニューのz-index問題のみを修正
+   User Menu Z-Index Only
+   ユーザーメニューのz-index調整のみ
    =========================== */
 
-/* ユーザードロップダウンを最前面に表示 */
-.user-dropdown {
-    z-index: 9999 !important;
+/* ユーザーメニューのz-index階層 */
+.user-menu {
+    position: relative;
+    z-index: 100;
 }
 
-/* モバイルでも確実に最前面に */
-@media (max-width: 768px) {
-    .user-dropdown {
-        z-index: 9999 !important;
-        position: absolute;
-        background: white;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    }
-    
-    /* モバイルヘッダー内での調整 */
-    .mobile-header .user-dropdown {
-        position: fixed;
-        top: 60px;
-        right: 10px;
-        max-width: calc(100vw - 20px);
-    }
+.user-dropdown,
+.user-menu-dropdown {
+    z-index: 200;
 }
 
-/* 他の要素より確実に上に表示 */
+/* 通知ドロップダウン */
+.notification-dropdown {
+    z-index: 200;
+}
+
+/* モバイルヘッダー */
+.mobile-header {
+    z-index: 300;
+}
+
+/* モバイルナビゲーション */
 .mobile-nav {
-    z-index: 1100 !important;
+    z-index: 400;
 }
 
+/* モバイルバックドロップ */
 .mobile-backdrop {
-    z-index: 1099 !important;
+    z-index: 399;
 }
 
-/* ドロップダウンが表示されているときの調整 */
-.user-dropdown.show {
-    z-index: 9999 !important;
-    display: block !important;
+/* モーダル */
+.modal {
+    z-index: 1000;
+}
+
+/* 通知ポップアップ */
+.notification-popup {
+    z-index: 1100;
 }

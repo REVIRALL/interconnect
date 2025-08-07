@@ -17,8 +17,13 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/buttons.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <!-- ログアウトボタンUI修正 -->
+    <link rel="stylesheet" href="css/logout-button-fix.css">
     <link rel="stylesheet" href="css/notifications.css">
-    <link rel="stylesheet" href="css/matching.css">
+    <!-- マッチングシステム統一CSS -->
+    <link rel="stylesheet" href="css/matching-unified.css?v=3.0">
+    <!-- ローディング演出CSS -->
+    <link rel="stylesheet" href="css/matching-loading.css">
     <link rel="stylesheet" href="css/responsive-menu.css">
     <link rel="stylesheet" href="css/user-menu-zindex-only.css">
 </head>
@@ -32,7 +37,6 @@
         <div class="mobile-header-actions">
             <a href="notifications.html" class="notification-btn">
                 <i class="fas fa-bell"></i>
-                <span class="notification-badge">3</span>
             </a>
         </div>
     </header>
@@ -70,13 +74,18 @@
                     <a href="messages.html" class="mobile-nav-link">
                         <i class="fas fa-envelope"></i>
                         <span>メッセージ</span>
-                        <span class="badge">3</span>
                     </a>
                 </li>
                 <li>
                     <a href="#" class="mobile-nav-link active">
                         <i class="fas fa-handshake"></i>
                         <span>マッチング</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="referral.html" class="mobile-nav-link">
+                        <i class="fas fa-user-plus"></i>
+                        <span>紹介プログラム</span>
                     </a>
                 </li>
                 <li>
@@ -139,13 +148,18 @@
                         <a href="messages.html" class="sidebar-link">
                             <i class="fas fa-envelope"></i>
                             <span>メッセージ</span>
-                            <span class="badge">3</span>
                         </a>
                     </li>
                     <li>
                         <a href="#" class="sidebar-link active">
                             <i class="fas fa-handshake"></i>
                             <span>マッチング</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="referral.html" class="sidebar-link">
+                            <i class="fas fa-user-plus"></i>
+                            <span>紹介プログラム</span>
                         </a>
                     </li>
                     <li>
@@ -183,7 +197,6 @@
                 <div class="header-right">
                     <a href="notifications.html" class="notification-btn">
                         <i class="fas fa-bell"></i>
-                        <span class="notification-badge">3</span>
                     </a>
                     
                     <div class="user-menu">
@@ -207,7 +220,7 @@
             <div class="matching-filters">
                 <div class="filter-group">
                     <label>業界</label>
-                    <select class="form-select">
+                    <select class="form-select" name="industry">
                         <option value="">すべて</option>
                         <option value="tech">IT・テクノロジー</option>
                         <option value="finance">金融</option>
@@ -218,7 +231,7 @@
                 
                 <div class="filter-group">
                     <label>地域</label>
-                    <select class="form-select">
+                    <select class="form-select" name="location">
                         <option value="">すべて</option>
                         <option value="tokyo">東京</option>
                         <option value="osaka">大阪</option>
@@ -229,7 +242,7 @@
                 
                 <div class="filter-group">
                     <label>興味・関心</label>
-                    <select class="form-select">
+                    <select class="form-select" name="interest">
                         <option value="">すべて</option>
                         <option value="collaboration">協業</option>
                         <option value="investment">投資</option>
@@ -257,111 +270,12 @@
                 </div>
             </div>
             
-            <!-- Matching Results -->
-            <div class="matching-grid">
-                <!-- Matching cards -->
-                <div class="matching-card">
-                    <div class="matching-score">95%</div>
-                    <img src="assets/user-placeholder.svg" alt="User" class="matching-avatar">
-                    <h3>田中 太郎</h3>
-                    <p class="matching-title">CEO</p>
-                    <p class="matching-company">株式会社テクノロジー</p>
-                    <div class="matching-tags">
-                        <span class="tag">IT</span>
-                        <span class="tag">スタートアップ</span>
-                        <span class="tag">AI</span>
-                    </div>
-                    <div class="matching-actions">
-                        <a href="profile.html?user=1" class="btn btn-outline">プロフィール</a>
-                        <button class="btn btn-primary" onclick="alert('コネクト申請を送信しました')">コネクト</button>
-                    </div>
-                </div>
-                
-                <div class="matching-card">
-                    <div class="matching-score">88%</div>
-                    <img src="assets/user-placeholder.svg" alt="User" class="matching-avatar">
-                    <h3>鈴木 花子</h3>
-                    <p class="matching-title">マーケティング部長</p>
-                    <p class="matching-company">グローバル商事株式会社</p>
-                    <div class="matching-tags">
-                        <span class="tag">マーケティング</span>
-                        <span class="tag">グローバル</span>
-                        <span class="tag">DX</span>
-                    </div>
-                    <div class="matching-actions">
-                        <a href="profile.html?user=2" class="btn btn-outline">プロフィール</a>
-                        <button class="btn btn-primary" onclick="alert('コネクト申請を送信しました')">コネクト</button>
-                    </div>
-                </div>
-                
-                <div class="matching-card">
-                    <div class="matching-score">82%</div>
-                    <img src="assets/user-placeholder.svg" alt="User" class="matching-avatar">
-                    <h3>佐藤 健一</h3>
-                    <p class="matching-title">事業開発マネージャー</p>
-                    <p class="matching-company">イノベーション株式会社</p>
-                    <div class="matching-tags">
-                        <span class="tag">新規事業</span>
-                        <span class="tag">パートナーシップ</span>
-                        <span class="tag">SaaS</span>
-                    </div>
-                    <div class="matching-actions">
-                        <a href="profile.html?user=3" class="btn btn-outline">プロフィール</a>
-                        <button class="btn btn-primary" onclick="alert('コネクト申請を送信しました')">コネクト</button>
-                    </div>
-                </div>
-                
-                <div class="matching-card">
-                    <div class="matching-score">78%</div>
-                    <img src="assets/user-placeholder.svg" alt="User" class="matching-avatar">
-                    <h3>山田 美咲</h3>
-                    <p class="matching-title">CFO</p>
-                    <p class="matching-company">ファイナンス・アドバイザリー</p>
-                    <div class="matching-tags">
-                        <span class="tag">財務</span>
-                        <span class="tag">投資</span>
-                        <span class="tag">M&A</span>
-                    </div>
-                    <div class="matching-actions">
-                        <a href="profile.html?user=4" class="btn btn-outline">プロフィール</a>
-                        <button class="btn btn-primary" onclick="alert('コネクト申請を送信しました')">コネクト</button>
-                    </div>
-                </div>
-                
-                <div class="matching-card">
-                    <div class="matching-score">75%</div>
-                    <img src="assets/user-placeholder.svg" alt="User" class="matching-avatar">
-                    <h3>高橋 修</h3>
-                    <p class="matching-title">プロダクトマネージャー</p>
-                    <p class="matching-company">デジタルソリューションズ</p>
-                    <div class="matching-tags">
-                        <span class="tag">プロダクト開発</span>
-                        <span class="tag">UX</span>
-                        <span class="tag">アジャイル</span>
-                    </div>
-                    <div class="matching-actions">
-                        <a href="profile.html?user=5" class="btn btn-outline">プロフィール</a>
-                        <button class="btn btn-primary" onclick="alert('コネクト申請を送信しました')">コネクト</button>
-                    </div>
-                </div>
-                
-                <div class="matching-card">
-                    <div class="matching-score">72%</div>
-                    <img src="assets/user-placeholder.svg" alt="User" class="matching-avatar">
-                    <h3>伊藤 さくら</h3>
-                    <p class="matching-title">人事部長</p>
-                    <p class="matching-company">タレントマネジメント株式会社</p>
-                    <div class="matching-tags">
-                        <span class="tag">人材開発</span>
-                        <span class="tag">組織開発</span>
-                        <span class="tag">採用</span>
-                    </div>
-                    <div class="matching-actions">
-                        <a href="profile.html?user=6" class="btn btn-outline">プロフィール</a>
-                        <button class="btn btn-primary" onclick="alert('コネクト申請を送信しました')">コネクト</button>
-                    </div>
-                </div>
+            <!-- Matching Container for Dynamic Content -->
+            <div id="matching-container">
+                <!-- Dynamic content will be loaded here -->
             </div>
+            
+            <!-- 静的コンテンツは削除済み（matching-unified.jsで動的に生成） -->
             
             <!-- Pagination -->
             <div class="pagination">
@@ -383,17 +297,40 @@
     </div>
     
     <!-- Scripts -->
+    <!-- Service Workerログフィルター（最初に読み込む） -->
+    <script src="js/service-worker-filter.js"></script>
+    <!-- コンソール履歴管理 -->
+    <script src="js/console-history-logger.js"></script>
+    <!-- 重複実行警告の抑制 -->
+    <script src="js/suppress-duplicate-warnings.js"></script>
+    <!-- 関数実行トラッカー -->
+    <script src="js/function-execution-tracker.js"></script>
+    <!-- Supabase統一初期化（最初に読み込む） -->
+    <script src="js/supabase-unified.js?v=1.0"></script>
+    <!-- Supabase参照修正 -->
+    <script src="js/supabase-wait-fix.js"></script>
+    <!-- Core utilities (必須) -->
     <script src="js/error-prevention.js"></script>
     <script src="js/null-check-fixes.js"></script>
     <script src="js/safe-dom-utils.js"></script>
     <script src="js/safe-storage.js"></script>
-    <!-- <script src="js/debug-logger.js"></script> -->
-    <script src="js/supabase-client.js"></script>
     <script src="js/global-functions.js"></script>
     <script src="js/profile-sync.js"></script>
     <script src="js/responsive-menu-simple.js"></script>
-    <script src="js/dashboard.js"></script>
-    <script src="js/matching.js"></script>
-    <!-- <script src="js/notifications.js"></script> -->
+    <!-- dashboard.jsはマッチングページには不要 -->
+    <!-- <script src="js/dashboard.js"></script> -->
+    
+    <!-- user_profilesテーブルカラム名修正 -->
+    <script src="js/user-profiles-fix.js"></script>
+    <!-- マッチングシステム統合JavaScript（47ファイルを1つに統合） -->
+    <script src="js/matching-unified.js?v=4.0"></script>
+    
+    <!-- グローバル閲覧履歴 -->
+    <script src="js/global-viewing-history.js"></script>
+    
+    <!-- 全てのマッチング機能はmatching-unified.jsに統合済み -->
+    
+    <!-- プロファイル詳細モーダル（必須） -->
+    <script src="js/profile-detail-modal.js"></script>
 </body>
 </html>

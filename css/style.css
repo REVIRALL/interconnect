@@ -43,6 +43,10 @@ ul {
     --primary-light: #3b82f6;
     --secondary-color: #10b981;
     --accent-color: #f59e0b;
+    --success-color: #10b981;
+    --success-dark: #059669;
+    --danger-color: #ef4444;
+    --danger-dark: #dc2626;
     --text-primary: #1f2937;
     --text-secondary: #6b7280;
     --bg-primary: #ffffff;
@@ -257,10 +261,10 @@ ul {
     z-index: 0;
 }
 
-/* Video loading state */
+/* Video loading state - 無効化 */
 .hero-video.loading {
-    opacity: 0;
-    transition: opacity 0.5s ease;
+    opacity: 1; /* 常に表示 */
+    transition: none;
 }
 
 .hero-video.loaded {

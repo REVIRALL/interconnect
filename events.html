@@ -17,12 +17,23 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/buttons.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <!-- ログアウトボタンUI修正 -->
+    <link rel="stylesheet" href="css/logout-button-fix.css">
     <link rel="stylesheet" href="css/events.css">
-    <link rel="stylesheet" href="css/calendar.css">
+    <link rel="stylesheet" href="css/events-supabase.css">
     <link rel="stylesheet" href="css/event-modal.css">
     <link rel="stylesheet" href="css/notifications.css">
+    <link rel="stylesheet" href="css/realtime-notifications.css">
     <link rel="stylesheet" href="css/responsive-menu.css">
     <link rel="stylesheet" href="css/user-menu-zindex-only.css">
+    <!-- z-index優先順位管理 -->
+    <link rel="stylesheet" href="css/z-index-priority.css">
+    <!-- カレンダー連携 -->
+    <link rel="stylesheet" href="css/calendar-integration.css">
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <!-- 統一トースト通知 -->
+    <link rel="stylesheet" href="css/toast-unified.css">
 </head>
 <body>
     <!-- Mobile Header -->
@@ -34,7 +45,6 @@
         <div class="mobile-header-actions">
             <a href="notifications.html" class="notification-btn">
                 <i class="fas fa-bell"></i>
-                <span class="notification-badge">3</span>
             </a>
         </div>
     </header>
@@ -72,13 +82,18 @@
                     <a href="messages.html" class="mobile-nav-link">
                         <i class="fas fa-envelope"></i>
                         <span>メッセージ</span>
-                        <span class="badge">3</span>
                     </a>
                 </li>
                 <li>
                     <a href="matching.html" class="mobile-nav-link">
                         <i class="fas fa-handshake"></i>
                         <span>マッチング</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="referral.html" class="mobile-nav-link">
+                        <i class="fas fa-user-plus"></i>
+                        <span>紹介プログラム</span>
                     </a>
                 </li>
                 <li>
@@ -141,13 +156,18 @@
                         <a href="messages.html" class="sidebar-link">
                             <i class="fas fa-envelope"></i>
                             <span>メッセージ</span>
-                            <span class="badge">3</span>
                         </a>
                     </li>
                     <li>
                         <a href="matching.html" class="sidebar-link">
                             <i class="fas fa-handshake"></i>
                             <span>マッチング</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="referral.html" class="sidebar-link">
+                            <i class="fas fa-user-plus"></i>
+                            <span>紹介プログラム</span>
                         </a>
                     </li>
                     <li>
@@ -185,7 +205,6 @@
                 <div class="header-right">
                     <a href="notifications.html" class="notification-btn">
                         <i class="fas fa-bell"></i>
-                        <span class="notification-badge">3</span>
                     </a>
                     
                     <div class="user-menu">
@@ -207,6 +226,31 @@
             
             <!-- Events Content -->
             <div class="content-container">
+                <!-- Event Filters and Search -->
+                <div class="events-controls">
+                    <div class="event-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="eventSearchInput" placeholder="イベントを検索...">
+                    </div>
+                    
+                    <div class="event-filters">
+                        <button class="filter-btn active" data-filter="all">すべて</button>
+                        <button class="filter-btn" data-filter="online">オンライン</button>
+                        <button class="filter-btn" data-filter="offline">オフライン</button>
+                        <button class="filter-btn" data-filter="free">無料</button>
+                        <button class="filter-btn" data-filter="paid">有料</button>
+                    </div>
+                    
+                    <div class="event-actions">
+                        <button class="btn btn-outline" id="show-calendar-view">
+                            <i class="fas fa-calendar"></i> カレンダー表示
+                        </button>
+                        <button class="btn btn-outline" id="export-calendar">
+                            <i class="fas fa-download"></i> エクスポート
+                        </button>
+                    </div>
+                </div>
+                
                 <!-- Upcoming Events -->
                 <section class="events-section">
                     <h2 class="section-title">今後のイベント</h2>
@@ -307,6 +351,21 @@
                     </div>
                 </section>
                 
+                <!-- Calendar View -->
+                <section class="events-section" id="calendar-view">
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <h2>カレンダー表示</h2>
+                            <div class="calendar-actions">
+                                <button class="btn btn-outline btn-sm" id="google-calendar-sync">
+                                    <i class="fab fa-google"></i> Googleカレンダー連携
+                                </button>
+                            </div>
+                        </div>
+                        <div id="calendar"></div>
+                    </div>
+                </section>
+                
                 <!-- Past Events -->
                 <section class="events-section">
                     <h2 class="section-title">過去のイベント</h2>
@@ -366,19 +425,46 @@
     </div>
     
     <!-- Scripts -->
+    <!-- Service Workerログフィルター（最初に読み込む） -->
+    <script src="js/service-worker-filter.js"></script>
+    <!-- コンソール履歴管理 -->
+    <script src="js/console-history-logger.js"></script>
+    <!-- 重複実行警告の抑制 -->
+    <script src="js/suppress-duplicate-warnings.js"></script>
+    <!-- 関数実行トラッカー -->
+    <script src="js/function-execution-tracker.js"></script>
+    <!-- Supabase統一初期化（最初に読み込む） -->
+    <script src="js/supabase-unified.js?v=1.0"></script>
+    <!-- user_profilesテーブルカラム名グローバル修正 -->
+    <script src="js/global-user-profiles-fix.js"></script>
+    <!-- Supabase参照修正 -->
+    <script src="js/supabase-wait-fix.js"></script>
+    <!-- Core initialization (must be first) -->
+    <script src="js/interconnect-core.js"></script>
+    <!-- 統一トースト通知 (must be loaded early) -->
+    <script src="js/toast-unified.js"></script>
+    
     <script src="js/error-prevention.js"></script>
     <script src="js/null-check-fixes.js"></script>
     <script src="js/safe-dom-utils.js"></script>
     <script src="js/safe-storage.js"></script>
     <!-- <script src="js/debug-logger.js"></script> -->
-    <script src="js/supabase-client.js"></script>
     <script src="js/global-functions.js"></script>
     <script src="js/profile-sync.js"></script>
+    <script src="js/realtime-notifications.js"></script>
     <script src="js/responsive-menu-simple.js"></script>
     <script src="js/event-modal.js"></script>
-    <script src="js/calendar.js"></script>
+    <script src="js/events-supabase.js?v=3"></script>
+    <script src="js/events-supabase-fix.js"></script>
     <script src="js/dashboard.js"></script>
-    <script src="js/event-registration.js"></script>
+    <!-- <script src="js/event-registration.js"></script> Disabled: Duplicate functionality with events-supabase.js -->
     <!-- <script src="js/notifications.js"></script> -->
+    <!-- FullCalendar JS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/ja.js"></script>
+    <!-- カレンダー連携 -->
+    <script src="js/calendar-integration.js"></script>
+    <!-- Google API (オプション) -->
+    <script async defer src="https://apis.google.com/js/api.js"></script>
 </body>
 </html>

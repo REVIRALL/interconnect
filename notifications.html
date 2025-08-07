@@ -17,9 +17,15 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/buttons.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <!-- ログアウトボタンUI修正 -->
+    <link rel="stylesheet" href="css/logout-button-fix.css">
     <link rel="stylesheet" href="css/notifications.css">
     <link rel="stylesheet" href="css/responsive-menu.css">
     <link rel="stylesheet" href="css/user-menu-zindex-only.css">
+    <!-- ユーザードロップダウン最前面修正 -->
+    <link rel="stylesheet" href="css/user-dropdown-fix-final.css">
+    <!-- z-index優先順位管理 -->
+    <link rel="stylesheet" href="css/z-index-priority.css">
 </head>
 <body>
     <!-- Mobile Header -->
@@ -31,7 +37,6 @@
         <div class="mobile-header-actions">
             <a href="notifications.html" class="notification-btn">
                 <i class="fas fa-bell"></i>
-                <span class="notification-badge">3</span>
             </a>
         </div>
     </header>
@@ -69,13 +74,18 @@
                     <a href="messages.html" class="mobile-nav-link">
                         <i class="fas fa-envelope"></i>
                         <span>メッセージ</span>
-                        <span class="badge">3</span>
                     </a>
                 </li>
                 <li>
                     <a href="matching.html" class="mobile-nav-link">
                         <i class="fas fa-handshake"></i>
                         <span>マッチング</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="referral.html" class="mobile-nav-link">
+                        <i class="fas fa-user-plus"></i>
+                        <span>紹介プログラム</span>
                     </a>
                 </li>
                 <li>
@@ -138,13 +148,18 @@
                         <a href="messages.html" class="sidebar-link">
                             <i class="fas fa-envelope"></i>
                             <span>メッセージ</span>
-                            <span class="badge">3</span>
                         </a>
                     </li>
                     <li>
                         <a href="matching.html" class="sidebar-link">
                             <i class="fas fa-handshake"></i>
                             <span>マッチング</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="referral.html" class="sidebar-link">
+                            <i class="fas fa-user-plus"></i>
+                            <span>紹介プログラム</span>
                         </a>
                     </li>
                     <li>
@@ -182,7 +197,6 @@
                 <div class="header-right">
                     <a href="notifications.html" class="notification-btn">
                         <i class="fas fa-bell"></i>
-                        <span class="notification-badge">3</span>
                     </a>
                     
                     <div class="user-menu">
@@ -353,18 +367,15 @@
     <script src="js/safe-dom-utils.js"></script>
     <script src="js/safe-storage.js"></script>
     <script src="js/debug-logger.js"></script>
-    <script src="js/supabase-client.js"></script>
     <script src="js/global-functions.js"></script>
     <script src="js/profile-sync.js"></script>
     <script src="js/responsive-menu-simple.js"></script>
     <script src="js/dashboard.js"></script>
-    <script src="js/notifications.js"></script>
-    <script src="js/notifications-supabase.js"></script>
-    <script src="js/notifications-read-manager.js"></script>
-    <script src="js/notifications-filter.js"></script>
-    <script src="js/notifications-delete.js"></script>
-    <script src="js/notifications-realtime-actions.js"></script>
-    <script src="js/notifications-actions-fix.js"></script>
-    <script src="js/notifications-complete-check.js"></script>
+    <!-- 通知システム統一JavaScript（10ファイルを2つに統合） -->
+    <script src="js/notifications-unified.js?v=1.0"></script>
+    <script src="js/notifications-realtime-unified.js?v=1.0"></script>
+    <script src="js/supabase-unified.js?v=1.0"></script>
+    <!-- user_profilesテーブルカラム名グローバル修正 -->
+    <script src="js/global-user-profiles-fix.js"></script>
 </body>
 </html>

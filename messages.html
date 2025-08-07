@@ -17,11 +17,18 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/buttons.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <!-- ログアウトボタンUI修正 -->
+    <link rel="stylesheet" href="css/logout-button-fix.css">
     <link rel="stylesheet" href="css/messages.css">
     <link rel="stylesheet" href="css/notifications.css">
+    <link rel="stylesheet" href="css/realtime-notifications.css">
     <link rel="stylesheet" href="css/responsive-menu.css">
     <link rel="stylesheet" href="css/user-menu-zindex-only.css">
+    <!-- ユーザードロップダウン最前面修正 -->
+    <link rel="stylesheet" href="css/user-dropdown-fix-final.css">
     <link rel="stylesheet" href="css/info-card-contrast-fix.css">
+    <!-- z-index優先順位管理 -->
+    <link rel="stylesheet" href="css/z-index-priority.css">
 </head>
 <body>
     <!-- Mobile Header -->
@@ -33,7 +40,6 @@
         <div class="mobile-header-actions">
             <a href="notifications.html" class="notification-btn">
                 <i class="fas fa-bell"></i>
-                <span class="notification-badge">3</span>
             </a>
         </div>
     </header>
@@ -71,13 +77,18 @@
                     <a href="#" class="mobile-nav-link active">
                         <i class="fas fa-envelope"></i>
                         <span>メッセージ</span>
-                        <span class="badge">3</span>
                     </a>
                 </li>
                 <li>
                     <a href="matching.html" class="mobile-nav-link">
                         <i class="fas fa-handshake"></i>
                         <span>マッチング</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="referral.html" class="mobile-nav-link">
+                        <i class="fas fa-user-plus"></i>
+                        <span>紹介プログラム</span>
                     </a>
                 </li>
                 <li>
@@ -140,13 +151,18 @@
                         <a href="#" class="sidebar-link active">
                             <i class="fas fa-envelope"></i>
                             <span>メッセージ</span>
-                            <span class="badge">3</span>
                         </a>
                     </li>
                     <li>
                         <a href="matching.html" class="sidebar-link">
                             <i class="fas fa-handshake"></i>
                             <span>マッチング</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="referral.html" class="sidebar-link">
+                            <i class="fas fa-user-plus"></i>
+                            <span>紹介プログラム</span>
                         </a>
                     </li>
                     <li>
@@ -184,7 +200,6 @@
                 <div class="header-right">
                     <a href="notifications.html" class="notification-btn">
                         <i class="fas fa-bell"></i>
-                        <span class="notification-badge">3</span>
                     </a>
                     
                     <div class="user-menu">
@@ -210,8 +225,7 @@
                     <div class="info-card">
                         <i class="fas fa-info-circle"></i>
                         <h2>メッセージ機能について</h2>
-                        <p>INTERCONNECTでは、プライバシー保護のため、プラットフォーム内での直接メッセージング機能は提供しておりません。</p>
-                        <p>メンバーとの連絡は、各メンバーのプロフィールに記載されている外部連絡先（LINE、メールアドレス等）をご利用ください。</p>
+                        <p>現在準備中なので、直接相手の連絡先を知るためにマッチング申請して、プロフィールにLINEあるので、そこからご連絡してください。</p>
                     </div>
                     
                     <div class="contact-methods">
@@ -244,7 +258,7 @@
                     </div>
                     
                     <div class="recent-connections">
-                        <h3>最近のコネクション</h3>
+                        <h3>閲覧履歴</h3>
                         <div class="connections-list" id="connectionsList">
                             <!-- 動的に読み込まれます -->
                             <div class="loading-spinner">
@@ -272,15 +286,24 @@
     </div>
     
     <!-- Scripts -->
+    <!-- Core initialization (must be first) -->
+    <script src="js/interconnect-core.js"></script>
+    
     <script src="js/error-prevention.js"></script>
     <script src="js/null-check-fixes.js"></script>
     <script src="js/safe-dom-utils.js"></script>
     <script src="js/safe-storage.js"></script>
-    <script src="js/supabase-client.js"></script>
     <script src="js/global-functions.js"></script>
     <script src="js/profile-sync.js"></script>
+    <script src="js/realtime-notifications.js"></script>
     <script src="js/responsive-menu-simple.js"></script>
     <script src="js/dashboard.js"></script>
     <script src="js/messages-external-contacts.js"></script>
+    <script src="js/messages-viewing-history.js"></script>
+    <script src="js/notification-sender.js"></script>
+    <script src="js/message-integration.js"></script>
+    <script src="js/supabase-unified.js?v=1.0"></script>
+    <!-- user_profilesテーブルカラム名グローバル修正 -->
+    <script src="js/global-user-profiles-fix.js"></script>
 </body>
 </html>

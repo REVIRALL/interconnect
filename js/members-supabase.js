@@ -20,10 +20,12 @@
                 role: '',
                 skills: []
             };
-            this.init();
+            this.initialized = false;
         }
 
         async init() {
+            if (this.initialized) return;
+            
             try {
                 // Supabase接続確認
                 if (!window.supabase) {
@@ -31,6 +33,8 @@
                     this.showFallbackUI();
                     return;
                 }
+
+                console.log('[MembersSupabase] Supabase接続確認OK');
 
                 // 認証状態を確認
                 const { data: { user } } = await window.supabase.auth.getUser();
@@ -40,7 +44,10 @@
                     return;
                 }
 
+                console.log('[MembersSupabase] 認証済みユーザー:', user.id);
                 this.currentUserId = user.id;
+                this.initialized = true;
+                
                 await this.loadMembers();
                 this.setupRealtimeSubscription();
                 
@@ -105,6 +112,8 @@
 
                 if (error) throw error;
 
+                console.log('[MembersSupabase] データ取得成功:', data?.length || 0, '件');
+                
                 this.members = data || [];
                 this.totalMembers = count || 0;
 
@@ -129,11 +138,13 @@
             try {
                 const memberIds = this.members.map(m => m.id);
                 
+                if (memberIds.length === 0) return;
+                
                 // 各メンバーのコネクション数を取得
                 const { data: connections, error } = await window.supabase
                     .from('connections')
-                    .select('user_id, connected_id')
-                    .or(`user_id.in.(${memberIds.join(',')}),connected_id.in.(${memberIds.join(',')})`)
+                    .select('requester_id, receiver_id')
+                    .or(`requester_id.in.(${memberIds.join(',')}),receiver_id.in.(${memberIds.join(',')})`)
                     .eq('status', 'accepted');
 
                 if (error) throw error;
@@ -143,11 +154,11 @@
                 memberIds.forEach(id => connectionCounts[id] = 0);
 
                 connections?.forEach(conn => {
-                    if (connectionCounts[conn.user_id] !== undefined) {
-                        connectionCounts[conn.user_id]++;
+                    if (connectionCounts[conn.requester_id] !== undefined) {
+                        connectionCounts[conn.requester_id]++;
                     }
-                    if (connectionCounts[conn.connected_id] !== undefined) {
-                        connectionCounts[conn.connected_id]++;
+                    if (connectionCounts[conn.receiver_id] !== undefined) {
+                        connectionCounts[conn.receiver_id]++;
                     }
                 });
 
@@ -216,7 +227,7 @@
             const hasMoreSkills = skills.length > 3;
 
             return `
-                <div class="member-card" data-member-id="${id}">
+                <div class="member-card" data-member-id="${id}" data-user-id="${id}">
                     <div class="member-header">
                         <div style="position: relative;">
                             <img src="${this.escapeHtml(avatar_url)}" 
@@ -242,7 +253,7 @@
                     <div class="member-stats">
                         <div class="stat">
                             <i class="fas fa-users"></i>
-                            <span>${connection_count || 0} コネクション</span>
+                            <span>${member.connectionCount || 0} コネクション</span>
                         </div>
                     </div>
                     <div class="member-actions">
@@ -432,7 +443,7 @@
             `;
             
             const container = document.querySelector('.content-container');
-            if (container) {
+            if (container && !container.querySelector('.error-banner')) {
                 container.insertBefore(errorBanner, container.firstChild);
             }
         }
@@ -569,8 +580,29 @@
     `;
     document.head.appendChild(style);
 
-    // グローバルインスタンス
-    window.membersSupabase = new MembersSupabaseManager();
+    // Supabaseの準備ができるまで待つ
+    function initializeWhenReady() {
+        if (window.supabase) {
+            console.log('[MembersSupabase] Supabase準備完了、マネージャー作成');
+            window.membersSupabase = new MembersSupabaseManager();
+            window.membersSupabase.init();
+        } else {
+            console.log('[MembersSupabase] Supabaseの準備待ち...');
+            setTimeout(initializeWhenReady, 100);
+        }
+    }
+
+    // supabaseReadyイベントを待つ
+    if (window.supabase) {
+        initializeWhenReady();
+    } else {
+        window.addEventListener('supabaseReady', () => {
+            console.log('[MembersSupabase] supabaseReadyイベント受信');
+            initializeWhenReady();
+        });
+        // フォールバックとして500ms後に再チェック
+        setTimeout(initializeWhenReady, 500);
+    }
 
     // ページ離脱時のクリーンアップ
     window.addEventListener('beforeunload', () => {
@@ -579,5 +611,5 @@
         }
     });
 
-    console.log('[MembersSupabase] 初期化完了');
+    console.log('[MembersSupabase] セットアップ完了');
 })();

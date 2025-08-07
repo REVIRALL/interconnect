@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="css/notifications.css">
     <link rel="stylesheet" href="css/responsive-menu.css">
     <link rel="stylesheet" href="css/user-menu-zindex-only.css">
+    <!-- ユーザードロップダウン最前面修正 -->
+    <link rel="stylesheet" href="css/user-dropdown-fix-final.css">
 </head>
 <body>
     <!-- Mobile Header -->
@@ -31,7 +33,6 @@
         <div class="mobile-header-actions">
             <a href="notifications.html" class="notification-btn">
                 <i class="fas fa-bell"></i>
-                <span class="notification-badge">3</span>
             </a>
         </div>
     </header>
@@ -69,13 +70,18 @@
                     <a href="messages.html" class="mobile-nav-link">
                         <i class="fas fa-envelope"></i>
                         <span>メッセージ</span>
-                        <span class="badge">3</span>
                     </a>
                 </li>
                 <li>
                     <a href="matching.html" class="mobile-nav-link">
                         <i class="fas fa-handshake"></i>
                         <span>マッチング</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="referral.html" class="mobile-nav-link">
+                        <i class="fas fa-user-plus"></i>
+                        <span>紹介プログラム</span>
                     </a>
                 </li>
                 <li>
@@ -144,13 +150,18 @@
                         <a href="messages.html" class="sidebar-link">
                             <i class="fas fa-envelope"></i>
                             <span>メッセージ</span>
-                            <span class="badge">3</span>
                         </a>
                     </li>
                     <li>
                         <a href="matching.html" class="sidebar-link">
                             <i class="fas fa-handshake"></i>
                             <span>マッチング</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="referral.html" class="sidebar-link">
+                            <i class="fas fa-user-plus"></i>
+                            <span>紹介プログラム</span>
                         </a>
                     </li>
                     <li>
@@ -194,7 +205,6 @@
                 <div class="header-right">
                     <a href="notifications.html" class="notification-btn">
                         <i class="fas fa-bell"></i>
-                        <span class="notification-badge">3</span>
                     </a>
                     
                     <div class="user-menu">

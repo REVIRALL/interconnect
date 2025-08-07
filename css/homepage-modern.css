@@ -260,17 +260,10 @@
     }
 }
 
-/* 斜めのセクション区切り */
+/* 斜めのセクション区切り - 削除 */
 .hero::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    background: white;
-    transform: skewY(-3deg);
-    transform-origin: left;
+    display: none !important;
+    content: none !important;
 }
 
 /* Aboutセクション改善 */
@@ -359,7 +352,7 @@
     color: white;
 }
 
-/* 特徴セクション - 斜めの背景 */
+/* 特徴セクション - 斜めの背景削除 */
 .features {
     position: relative;
     padding: 120px 0 160px;
@@ -368,15 +361,8 @@
 }
 
 .features::before {
-    content: '';
-    position: absolute;
-    top: -50px;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    background: #f8fafc;
-    transform: skewY(-3deg);
-    transform-origin: right;
+    display: none !important;
+    content: none !important;
 }
 
 .features-grid {
@@ -532,7 +518,7 @@
     pointer-events: none;
 }
 
-/* イベントセクション - 斜めデザイン */
+/* イベントセクション - 斜めデザイン削除 */
 .events {
     position: relative;
     padding: 160px 0 120px;
@@ -540,15 +526,8 @@
 }
 
 .events::before {
-    content: '';
-    position: absolute;
-    top: -50px;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    background: #f8fafc;
-    transform: skewY(3deg);
-    transform-origin: left;
+    display: none !important;
+    content: none !important;
 }
 
 .events-grid {

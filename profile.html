@@ -17,10 +17,18 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/buttons.css">
     <link rel="stylesheet" href="css/dashboard.css">
-    <link rel="stylesheet" href="css/profile.css">
+    <!-- ログアウトボタンUI修正 -->
+    <link rel="stylesheet" href="css/logout-button-fix.css">
+    <link rel="stylesheet" href="css/profile.css?v=20250729-2">
     <link rel="stylesheet" href="css/notifications.css">
     <link rel="stylesheet" href="css/responsive-menu.css">
     <link rel="stylesheet" href="css/user-menu-zindex-only.css">
+    <!-- ユーザードロップダウン最前面修正 -->
+    <link rel="stylesheet" href="css/user-dropdown-fix-final.css">
+    <!-- z-index優先順位管理 -->
+    <link rel="stylesheet" href="css/z-index-priority.css">
+    <!-- プロフィール画像アップロード -->
+    <link rel="stylesheet" href="css/profile-image-upload.css">
 </head>
 <body>
     <!-- Mobile Header -->
@@ -32,7 +40,6 @@
         <div class="mobile-header-actions">
             <a href="notifications.html" class="notification-btn">
                 <i class="fas fa-bell"></i>
-                <span class="notification-badge">3</span>
             </a>
         </div>
     </header>
@@ -70,13 +77,18 @@
                     <a href="messages.html" class="mobile-nav-link">
                         <i class="fas fa-envelope"></i>
                         <span>メッセージ</span>
-                        <span class="badge">3</span>
                     </a>
                 </li>
                 <li>
                     <a href="matching.html" class="mobile-nav-link">
                         <i class="fas fa-handshake"></i>
                         <span>マッチング</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="referral.html" class="mobile-nav-link">
+                        <i class="fas fa-user-plus"></i>
+                        <span>紹介プログラム</span>
                     </a>
                 </li>
                 <li>
@@ -139,13 +151,18 @@
                         <a href="messages.html" class="sidebar-link">
                             <i class="fas fa-envelope"></i>
                             <span>メッセージ</span>
-                            <span class="badge">3</span>
                         </a>
                     </li>
                     <li>
                         <a href="matching.html" class="sidebar-link">
                             <i class="fas fa-handshake"></i>
                             <span>マッチング</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="referral.html" class="sidebar-link">
+                            <i class="fas fa-user-plus"></i>
+                            <span>紹介プログラム</span>
                         </a>
                     </li>
                     <li>
@@ -183,7 +200,6 @@
                 <div class="header-right">
                     <a href="notifications.html" class="notification-btn">
                         <i class="fas fa-bell"></i>
-                        <span class="notification-badge">3</span>
                     </a>
                     
                     <div class="user-menu">
@@ -195,6 +211,7 @@
                         
                         <div class="user-dropdown">
                             <a href="profile.html">プロフィール</a>
+                            <a href="#" onclick="window.InterConnect?.Profile?.openEditModal(); return false;">プロフィール編集</a>
                             <a href="settings.html">設定</a>
                             <hr>
                             <a href="#" onclick="logout(); return false;">ログアウト</a>
@@ -216,6 +233,7 @@
                     <div class="profile-info">
                         <div class="profile-avatar">
                             <img src="assets/user-placeholder.svg" alt="Avatar">
+                            <span class="online-indicator" style="display: none;"></span>
                             <button class="btn-icon btn-edit-avatar">
                                 <i class="fas fa-camera"></i>
                             </button>
@@ -227,21 +245,20 @@
                             <p class="profile-company">会社名</p>
                             <div class="profile-stats">
                                 <div class="stat">
-                                    <span class="stat-value">123</span>
+                                    <span class="stat-value connection-count">0</span>
                                     <span class="stat-label">コネクション</span>
                                 </div>
                                 <div class="stat">
-                                    <span class="stat-value">45</span>
+                                    <span class="stat-value event-count">0</span>
                                     <span class="stat-label">イベント参加</span>
                                 </div>
                                 <div class="stat">
-                                    <span class="stat-value">89</span>
+                                    <span class="stat-value matching-count">0</span>
                                     <span class="stat-label">マッチング</span>
                                 </div>
                             </div>
                         </div>
                         
-                        <button class="btn btn-primary">プロフィールを編集</button>
                     </div>
                 </div>
                 
@@ -255,6 +272,34 @@
                 
                 <div class="profile-content">
                     <!-- Tab content will be dynamically loaded here -->
+                    <div class="tab-content active" data-tab="about">
+                        <div class="profile-section">
+                            <h3 class="section-title">自己紹介</h3>
+                            <p id="profileBioDisplay">読み込み中...</p>
+                        </div>
+                        
+                        <div class="profile-section">
+                            <h3 class="section-title">事業課題</h3>
+                            <div class="business-challenges">
+                                <div class="challenge-category">
+                                    <h4><i class="fas fa-chart-line"></i> 売上向上</h4>
+                                    <p id="revenueDetailText">読み込み中...</p>
+                                </div>
+                                <div class="challenge-category">
+                                    <h4><i class="fas fa-users"></i> 人事・組織</h4>
+                                    <p id="hrDetailText">読み込み中...</p>
+                                </div>
+                                <div class="challenge-category">
+                                    <h4><i class="fas fa-laptop-code"></i> DX推進</h4>
+                                    <p id="dxDetailText">読み込み中...</p>
+                                </div>
+                                <div class="challenge-category">
+                                    <h4><i class="fas fa-chess-king"></i> 経営戦略</h4>
+                                    <p id="strategyDetailText">読み込み中...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -320,7 +365,7 @@
         <div class="modal-content modal-small">
             <div class="modal-header">
                 <h2>カバー画像を変更</h2>
-                <button class="modal-close" onclick="window.InterConnect.Profile.closeCoverModal()">
+                <button class="modal-close" onclick="window.ProfileImageUpload.closeCoverModal()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -336,8 +381,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline" onclick="window.InterConnect.Profile.closeCoverModal()">キャンセル</button>
-                <button type="button" class="btn btn-primary" onclick="window.InterConnect.Profile.saveCoverImage()">保存</button>
+                <button type="button" class="btn btn-outline" onclick="window.ProfileImageUpload.closeCoverModal()">キャンセル</button>
+                <button type="button" class="btn btn-primary" onclick="window.ProfileImageUpload.saveCoverImage()">保存</button>
             </div>
         </div>
     </div>
@@ -347,7 +392,7 @@
         <div class="modal-content modal-small">
             <div class="modal-header">
                 <h2>プロフィール画像を変更</h2>
-                <button class="modal-close" onclick="window.InterConnect.Profile.closeAvatarModal()">
+                <button class="modal-close" onclick="window.ProfileImageUpload.closeAvatarModal()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -363,8 +408,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline" onclick="window.InterConnect.Profile.closeAvatarModal()">キャンセル</button>
-                <button type="button" class="btn btn-primary" onclick="window.InterConnect.Profile.saveAvatarImage()">保存</button>
+                <button type="button" class="btn btn-outline" onclick="window.ProfileImageUpload.closeAvatarModal()">キャンセル</button>
+                <button type="button" class="btn btn-primary" onclick="window.ProfileImageUpload.saveAvatarImage()">保存</button>
             </div>
         </div>
     </div>
@@ -467,6 +512,9 @@
     </div>
     
     <!-- Scripts -->
+    <!-- Core initialization (must be first) -->
+    <script src="js/interconnect-core.js"></script>
+    
     <script>console.log('Starting script loading...');</script>
     <script src="js/error-prevention.js"></script>
     <script>console.log('error-prevention.js loaded');</script>
@@ -477,7 +525,6 @@
     <script src="js/safe-storage.js"></script>
     <script>console.log('safe-storage.js loaded');</script>
     <!-- <script src="js/debug-logger.js"></script> -->
-    <script src="js/supabase-client.js"></script>
     <script>console.log('supabase-client.js loaded');</script>
     <script src="js/global-functions.js"></script>
     <script>console.log('global-functions.js loaded');</script>
@@ -487,13 +534,26 @@
     <script>console.log('responsive-menu-simple.js loaded');</script>
     <script src="js/dashboard.js"></script>
     <script>console.log('dashboard.js loaded');</script>
-    <script src="js/profile.js"></script>
-    <script>console.log('profile.js should be loaded');</script>
+    <script src="js/profile.js?v=20250729-8"></script>
+    <script src="js/matching-buttons-fix.js"></script>
+    <script src="js/profile-viewer.js"></script>
+    <script>
+        console.log('profile.js should be loaded');
+        // デバッグ用：URLパラメータを確認
+        const debugParams = new URLSearchParams(window.location.search);
+        console.log('[Debug] URL params:', debugParams.toString());
+        console.log('[Debug] user param:', debugParams.get('user'));
+    </script>
     <!-- <script src="js/notifications.js"></script> -->
     <script>
         console.log('All scripts should be loaded');
         console.log('window.InterConnect:', window.InterConnect);
         console.log('window.loadTabContent:', window.loadTabContent);
     </script>
+    <script src="js/supabase-unified.js?v=1.0"></script>
+    <!-- user_profilesテーブルカラム名グローバル修正 -->
+    <script src="js/global-user-profiles-fix.js"></script>
+    <!-- プロフィール画像アップロード -->
+    <script src="js/profile-image-upload.js"></script>
 </body>
 </html>

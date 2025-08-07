@@ -17,10 +17,20 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/buttons.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <!-- ログアウトボタンUI修正 -->
+    <link rel="stylesheet" href="css/logout-button-fix.css">
     <link rel="stylesheet" href="css/members.css">
+    <link rel="stylesheet" href="css/member-profile-preview.css">
+    <link rel="stylesheet" href="css/members-profile-modal.css">
     <link rel="stylesheet" href="css/notifications.css">
+    <link rel="stylesheet" href="css/realtime-notifications.css">
     <link rel="stylesheet" href="css/responsive-menu.css">
     <link rel="stylesheet" href="css/user-menu-zindex-only.css">
+    <link rel="stylesheet" href="css/responsive-complete.css">
+    <!-- z-index優先順位管理 -->
+    <link rel="stylesheet" href="css/z-index-priority.css">
+    <!-- 高度な検索機能 -->
+    <link rel="stylesheet" href="css/advanced-search.css">
 </head>
 <body>
     <!-- Mobile Header -->
@@ -32,7 +42,6 @@
         <div class="mobile-header-actions">
             <a href="notifications.html" class="notification-btn">
                 <i class="fas fa-bell"></i>
-                <span class="notification-badge">3</span>
             </a>
         </div>
     </header>
@@ -70,13 +79,18 @@
                     <a href="messages.html" class="mobile-nav-link">
                         <i class="fas fa-envelope"></i>
                         <span>メッセージ</span>
-                        <span class="badge">3</span>
                     </a>
                 </li>
                 <li>
                     <a href="matching.html" class="mobile-nav-link">
                         <i class="fas fa-handshake"></i>
                         <span>マッチング</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="referral.html" class="mobile-nav-link">
+                        <i class="fas fa-user-plus"></i>
+                        <span>紹介プログラム</span>
                     </a>
                 </li>
                 <li>
@@ -139,13 +153,18 @@
                         <a href="messages.html" class="sidebar-link">
                             <i class="fas fa-envelope"></i>
                             <span>メッセージ</span>
-                            <span class="badge">3</span>
                         </a>
                     </li>
                     <li>
                         <a href="matching.html" class="sidebar-link">
                             <i class="fas fa-handshake"></i>
                             <span>マッチング</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="referral.html" class="sidebar-link">
+                            <i class="fas fa-user-plus"></i>
+                            <span>紹介プログラム</span>
                         </a>
                     </li>
                     <li>
@@ -183,7 +202,6 @@
                 <div class="header-right">
                     <a href="notifications.html" class="notification-btn">
                         <i class="fas fa-bell"></i>
-                        <span class="notification-badge">3</span>
                     </a>
                     
                     <div class="user-menu">
@@ -205,45 +223,9 @@
             
             <!-- Members Content -->
             <div class="content-container">
-                <!-- Results Info -->
-                <div class="results-info">
-                    <div class="results-count">
-                        <span>156</span>名のメンバー
-                    </div>
-                    <div class="view-mode">
-                        <button class="active" title="グリッド表示">
-                            <i class="fas fa-th"></i>
-                        </button>
-                        <button title="リスト表示">
-                            <i class="fas fa-list"></i>
-                        </button>
-                    </div>
-                </div>
-                <!-- Search and Filter -->
-                <div class="members-controls">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="メンバーを検索..." class="search-input">
-                    </div>
-                    
-                    <div class="filter-controls">
-                        <select class="filter-select">
-                            <option value="">業界で絞る</option>
-                            <option value="it">IT・テクノロジー</option>
-                            <option value="finance">金融・保険</option>
-                            <option value="manufacturing">製造業</option>
-                            <option value="retail">小売・流通</option>
-                            <option value="healthcare">医療・ヘルスケア</option>
-                        </select>
-                        
-                        <select class="filter-select">
-                            <option value="">役職で絞る</option>
-                            <option value="executive">経営者・役員</option>
-                            <option value="manager">管理職</option>
-                            <option value="specialist">専門職</option>
-                            <option value="general">一般社員</option>
-                        </select>
-                    </div>
+                <!-- Advanced Search Container -->
+                <div class="advanced-search-container">
+                    <!-- 高度な検索UIがここに動的に生成されます -->
                 </div>
                 
                 <!-- Members Grid -->
@@ -280,21 +262,34 @@
     </div>
     
     <!-- Scripts -->
+    <!-- Core initialization (must be first) -->
+    <script src="js/interconnect-core.js"></script>
+    
     <script src="js/error-prevention.js"></script>
     <script src="js/null-check-fixes.js"></script>
     <script src="js/safe-dom-utils.js"></script>
     <script src="js/safe-storage.js"></script>
     <script src="js/debug-logger.js"></script>
-    <script src="js/supabase-client.js"></script>
     <script src="js/global-functions.js"></script>
     <script src="js/profile-sync.js"></script>
+    <script src="js/realtime-notifications.js"></script>
     <script src="js/responsive-menu-simple.js"></script>
     <script src="js/dashboard.js"></script>
     <!-- Members specific scripts -->
-    <script src="js/members-supabase.js"></script>
-    <script src="js/members-search.js"></script>
-    <script src="js/members-connection.js"></script>
-    <script src="js/members-view-mode.js"></script>
+    <script src="js/members-supabase.js?v=20250729"></script>
+    <script src="js/member-profile-preview.js"></script>
+    <script src="js/members-profile-modal.js"></script>
+    <script src="js/members-search.js?v=20250729"></script>
+    <script src="js/members-connection.js?v=20250729"></script>
+    <script src="js/members-view-mode.js?v=20250729"></script>
+    
+    <!-- グローバル閲覧履歴 -->
+    <script src="js/global-viewing-history.js"></script>
     <!-- <script src="js/notifications.js"></script> -->
+    <script src="js/supabase-unified.js?v=1.0"></script>
+    <!-- user_profilesテーブルカラム名グローバル修正 -->
+    <script src="js/global-user-profiles-fix.js"></script>
+    <!-- 高度な検索機能 -->
+    <script src="js/advanced-search.js"></script>
 </body>
 </html>

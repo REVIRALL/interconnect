@@ -13,17 +13,38 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/buttons.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/dashboard-states.css">
+    <!-- ログアウトボタンUI修正 -->
+    <link rel="stylesheet" href="css/logout-button-fix.css">
     <link rel="stylesheet" href="css/notifications.css">
+    <link rel="stylesheet" href="css/realtime-notifications.css">
     <link rel="stylesheet" href="css/responsive-menu.css">
     <link rel="stylesheet" href="css/user-menu-zindex-only.css">
+    <!-- ヘッダーユーザーメニューのリデザイン -->
+    <link rel="stylesheet" href="css/header-user-menu-redesign.css">
     <link rel="stylesheet" href="css/event-modal.css">
     <link rel="stylesheet" href="css/event-detail-modal.css">
     <link rel="stylesheet" href="css/activity-enhanced.css">
+    <link rel="stylesheet" href="css/activity-event-filter.css">
+    <link rel="stylesheet" href="css/dashboard-charts.css">
+    <!-- CSS競合修正 -->
+    <link rel="stylesheet" href="css/css-conflict-fix.css">
+    <link rel="stylesheet" href="css/responsive-complete.css">
+    <!-- バランスの取れた青系テーマ -->
+    <link rel="stylesheet" href="css/balanced-blue-theme.css">
+    <!-- TimeRex予約ボタンスタイル -->
+    <link rel="stylesheet" href="css/timerex-booking.css">
+    <!-- TimeRex予約モーダルスタイル -->
+    <link rel="stylesheet" href="css/timerex-modal.css">
+    <!-- z-index優先順位管理 -->
+    <link rel="stylesheet" href="css/z-index-priority.css">
 </head>
 <body>
     <!-- Mobile Header -->
@@ -35,7 +56,6 @@
         <div class="mobile-header-actions">
             <a href="notifications.html" class="notification-btn">
                 <i class="fas fa-bell"></i>
-                <span class="notification-badge" style="display: none;">0</span>
             </a>
         </div>
     </header>
@@ -73,13 +93,18 @@
                     <a href="messages.html" class="mobile-nav-link">
                         <i class="fas fa-envelope"></i>
                         <span>メッセージ</span>
-                        <span class="badge message-badge" style="display: none;">0</span>
                     </a>
                 </li>
                 <li>
                     <a href="matching.html" class="mobile-nav-link">
                         <i class="fas fa-handshake"></i>
                         <span>マッチング</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="referral.html" class="mobile-nav-link">
+                        <i class="fas fa-user-plus"></i>
+                        <span>紹介プログラム</span>
                     </a>
                 </li>
                 <li>
@@ -142,13 +167,18 @@
                         <a href="messages.html" class="sidebar-link">
                             <i class="fas fa-envelope"></i>
                             <span>メッセージ</span>
-                            <span class="badge message-badge" style="display: none;">0</span>
                         </a>
                     </li>
                     <li>
                         <a href="matching.html" class="sidebar-link">
                             <i class="fas fa-handshake"></i>
                             <span>マッチング</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="referral.html" class="sidebar-link">
+                            <i class="fas fa-user-plus"></i>
+                            <span>紹介プログラム</span>
                         </a>
                     </li>
                     <li>
@@ -186,7 +216,6 @@
                 <div class="header-right">
                     <a href="notifications.html" class="notification-btn">
                         <i class="fas fa-bell"></i>
-                        <span class="notification-badge" style="display: none;">0</span>
                     </a>
                     
                     <div class="user-menu">
@@ -213,11 +242,11 @@
                         <i class="fas fa-users"></i>
                     </div>
                     <div class="stat-content">
-                        <div class="stat-value">1,234</div>
+                        <div class="stat-value">--</div>
                         <div class="stat-label">総メンバー数</div>
                         <div class="stat-change positive">
                             <i class="fas fa-arrow-up"></i>
-                            <span>12% 前月比</span>
+                            <span>読み込み中...</span>
                         </div>
                     </div>
                 </div>
@@ -227,11 +256,11 @@
                         <i class="fas fa-calendar-check"></i>
                     </div>
                     <div class="stat-content">
-                        <div class="stat-value">15</div>
+                        <div class="stat-value">--</div>
                         <div class="stat-label">今月のイベント</div>
                         <div class="stat-change positive">
                             <i class="fas fa-arrow-up"></i>
-                            <span>3イベント増加</span>
+                            <span>読み込み中...</span>
                         </div>
                     </div>
                 </div>
@@ -241,26 +270,47 @@
                         <i class="fas fa-handshake"></i>
                     </div>
                     <div class="stat-content">
-                        <div class="stat-value">89</div>
+                        <div class="stat-value">--</div>
                         <div class="stat-label">マッチング成功数</div>
                         <div class="stat-change positive">
                             <i class="fas fa-arrow-up"></i>
-                            <span>23% 増加</span>
+                            <span>読み込み中...</span>
                         </div>
                     </div>
                 </div>
                 
-                <div class="stat-card">
+                <div class="stat-card referral-card">
                     <div class="stat-icon">
-                        <i class="fas fa-envelope"></i>
+                        <i class="fas fa-user-plus"></i>
                     </div>
                     <div class="stat-content">
-                        <div class="stat-value">42</div>
-                        <div class="stat-label">未読メッセージ</div>
-                        <div class="stat-change negative">
-                            <i class="fas fa-arrow-down"></i>
-                            <span>5% 減少</span>
+                        <div class="stat-value" id="referral-points">--</div>
+                        <div class="stat-label">紹介ポイント</div>
+                        <div class="stat-action">
+                            <a href="referral.html" class="btn-primary-small">
+                                <i class="fas fa-share-alt"></i> 友達を紹介
+                            </a>
                         </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- 面談予約セクション -->
+            <div class="booking-cta-section">
+                <div class="booking-cta-card">
+                    <div class="booking-cta-content">
+                        <div class="booking-cta-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="booking-cta-text">
+                            <h3>無料面談をご利用ください</h3>
+                            <p>面談を行っていないと適切なマッチングができません。全機能を十分にご利用いただくため、まだ面談がお済みでない方は無料面談をお申し込みください。</p>
+                        </div>
+                        <button id="book-consultation-btn" class="btn btn-primary booking-btn">
+                            <i class="fas fa-video"></i>
+                            無料面談を予約する
+                        </button>
                     </div>
                 </div>
             </div>
@@ -379,51 +429,102 @@
     </div>
     
     <!-- Scripts -->
-    <script src="js/dashboard-load-order-optimizer.js"></script>
-    <script src="js/dashboard-initial-loading.js"></script>
+    <!-- Service Workerログフィルター（最初に読み込む） -->
+    <script src="js/service-worker-filter.js"></script>
+    <!-- コンソール履歴管理 -->
+    <script src="js/console-history-logger.js"></script>
+    <!-- 重複実行警告の抑制 -->
+    <script src="js/suppress-duplicate-warnings.js"></script>
+    <!-- 関数実行トラッカー -->
+    <script src="js/function-execution-tracker.js"></script>
+    <!-- Supabase統一初期化（最初に読み込む） -->
+    <script src="js/supabase-unified.js?v=1.0"></script>
+    <!-- user_profilesテーブルカラム名グローバル修正 -->
+    <script src="js/global-user-profiles-fix.js"></script>
+    <!-- Supabase参照修正 -->
+    <script src="js/supabase-wait-fix.js"></script>
+    <!-- Core initialization -->
+    <script src="js/interconnect-core.js"></script>
+    <!-- ゲストモード管理 -->
+    <script src="js/guest-mode-manager.js"></script>
+    
+    <!-- Dashboard early fix は削除されました -->
+    
+    <!-- Core utilities (必須) -->
     <script src="js/error-prevention.js"></script>
     <script src="js/null-check-fixes.js"></script>
     <script src="js/safe-dom-utils.js"></script>
     <script src="js/safe-storage.js"></script>
-    <script src="js/supabase-client.js"></script>
-    <script src="js/supabase-schema-detector.js"></script>
     <script src="js/global-functions.js"></script>
     <script src="js/profile-sync.js"></script>
-    <script src="js/dashboard-data.js"></script>
-    <script src="js/dashboard-data-fix.js"></script>
-    <script src="js/dashboard-stats-table-fix.js"></script>
-    <script src="js/dashboard-dynamic-calculator.js"></script>
-    <script src="js/dashboard-realtime-calculator.js"></script>
+    <!-- リアルタイム通知システム -->
+    <script src="js/notifications-realtime-unified.js?v=1.0"></script>
+    
+    <!-- Dashboard bundle (統合版) -->
+    <script src="js/dashboard-bundle.js"></script>
+    <script src="js/dashboard-event-fix.js"></script>
+    
+    <!-- Dashboard stats initializer (読み込み中表示) -->
+    <script src="js/dashboard-stats-initializer.js"></script>
+    
+    <!-- Dashboard calculators for accurate statistics -->
+    <script src="js/dashboard-member-calculator.js"></script>
     <script src="js/dashboard-event-calculator.js"></script>
-    <script src="js/dashboard-event-calculator-fix.js"></script>
     <script src="js/dashboard-matching-calculator.js"></script>
-    <script src="js/dashboard-matching-calculator-fix.js"></script>
-    <script src="js/dashboard-message-calculator.js"></script>
-    <script src="js/dashboard-message-calculator-fix.js"></script>
-    <script src="js/dashboard-messages-complete-fix.js"></script>
-    <script src="js/dashboard-member-counter.js"></script>
-    <script src="js/dashboard-stat-renderer.js"></script>
-    <script src="js/dashboard-ui.js"></script>
-    <script src="js/dashboard-ui-fix.js"></script>
-    <script src="js/dashboard-updater.js"></script>
-    <script src="js/dashboard-debug.js"></script>
-    <script src="js/dashboard-event-debug.js"></script>
-    <script src="js/dashboard-stats-debug.js"></script>
+    <script src="js/dashboard-upcoming-events.js"></script>
+    
+    <!-- Dashboard loading fix -->
+    <script src="js/dashboard-fix-loading.js"></script>
+    
+    <!-- Database table name fix -->
+    <script src="js/database-table-fix.js"></script>
+    
+    <!-- Debug scripts (only load in development) -->
+    <script>
+        // デバッグモードの場合のみデバッグスクリプトを読み込む
+        if (window.location.search.includes('debug=true') || window.location.hostname === 'localhost') {
+            const debugScripts = [
+                'js/dashboard-debug.js',
+                'js/dashboard-event-debug.js',
+                'js/dashboard-stats-debug.js',
+                'js/check-supabase-tables.js'
+            ];
+            debugScripts.forEach(src => {
+                const script = document.createElement('script');
+                script.src = src;
+                document.head.appendChild(script);
+            });
+        }
+    </script>
+    
+    <!-- Features -->
     <script src="js/responsive-menu-simple.js"></script>
-    <script src="js/event-modal.js"></script>
+    <script src="js/activity-event-filter.js?v=2.0"></script>
+    <script src="js/activity-event-filter-fix.js?v=2.0"></script>
+    <script src="js/dashboard-charts.js"></script>
     <script src="js/dashboard.js"></script>
-    <script src="js/dashboard-stats-integrator.js"></script>
-    <script src="js/dashboard-error-complete-fix.js"></script>
-    <script src="js/dashboard-final-fixes.js"></script>
-    <script src="js/dashboard-activity-enhancer.js"></script>
-    <script src="js/dashboard-event-details.js"></script>
-    <script src="js/dashboard-modal-fix.js"></script>
-    <script src="js/dashboard-comprehensive-fix.js"></script>
-    <script src="js/dashboard-ultimate-fix.js"></script>
-    <script src="js/dashboard-modal-display-fix.js"></script>
-    <script src="js/dashboard-event-display-enhancer.js"></script>
-    <script src="js/dashboard-event-participation.js"></script>
+    <!-- 通知送信機能は統一版に含まれています -->
+    <!-- <script src="js/notification-sender.js"></script> -->
+    <script src="js/message-integration.js"></script>
+    
+    <!-- グローバル閲覧履歴 -->
+    <script src="js/global-viewing-history.js"></script>
+    <!-- TimeRex予約システム -->
+    <!-- TimeRexサイトアクセス不可のため一時的にGoogle Calendar使用 -->
+    <script src="js/google-calendar-booking.js?v=1.0"></script>
     <!-- 通知機能はJSを無効化 -->
     <!-- <script src="js/notifications.js"></script> -->
+    
+    <!-- 面談予約ボタンのリダイレクト -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bookingBtn = document.getElementById('book-consultation-btn');
+            if (bookingBtn) {
+                bookingBtn.addEventListener('click', function() {
+                    window.location.href = '/book-consultation.html';
+                });
+            }
+        });
+    </script>
 </body>
 </html>

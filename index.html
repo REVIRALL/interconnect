@@ -18,8 +18,10 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <!-- Preload critical video for better performance on Netlify -->
-    <link rel="preload" as="video" href="assets/interconnect-top.mp4" type="video/mp4">
+    <!-- Video Preload Optimization -->
+    <link rel="preload" href="assets/interconnect-top.mp4" as="video" type="video/mp4" crossorigin="anonymous">
+    <link rel="prefetch" href="assets/interconnect-top.mp4" as="video" type="video/mp4">
+    <link rel="dns-prefetch" href="assets/">
     
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
@@ -29,10 +31,29 @@
     <link rel="stylesheet" href="css/homepage-modern.css">
     <link rel="stylesheet" href="css/homepage-complete.css">
     <link rel="stylesheet" href="css/contact-balanced.css">
-    <link rel="stylesheet" href="css/scroll-animations.css">
-    <link rel="stylesheet" href="css/loading-screen.css">
-    <link rel="stylesheet" href="css/hero-mobile-breaks.css">
+    <!-- <link rel="stylesheet" href="css/scroll-animations.css"> -->
+    <!-- loading-screen.css は homepage-perfect-final.js に統合済み -->
+    <!-- <link rel="stylesheet" href="css/loading-screen.css"> -->
     <link rel="stylesheet" href="css/news-category-mobile-fix.css">
+    <!-- 動画プリロード修正 -->
+    <link rel="stylesheet" href="css/homepage-video-preload-fix.css">
+    <!-- 動画読み込み最適化 -->
+    <link rel="stylesheet" href="css/video-loading-optimize.css">
+    <!-- ヒーローセクション -->
+    <link rel="stylesheet" href="css/hero.css">
+    <!-- タイプライター初期状態 -->
+    <link rel="stylesheet" href="css/typewriter-init.css">
+    <!-- 斜め線の強制削除 -->
+    <link rel="stylesheet" href="css/hero-slant-fix.css">
+    <!-- z-index優先順位管理 -->
+    <link rel="stylesheet" href="css/z-index-priority.css">
+    
+    <!-- ヒーローシンプル表示 -->
+    <script src="js/hero-simple.js"></script>
+    <!-- 斜め線削除スクリプト -->
+    <script src="js/hero-slant-remover.js"></script>
+    <!-- タイプライター効果 -->
+    <script src="js/typewriter-effect.js"></script>
 </head>
 <body>
     <!-- プリローディング画面（最初に表示） -->
@@ -49,10 +70,7 @@
         </div>
         `);
         document.body.style.overflow = 'hidden';
-        setTimeout(() => {
-            const bar = document.getElementById('loadingBar');
-            if(bar) bar.style.width = '100%';
-        }, 10);
+        // プログレスバーの制御は homepage-perfect-final.js に統合
     </script>
     
     <!-- Navigation -->
@@ -84,10 +102,10 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-video-container">
-            <video class="hero-video loading" autoplay muted loop playsinline preload="auto">
+            <video class="hero-video" autoplay muted loop playsinline preload="auto">
                 <source src="assets/interconnect-top.mp4" type="video/mp4">
+                お使いのブラウザは動画をサポートしていません。
             </video>
-            <img class="hero-fallback" src="assets/hero-fallback.svg" alt="INTERCONNECT">
             <div class="hero-overlay"></div>
         </div>
         
@@ -104,7 +122,7 @@
                     <a href="#pricing" class="btn btn-primary btn-lg">
                         <i class="fas fa-rocket"></i> 今すぐ始める
                     </a>
-                    <a href="#contact" class="btn btn-outline-light btn-lg">
+                    <a href="book-consultation.html" class="btn btn-outline-light btn-lg">
                         <i class="fas fa-calendar"></i> 無料相談を予約
                     </a>
                 </div>
@@ -601,7 +619,7 @@
                     <div class="cta-icon"><i class="fas fa-phone"></i></div>
                     <h3>無料相談会</h3>
                     <p>あなたの会社の悩みを30分で相談できます。経営の悩み整理シートを無料でプレゼント。</p>
-                    <a href="#" class="cta-button">相談を予約する</a>
+                    <a href="book-consultation.html" class="cta-button">相談を予約する</a>
                 </div>
                 
                 <div class="cta-card">
@@ -723,44 +741,20 @@
     </footer>
 
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/referral-landing.js"></script>
     <script src="js/error-prevention.js"></script>
     <script src="js/null-check-fixes.js"></script>
     <script src="js/safe-dom-utils.js"></script>
     <script src="js/safe-storage.js"></script>
+    <!-- ローディング動画修正 -->
+    <script src="js/homepage-loading-final-fix.js"></script>
+    <script src="js/homepage-loading-video-fix.js"></script>
+    <!-- 動画プリロード最適化 -->
+    <script src="js/video-preload-optimize.js"></script>
+    <!-- 完璧な最終版（すべての競合解決とスクロール効果統合） -->
+    <script src="js/homepage-perfect-final.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/scroll-fade.js"></script>
-    
-    <!-- ローディング画面を非表示にする -->
-    <script>
-        // ページ読み込み完了時にローディング画面を非表示
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                const loadingScreen = document.getElementById('instantLoadingScreen');
-                if (loadingScreen) {
-                    loadingScreen.style.transition = 'opacity 0.8s ease-out';
-                    loadingScreen.style.opacity = '0';
-                    
-                    setTimeout(() => {
-                        loadingScreen.remove();
-                        document.body.style.overflow = '';
-                    }, 800);
-                }
-            }, 2000); // 最低2秒表示
-        });
-        
-        // フォールバック：5秒後には必ず非表示
-        setTimeout(() => {
-            const loadingScreen = document.getElementById('instantLoadingScreen');
-            if (loadingScreen && loadingScreen.style.opacity !== '0') {
-                loadingScreen.style.transition = 'opacity 0.8s ease-out';
-                loadingScreen.style.opacity = '0';
-                
-                setTimeout(() => {
-                    loadingScreen.remove();
-                    document.body.style.overflow = '';
-                }, 800);
-            }
-        }, 5000);
-    </script>
+    <script src="js/supabase-unified.js?v=1.0"></script>
 </body>
 </html>

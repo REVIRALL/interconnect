@@ -5,21 +5,50 @@
 (function() {
     'use strict';
 
+    // updateUserInfoの実行を管理（グローバルフラグでシングルトン化）
+    if (!window._updateUserInfoState) {
+        window._updateUserInfoState = {
+            isRunning: false,
+            lastRun: 0,
+            minInterval: 5000 // 5秒間隔
+        };
+    }
+    
+    let updateUserInfoSafe = function() {
+        const now = Date.now();
+        const state = window._updateUserInfoState;
+        
+        // 実行中または最小間隔内の場合はスキップ
+        if (state.isRunning || (now - state.lastRun < state.minInterval)) {
+            console.log('[Dashboard] updateUserInfo スキップ (実行中または間隔内)');
+            return;
+        }
+        
+        state.isRunning = true;
+        state.lastRun = now;
+        updateUserInfo();
+        
+        // 実行完了後にフラグをリセット
+        setTimeout(() => { 
+            state.isRunning = false;
+        }, 100);
+    };
+
     document.addEventListener('DOMContentLoaded', function() {
         checkAuth();
         initSidebar();
         initUserMenu();
-        updateUserInfo();
+        updateUserInfoSafe();
         
         // ProfileSyncが準備できたら再度更新
         if (window.ProfileSync) {
-            setTimeout(() => updateUserInfo(), 1000);
+            setTimeout(() => updateUserInfoSafe(), 1000);
         }
         
         // supabaseReadyイベントでも更新
         window.addEventListener('supabaseReady', function() {
             console.log('Dashboard: supabaseReady event received, updating user info');
-            setTimeout(() => updateUserInfo(), 500);
+            setTimeout(() => updateUserInfoSafe(), 500);
             
             // ダッシュボード更新システムを初期化
             if (window.dashboardUpdater) {
@@ -31,7 +60,7 @@
         });
         
         // ダッシュボード更新システムが既に準備できている場合
-        if (window.dashboardUpdater && window.supabase) {
+        if (window.dashboardUpdater && window.supabaseClient) {
             console.log('Dashboard: Dashboard updater already available, initializing...');
             setTimeout(() => {
                 window.dashboardUpdater.init();
@@ -205,5 +234,62 @@
     
     // グローバルに公開（デバッグ用）
     window.updateDashboardUserInfo = updateUserInfo;
+
+    // 紹介ポイントを読み込む関数
+    async function loadReferralPoints() {
+        try {
+            // waitForSupabaseを使用して確実に初期化を待つ
+            if (typeof window.waitForSupabase === 'function') {
+                await window.waitForSupabase();
+            }
+            
+            const supabaseInstance = window.supabaseClient || window.supabase;
+            if (!supabaseInstance || !supabaseInstance.auth) {
+                console.log('[Dashboard] Supabase not initialized yet');
+                return;
+            }
+            
+            const { data: { user } } = await supabaseInstance.auth.getUser();
+            if (!user) return;
+
+            // ユーザーのポイント残高を取得
+            const { data: points, error } = await supabaseInstance
+                .from('user_points')
+                .select('available_points')
+                .eq('user_id', user.id)
+                .single();
+
+            if (!error && points) {
+                const pointsElement = document.getElementById('referral-points');
+                if (pointsElement) {
+                    pointsElement.textContent = (points.available_points || 0).toLocaleString() + ' pt';
+                }
+            }
+        } catch (error) {
+            console.error('紹介ポイントの読み込みエラー:', error);
+            const pointsElement = document.getElementById('referral-points');
+            if (pointsElement) {
+                pointsElement.textContent = '0 pt';
+            }
+        }
+    }
+
+    // グローバルに公開
+    window.loadReferralPoints = loadReferralPoints;
+
+    // 初期化時に紹介ポイントも読み込む
+    // supabaseReadyイベントを待つ
+    window.addEventListener('supabaseReady', function() {
+        console.log('[Dashboard] supabaseReady event received, loading referral points');
+        if (window.supabaseClient) {
+            setTimeout(() => loadReferralPoints(), 500);
+        }
+    });
+    
+    // 既にsupabaseClientが初期化されている場合
+    if (window.supabaseClient && !window.referralPointsLoaded) {
+        window.referralPointsLoaded = true;
+        setTimeout(() => loadReferralPoints(), 100);
+    }
 
 })();
