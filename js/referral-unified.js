@@ -144,6 +144,8 @@
     // 紹介履歴の読み込み
     async function loadReferralHistory() {
         try {
+            // 注意: v_referral_historyビューにはcreated_atカラムが存在しない
+            // accepted_atカラムを使用する
             const { data, error } = await window.supabaseClient
                 .from('v_referral_history')
                 .select('*')
