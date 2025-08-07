@@ -144,13 +144,15 @@
     // 紹介履歴の読み込み
     async function loadReferralHistory() {
         try {
-            // 注意: v_referral_historyビューにはcreated_atカラムが存在しない
-            // accepted_atカラムを使用する
+            // v_referral_historyビューには以下のカラムが存在:
+            // sent_at: 招待送信日時
+            // accepted_at: 招待受諾日時
+            // created_atは存在しないので、sent_atを使用
             const { data, error } = await window.supabaseClient
                 .from('v_referral_history')
                 .select('*')
                 .eq('inviter_id', currentUserId)
-                .order('accepted_at', { ascending: false });
+                .order('sent_at', { ascending: false });
 
             if (error) throw error;
 
