@@ -1,0 +1,314 @@
+/* ===========================
+   紹介ページモバイル完全修正
+   320px, 375px, 425px, 768pxでの余白を完全排除
+   =========================== */
+
+/* ===========================
+   強制的に全モバイルサイズで余白削除
+   =========================== */
+
+/* 320px - 最小モバイル */
+@media (max-width: 320px) {
+    /* content-bodyの余白とmax-width制約を完全削除 */
+    .content-body,
+    .main-content .content-body,
+    body .dashboard .main-content .content-body {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 0.5rem 0.5rem 0.5rem !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* サイドバー非表示 */
+    .sidebar {
+        display: none !important;
+    }
+    
+    /* メインコンテンツ全幅 */
+    .main-content {
+        width: 100% !important;
+        margin-left: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* カード要素の余白調整 */
+    .card,
+    .points-summary,
+    .referral-steps,
+    .referral-links,
+    .tabs-section {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 1rem !important;
+    }
+    
+    /* ページ説明の余白調整 */
+    .page-intro {
+        margin: 0 0 1rem 0 !important;
+        padding: 0 !important;
+    }
+    
+    .page-description {
+        margin: 0 !important;
+        padding: 0.75rem !important;
+    }
+}
+
+/* 375px - iPhone SE/8 */
+@media (min-width: 321px) and (max-width: 375px) {
+    .content-body,
+    .main-content .content-body,
+    body .dashboard .main-content .content-body {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 0.75rem 0.75rem 0.75rem !important;
+        box-sizing: border-box !important;
+    }
+    
+    .sidebar {
+        display: none !important;
+    }
+    
+    .main-content {
+        width: 100% !important;
+        margin-left: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .card,
+    .points-summary,
+    .referral-steps,
+    .referral-links,
+    .tabs-section {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 1.25rem !important;
+    }
+}
+
+/* 425px - Large Mobile */
+@media (min-width: 376px) and (max-width: 425px) {
+    .content-body,
+    .main-content .content-body,
+    body .dashboard .main-content .content-body {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 1rem 1rem 1rem !important;
+        box-sizing: border-box !important;
+    }
+    
+    .sidebar {
+        display: none !important;
+    }
+    
+    .main-content {
+        width: 100% !important;
+        margin-left: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .card,
+    .points-summary,
+    .referral-steps,
+    .referral-links,
+    .tabs-section {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 1.5rem !important;
+    }
+}
+
+/* 768px - iPad/Tablet */
+@media (min-width: 426px) and (max-width: 768px) {
+    .content-body,
+    .main-content .content-body,
+    body .dashboard .main-content .content-body {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 1.25rem 1.25rem 1.25rem !important;
+        box-sizing: border-box !important;
+    }
+    
+    .sidebar {
+        display: none !important;
+    }
+    
+    .main-content {
+        width: 100% !important;
+        margin-left: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .card,
+    .points-summary,
+    .referral-steps,
+    .referral-links,
+    .tabs-section {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 1.5rem !important;
+    }
+}
+
+/* ===========================
+   全モバイルサイズ共通（0-768px）
+   他のCSSファイルの設定を上書き
+   =========================== */
+@media (max-width: 768px) {
+    /* referral-unified.cssとreferral-final-fix.cssの上書き */
+    html body .dashboard .main-content .content-body,
+    html body .main-content .content-body,
+    html .content-body {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* コンテンツヘッダーの余白調整 */
+    .content-header {
+        padding: 1rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    /* ポイントグリッドを1列に */
+    .points-grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* ステップコンテナーを縦並びに */
+    .steps-container {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+    }
+    
+    /* ステップ矢印を非表示 */
+    .step-arrow {
+        display: none !important;
+    }
+    
+    /* モバイルナビ表示時の調整 */
+    .mobile-nav.active ~ .dashboard .main-content {
+        margin-left: 0 !important;
+    }
+    
+    /* セクションの余白統一 */
+    section {
+        margin-bottom: 1.5rem !important;
+    }
+    
+    /* フォーム要素の調整 */
+    .form-input,
+    .form-select,
+    .form-textarea {
+        font-size: 16px !important; /* iOS拡大防止 */
+    }
+    
+    /* ボタンのサイズ調整 */
+    .btn,
+    .btn-primary,
+    .btn-secondary {
+        padding: 0.75rem 1rem !important;
+        font-size: 0.875rem !important;
+    }
+    
+    /* キャッシュアウトボタン */
+    .cashout-button {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 1rem 0 0 0 !important;
+        padding: 0.875rem !important;
+        font-size: 0.875rem !important;
+    }
+    
+    /* タブボタンの調整 */
+    .tab-navigation {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+    }
+    
+    .tab-navigation::-webkit-scrollbar {
+        display: none !important;
+    }
+    
+    .tab-button {
+        padding: 0.75rem 1rem !important;
+        font-size: 0.875rem !important;
+        white-space: nowrap !important;
+    }
+}
+
+/* ===========================
+   極小画面用追加調整（480px以下）
+   =========================== */
+@media (max-width: 480px) {
+    /* フォントサイズ調整 */
+    html {
+        font-size: 14px !important;
+    }
+    
+    h1 {
+        font-size: 1.25rem !important;
+    }
+    
+    h2 {
+        font-size: 1.125rem !important;
+    }
+    
+    h3 {
+        font-size: 1rem !important;
+    }
+    
+    /* ポイントアイテムの調整 */
+    .point-item {
+        flex-direction: column !important;
+        text-align: center !important;
+        padding: 0.75rem !important;
+    }
+    
+    .point-icon {
+        margin-bottom: 0.5rem !important;
+    }
+    
+    /* リンクアクションボタン */
+    .link-actions {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+    }
+    
+    .link-actions button {
+        width: 100% !important;
+    }
+}
+
+/* ===========================
+   最終的な強制上書き
+   最高優先度で適用
+   =========================== */
+@media screen and (max-width: 768px) {
+    /* !importantを複数重ねて優先度を最大化 */
+    body .dashboard .main-content .content-body {
+        max-width: 100% !important !important;
+        width: 100% !important !important;
+        margin-left: 0 !important !important;
+        margin-right: 0 !important !important;
+    }
+    
+    /* referral-unified.cssの設定を完全無効化 */
+    body .content-body[style*="max-width"] {
+        max-width: 100% !important;
+    }
+    
+    body .content-body[style*="margin"] {
+        margin: 0 !important;
+    }
+}
