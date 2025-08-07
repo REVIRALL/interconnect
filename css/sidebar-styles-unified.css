@@ -1,0 +1,478 @@
+/* ===========================
+   サイドバー統一スタイル定義
+   全ページで一貫したサイドバーUIを実現
+   =========================== */
+
+/* ===========================
+   CSS変数定義
+   =========================== */
+:root {
+    /* サイドバー専用変数 */
+    --sidebar-width: 260px;
+    --sidebar-bg: #ffffff;
+    --sidebar-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+    --sidebar-border: #e5e7eb;
+    --sidebar-text: #4b5563;
+    --sidebar-text-hover: #0066ff;
+    --sidebar-active-bg: rgba(0, 102, 255, 0.1);
+    --sidebar-active-text: #0066ff;
+    --sidebar-hover-bg: #f9fafb;
+    --mobile-header-height: 60px;
+}
+
+/* ===========================
+   サイドバー基本スタイル
+   =========================== */
+.sidebar,
+aside.sidebar,
+#dashboardSidebar {
+    background: var(--sidebar-bg);
+    box-shadow: var(--sidebar-shadow);
+    display: flex;
+    flex-direction: column;
+    width: var(--sidebar-width);
+}
+
+/* サイドバーヘッダー */
+.sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--sidebar-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--sidebar-bg);
+}
+
+.sidebar-header h1 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #0066ff 0%, #3385ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+/* サイドバートグルボタン（折りたたみ用） */
+.sidebar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.sidebar-toggle:hover {
+    background: var(--sidebar-hover-bg);
+    color: var(--sidebar-text-hover);
+}
+
+/* サイドバーナビゲーション */
+.sidebar-nav {
+    padding: 1rem 0;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar-nav li {
+    margin-bottom: 0.25rem;
+}
+
+/* サイドバーリンク */
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.5rem;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    border-radius: 0;
+    transition: all 0.2s ease;
+    position: relative;
+    font-weight: 500;
+    font-size: 0.9375rem;
+}
+
+.sidebar-link i {
+    width: 20px;
+    text-align: center;
+    font-size: 1.125rem;
+    flex-shrink: 0;
+}
+
+.sidebar-link span {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ホバー効果 */
+.sidebar-link:hover {
+    background: var(--sidebar-hover-bg);
+    color: var(--sidebar-text-hover);
+    padding-left: 1.75rem;
+}
+
+/* アクティブ状態 */
+.sidebar-link.active {
+    background: var(--sidebar-active-bg);
+    color: var(--sidebar-active-text);
+    font-weight: 600;
+    border-left: 3px solid var(--sidebar-active-text);
+    padding-left: calc(1.5rem - 3px);
+}
+
+.sidebar-link.active:hover {
+    padding-left: calc(1.75rem - 3px);
+}
+
+/* サイドバーフッター */
+.sidebar-footer {
+    padding: 1rem;
+    border-top: 1px solid var(--sidebar-border);
+    background: var(--sidebar-bg);
+}
+
+/* ログアウトボタン */
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    background: none;
+    border: none;
+    color: #dc2626;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 0.5rem;
+    text-align: left;
+}
+
+.logout-btn i {
+    width: 20px;
+    text-align: center;
+    font-size: 1.125rem;
+}
+
+.logout-btn:hover {
+    background: #fef2f2;
+    padding-left: 1.75rem;
+}
+
+/* ===========================
+   モバイルナビゲーション
+   =========================== */
+
+/* モバイルヘッダー */
+.mobile-header {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--mobile-header-height);
+    background: var(--sidebar-bg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    z-index: 998;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+}
+
+.mobile-header h1 {
+    font-size: 1.125rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #0066ff 0%, #3385ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+}
+
+/* モバイルメニュートグル */
+.mobile-menu-toggle {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #374151;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.mobile-header-actions .notification-btn {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: #374151;
+    cursor: pointer;
+    padding: 0.5rem;
+    position: relative;
+}
+
+/* モバイルナビゲーション */
+.mobile-nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100vh;
+    background: var(--sidebar-bg);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: left 0.3s ease;
+    z-index: 1001;
+    overflow-y: auto;
+    flex-direction: column;
+}
+
+.mobile-nav.active {
+    left: 0;
+}
+
+.mobile-nav-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--sidebar-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mobile-nav-header h1 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #0066ff 0%, #3385ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+}
+
+.mobile-nav-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.mobile-nav-menu {
+    flex: 1;
+    padding: 1rem 0;
+    overflow-y: auto;
+}
+
+.mobile-nav-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mobile-nav-menu li {
+    margin-bottom: 0.25rem;
+}
+
+/* モバイルナビゲーションリンク */
+.mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.5rem;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    font-size: 0.9375rem;
+}
+
+.mobile-nav-link i {
+    width: 20px;
+    text-align: center;
+    font-size: 1.125rem;
+}
+
+.mobile-nav-link:hover {
+    background: var(--sidebar-hover-bg);
+    color: var(--sidebar-text-hover);
+    padding-left: 1.75rem;
+}
+
+.mobile-nav-link.active {
+    background: var(--sidebar-active-bg);
+    color: var(--sidebar-active-text);
+    font-weight: 600;
+    border-left: 3px solid var(--sidebar-active-text);
+    padding-left: calc(1.5rem - 3px);
+}
+
+.mobile-nav-footer {
+    padding: 1rem;
+    border-top: 1px solid var(--sidebar-border);
+}
+
+/* モバイルバックドロップ */
+.mobile-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mobile-backdrop.active {
+    display: block;
+    opacity: 1;
+}
+
+/* ===========================
+   レスポンシブ対応
+   =========================== */
+
+/* デスクトップ（769px以上） */
+@media (min-width: 769px) {
+    /* モバイル要素を非表示 */
+    .mobile-header,
+    .mobile-nav,
+    .mobile-backdrop {
+        display: none !important;
+    }
+    
+    /* サイドバートグルボタンを表示（折りたたみ機能用） */
+    @media (min-width: 1200px) {
+        .sidebar-toggle {
+            display: block;
+        }
+    }
+}
+
+/* タブレット・モバイル（768px以下） */
+@media (max-width: 768px) {
+    /* デスクトップサイドバーを非表示 */
+    .sidebar,
+    aside.sidebar,
+    #dashboardSidebar {
+        display: none !important;
+    }
+    
+    /* モバイルヘッダーを表示 */
+    .mobile-header {
+        display: flex !important;
+    }
+    
+    /* モバイルナビゲーションを表示可能に */
+    .mobile-nav {
+        display: flex !important;
+    }
+}
+
+/* ===========================
+   スクロールバースタイル
+   =========================== */
+.sidebar::-webkit-scrollbar,
+.sidebar-nav::-webkit-scrollbar,
+.mobile-nav::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track,
+.sidebar-nav::-webkit-scrollbar-track,
+.mobile-nav::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.sidebar::-webkit-scrollbar-thumb,
+.sidebar-nav::-webkit-scrollbar-thumb,
+.mobile-nav::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover,
+.sidebar-nav::-webkit-scrollbar-thumb:hover,
+.mobile-nav::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* ===========================
+   アニメーション定義
+   =========================== */
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* ===========================
+   アクセシビリティ
+   =========================== */
+.sidebar-link:focus-visible,
+.mobile-nav-link:focus-visible,
+.logout-btn:focus-visible {
+    outline: 2px solid #0066ff;
+    outline-offset: 2px;
+}
+
+/* 動き軽減対応 */
+@media (prefers-reduced-motion: reduce) {
+    .sidebar-link,
+    .mobile-nav-link,
+    .logout-btn,
+    .mobile-nav,
+    .mobile-backdrop {
+        transition: none !important;
+    }
+}
+
+/* ===========================
+   印刷対応
+   =========================== */
+@media print {
+    .sidebar,
+    .mobile-header,
+    .mobile-nav,
+    .mobile-backdrop {
+        display: none !important;
+    }
+}

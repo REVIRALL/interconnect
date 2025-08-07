@@ -81,98 +81,13 @@ body {
 
 /* ===========================
    3. サイドバー詳細機能
+   sidebar-styles-unified.cssが優先されるように調整
    =========================== */
 
-/* サイドバーヘッダー */
-.sidebar-header {
-    padding: var(--space-lg);
-    border-bottom: 1px solid var(--gray-200);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.sidebar-header h1 {
-    font-size: 1.25rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-/* サイドバートグルボタン */
-.sidebar-toggle {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1.25rem;
-    color: var(--gray-500);
-    cursor: pointer;
-    padding: var(--space-sm);
-    border-radius: var(--radius-lg);
-    transition: var(--transition-base);
-}
-
-.sidebar-toggle:hover {
-    background: var(--gray-100);
-    color: var(--primary);
-}
-
-/* サイドバーナビゲーション */
-.sidebar-nav {
-    padding: var(--space-md);
-}
-
-.sidebar-nav ul {
-    list-style: none;
-}
-
-.sidebar-nav li {
-    margin-bottom: var(--space-xs);
-}
-
-.sidebar-link {
-    display: flex;
-    align-items: center;
-    gap: var(--space-md);
-    padding: var(--space-sm) var(--space-md);
-    color: var(--gray-600);
-    text-decoration: none;
-    border-radius: var(--radius-lg);
-    transition: var(--transition-base);
-    position: relative;
-    font-weight: 500;
-}
-
-.sidebar-link i {
-    width: 20px;
-    text-align: center;
-    font-size: 1.125rem;
-}
-
-.sidebar-link span {
-    flex: 1;
-}
-
-.sidebar-link:hover {
-    background: var(--gray-100);
-    color: var(--primary);
-    transform: translateX(2px);
-}
-
-.sidebar-link.active {
-    background: rgba(0, 102, 255, 0.1);
-    color: var(--primary);
-    font-weight: 600;
-}
-
-/* サイドバーフッター */
-.sidebar-footer {
-    padding: var(--space-md);
-    border-top: 1px solid var(--gray-200);
-    margin-top: auto;
-}
+/* 
+ * サイドバースタイルはsidebar-styles-unified.cssで統一管理
+ * ここでは基本的な変数のみ定義
+ */
 
 /* ===========================
    4. ダッシュボードヘッダー
