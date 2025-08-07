@@ -1,0 +1,158 @@
+/* ===========================
+   紹介ページサイズ修正CSS
+   紹介の流れセクションのサイズ問題を修正
+   =========================== */
+
+/* ステップコンテナーの修正 */
+.steps-container {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 2rem !important;
+    padding: 2rem !important;
+    margin-top: 2rem !important;
+}
+
+/* 各ステップの修正 */
+.referral-steps .step {
+    text-align: center !important;
+    padding: 1.5rem !important;
+    background: white !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.3s ease !important;
+    min-height: 200px !important;
+}
+
+.referral-steps .step:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* ステップアイコンのサイズ修正 */
+.step-icon {
+    width: 80px !important;
+    height: 80px !important;
+    margin: 0 auto 1.5rem !important;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease !important;
+}
+
+.step-icon i {
+    font-size: 2rem !important;
+    color: white !important;
+}
+
+/* ステップ番号の修正 */
+.step-number {
+    position: absolute !important;
+    top: -10px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 30px !important;
+    height: 30px !important;
+    background: #0066ff !important;
+    color: white !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-weight: bold !important;
+    font-size: 1rem !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ステップタイトルと説明 */
+.step h4 {
+    font-size: 1.125rem !important;
+    font-weight: 600 !important;
+    color: #1f2937 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.step p {
+    font-size: 0.875rem !important;
+    color: #6b7280 !important;
+    line-height: 1.5 !important;
+}
+
+/* 紹介リンクカードのサイズ修正 */
+.link-item {
+    padding: 1.5rem !important;
+    margin-bottom: 1rem !important;
+    background: white !important;
+    border-radius: 12px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.link-info {
+    margin-bottom: 1rem !important;
+}
+
+.link-description {
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    color: #1f2937 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.link-stats {
+    display: flex !important;
+    gap: 1.5rem !important;
+    font-size: 0.875rem !important;
+    color: #6b7280 !important;
+}
+
+.link-stats span {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 1024px) {
+    .steps-container {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .steps-container {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+        padding: 1rem !important;
+    }
+    
+    .referral-steps .step {
+        min-height: auto !important;
+        padding: 1rem !important;
+    }
+    
+    .step-icon {
+        width: 60px !important;
+        height: 60px !important;
+    }
+    
+    .step-icon i {
+        font-size: 1.5rem !important;
+    }
+}
+
+/* 不要なSQLコード表示を隠す */
+pre:has(code:contains("CREATE TABLE")),
+pre:has(code:contains("INSERT INTO")),
+pre:has(code:contains("SELECT")),
+.sql-code,
+.code-block:has(code:contains("SQL")) {
+    display: none !important;
+}
+
+/* デバッグ表示を隠す */
+.debug-info,
+.debug-output,
+[class*="debug-"] {
+    display: none !important;
+}
