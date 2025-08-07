@@ -110,9 +110,46 @@
 }
 
 /* ===========================
-   タブレット表示 (641px-1024px)
+   小タブレット表示 (641px-768px)
    =========================== */
-@media (min-width: 641px) and (max-width: 1024px) {
+@media (min-width: 641px) and (max-width: 768px) {
+    /* サイドバーを非表示 */
+    .sidebar {
+        display: none !important;
+    }
+    
+    /* メインコンテンツを全幅に */
+    .main-content {
+        width: 100% !important;
+        margin-left: 0 !important;
+    }
+    
+    /* コンテンツボディの余白調整 - max-widthを削除して全幅に */
+    .content-body {
+        padding: 0 1.5rem 1.5rem 1.5rem !important;
+        max-width: none !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+    
+    /* ポイントグリッドを2列に */
+    .points-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.5rem !important;
+    }
+    
+    /* ステップコンテナーを2列に */
+    .steps-container {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.5rem !important;
+    }
+}
+
+/* ===========================
+   大タブレット表示 (769px-1024px)
+   =========================== */
+@media (min-width: 769px) and (max-width: 1024px) {
     /* サイドバーの幅調整 */
     .sidebar {
         width: 200px !important;
@@ -123,9 +160,12 @@
         width: calc(100% - 200px) !important;
     }
     
-    /* コンテンツボディの余白調整 */
+    /* コンテンツボディの余白調整 - max-widthを削除して全幅に */
     .content-body {
         padding: 0 1.5rem 1.5rem 1.5rem !important;
+        max-width: none !important;
+        margin: 0 !important;
+        width: 100% !important;
     }
     
     /* ポイントグリッドを2列に */
