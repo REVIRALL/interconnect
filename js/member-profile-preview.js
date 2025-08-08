@@ -47,16 +47,22 @@
         setupEventListeners() {
             // メンバーカードのホバーイベントを監視
             document.addEventListener('mouseenter', (e) => {
-                const memberCard = e.target.closest('.member-card');
-                if (memberCard && !memberCard.closest('.profile-preview')) {
-                    this.handleMouseEnter(memberCard);
+                // e.targetがDOM要素であることを確認
+                if (e.target && e.target.nodeType === Node.ELEMENT_NODE && typeof e.target.closest === 'function') {
+                    const memberCard = e.target.closest('.member-card');
+                    if (memberCard && !memberCard.closest('.profile-preview')) {
+                        this.handleMouseEnter(memberCard);
+                    }
                 }
             }, true);
 
             document.addEventListener('mouseleave', (e) => {
-                const memberCard = e.target.closest('.member-card');
-                if (memberCard && memberCard === this.currentTarget) {
-                    this.handleMouseLeave();
+                // e.targetがDOM要素であることを確認
+                if (e.target && e.target.nodeType === Node.ELEMENT_NODE && typeof e.target.closest === 'function') {
+                    const memberCard = e.target.closest('.member-card');
+                    if (memberCard && memberCard === this.currentTarget) {
+                        this.handleMouseLeave();
+                    }
                 }
             }, true);
 

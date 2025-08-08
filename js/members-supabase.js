@@ -143,8 +143,8 @@
                 // 各メンバーのコネクション数を取得
                 const { data: connections, error } = await window.supabase
                     .from('connections')
-                    .select('requester_id, receiver_id')
-                    .or(`requester_id.in.(${memberIds.join(',')}),receiver_id.in.(${memberIds.join(',')})`)
+                    .select('user_id, connected_user_id')
+                    .or(`user_id.in.(${memberIds.join(',')}),connected_user_id.in.(${memberIds.join(',')})`)
                     .eq('status', 'accepted');
 
                 if (error) throw error;
@@ -154,11 +154,11 @@
                 memberIds.forEach(id => connectionCounts[id] = 0);
 
                 connections?.forEach(conn => {
-                    if (connectionCounts[conn.requester_id] !== undefined) {
-                        connectionCounts[conn.requester_id]++;
+                    if (connectionCounts[conn.user_id] !== undefined) {
+                        connectionCounts[conn.user_id]++;
                     }
-                    if (connectionCounts[conn.receiver_id] !== undefined) {
-                        connectionCounts[conn.receiver_id]++;
+                    if (connectionCounts[conn.connected_user_id] !== undefined) {
+                        connectionCounts[conn.connected_user_id]++;
                     }
                 });
 
