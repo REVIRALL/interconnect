@@ -18,6 +18,9 @@ build/
 *.swp
 *.swo
 
+# Auto-push tracking
+.auto-push-enabled
+
 # OS
 .DS_Store
 Thumbs.db
