@@ -65,7 +65,7 @@
                 console.log('[MembersSupabase] メンバーデータ読み込み中...');
                 
                 // ベースクエリ（user_profilesテーブルを使用 - active_usersはビュー）
-                let query = window.supabase
+                let query = window.supabaseClient
                     .from('user_profiles')
                     .select('*', { count: 'exact' })
                     .eq('is_active', true)
@@ -141,7 +141,7 @@
                 if (memberIds.length === 0) return;
                 
                 // 各メンバーのコネクション数を取得
-                const { data: connections, error } = await window.supabase
+                const { data: connections, error } = await window.supabaseClient
                     .from('connections')
                     .select('user_id, connected_user_id')
                     .or(`user_id.in.(${memberIds.join(',')}),connected_user_id.in.(${memberIds.join(',')})`)

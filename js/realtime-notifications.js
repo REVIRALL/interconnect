@@ -21,7 +21,7 @@
         async init() {
             try {
                 // ユーザー認証チェック
-                const { data: { user } } = await window.supabase.auth.getUser();
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
                 if (!user) {
                     console.log('[RealtimeNotifications] User not authenticated');
                     return;

@@ -39,12 +39,18 @@
         client.from = function(tableName) {
             const query = originalFrom(tableName);
             
+            // queryがundefinedまたはnullの場合は早期リターン
+            if (!query) {
+                console.error(`[GlobalUserProfilesFix] Query is undefined for table: ${tableName}`);
+                return query;
+            }
+            
             // 対象テーブルの場合のみパッチを適用
             if (TABLE_COLUMN_MAPPING[tableName]) {
                 const columnMapping = TABLE_COLUMN_MAPPING[tableName];
                 
                 // eqメソッドをパッチ（存在確認を追加）
-                if (query.eq && typeof query.eq === 'function') {
+                if (query && query.eq && typeof query.eq === 'function') {
                     const originalEq = query.eq.bind(query);
                     query.eq = function(column, value) {
                         const newColumn = columnMapping[column] || column;
