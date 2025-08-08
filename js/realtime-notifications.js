@@ -465,13 +465,32 @@
     // グローバルに公開
     window.RealtimeNotifications = RealtimeNotifications;
 
+    // Supabase初期化後に実行
+    async function initializeRealtimeNotifications() {
+        // Supabaseが初期化されるまで待つ
+        if (typeof window.waitForSupabase === 'function') {
+            await window.waitForSupabase();
+        } else {
+            // waitForSupabaseがない場合は、supabaseClientの存在を確認
+            let attempts = 0;
+            while (!window.supabaseClient && attempts < 50) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+            if (!window.supabaseClient) {
+                console.error('[RealtimeNotifications] Supabase client not found after 5 seconds');
+                return;
+            }
+        }
+        
+        window.realtimeNotifications = new RealtimeNotifications();
+    }
+
     // DOMContentLoaded時に初期化
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            window.realtimeNotifications = new RealtimeNotifications();
-        });
+        document.addEventListener('DOMContentLoaded', initializeRealtimeNotifications);
     } else {
-        window.realtimeNotifications = new RealtimeNotifications();
+        initializeRealtimeNotifications();
     }
 
 })();
