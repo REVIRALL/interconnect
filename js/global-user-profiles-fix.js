@@ -32,12 +32,24 @@
 
     // Supabaseクライアントにパッチを適用
     function patchSupabaseClient(client, clientName) {
-        if (client._patched) return; // 既にパッチ適用済み
+        if (!client || client._patched) return; // clientが存在しないか、既にパッチ適用済み
+        
+        // client.fromが存在するか確認
+        if (!client.from || typeof client.from !== 'function') {
+            console.error(`[GlobalUserProfilesFix] ${clientName}.from is not a function`);
+            return;
+        }
         
         const originalFrom = client.from.bind(client);
         
         client.from = function(tableName) {
-            const query = originalFrom(tableName);
+            let query;
+            try {
+                query = originalFrom(tableName);
+            } catch (error) {
+                console.error(`[GlobalUserProfilesFix] Error calling originalFrom for table ${tableName}:`, error);
+                return originalFrom(tableName); // パッチなしで元の関数を呼び出す
+            }
             
             // queryがundefinedまたはnullの場合は早期リターン
             if (!query) {
@@ -51,31 +63,40 @@
                 
                 // eqメソッドをパッチ（存在確認を追加）
                 if (query && query.eq && typeof query.eq === 'function') {
-                    const originalEq = query.eq.bind(query);
-                    query.eq = function(column, value) {
-                        const newColumn = columnMapping[column] || column;
-                        if (column !== newColumn) {
-                            console.log(`[GlobalUserProfilesFix] ${tableName}.${column} → ${tableName}.${newColumn}`);
-                        }
-                        return originalEq(newColumn, value);
-                    };
+                    try {
+                        const originalEq = query.eq.bind(query);
+                        query.eq = function(column, value) {
+                            const newColumn = columnMapping[column] || column;
+                            if (column !== newColumn) {
+                                console.log(`[GlobalUserProfilesFix] ${tableName}.${column} → ${tableName}.${newColumn}`);
+                            }
+                            return originalEq(newColumn, value);
+                        };
+                    } catch (error) {
+                        console.error(`[GlobalUserProfilesFix] Error patching eq method:`, error);
+                    }
                 }
                 
                 // filterメソッドをパッチ（存在確認を追加）
-                if (query.filter && typeof query.filter === 'function') {
-                    const originalFilter = query.filter.bind(query);
-                    query.filter = function(column, operator, value) {
-                        const newColumn = columnMapping[column] || column;
-                        if (column !== newColumn) {
-                            console.log(`[GlobalUserProfilesFix] filter: ${tableName}.${column} → ${tableName}.${newColumn}`);
-                        }
-                        return originalFilter(newColumn, operator, value);
-                    };
+                if (query && query.filter && typeof query.filter === 'function') {
+                    try {
+                        const originalFilter = query.filter.bind(query);
+                        query.filter = function(column, operator, value) {
+                            const newColumn = columnMapping[column] || column;
+                            if (column !== newColumn) {
+                                console.log(`[GlobalUserProfilesFix] filter: ${tableName}.${column} → ${tableName}.${newColumn}`);
+                            }
+                            return originalFilter(newColumn, operator, value);
+                        };
+                    } catch (error) {
+                        console.error(`[GlobalUserProfilesFix] Error patching filter method:`, error);
+                    }
                 }
                 
                 // selectメソッドをパッチ（存在確認を追加）
-                if (query.select && typeof query.select === 'function') {
-                    const originalSelect = query.select.bind(query);
+                if (query && query.select && typeof query.select === 'function') {
+                    try {
+                        const originalSelect = query.select.bind(query);
                     query.select = function(columns = '*', options) {
                         if (typeof columns === 'string' && columns !== '*') {
                             let newColumns = columns;
@@ -91,11 +112,15 @@
                         }
                         return originalSelect(columns, options);
                     };
+                    } catch (error) {
+                        console.error(`[GlobalUserProfilesFix] Error patching select method:`, error);
+                    }
                 }
                 
                 // orderメソッドをパッチ（存在確認を追加）
-                if (query.order && typeof query.order === 'function') {
-                    const originalOrder = query.order.bind(query);
+                if (query && query.order && typeof query.order === 'function') {
+                    try {
+                        const originalOrder = query.order.bind(query);
                     query.order = function(column, options) {
                         const newColumn = columnMapping[column] || column;
                         if (column !== newColumn) {
@@ -103,6 +128,9 @@
                         }
                         return originalOrder(newColumn, options);
                     };
+                    } catch (error) {
+                        console.error(`[GlobalUserProfilesFix] Error patching order method:`, error);
+                    }
                 }
             }
             
