@@ -508,17 +508,22 @@
 .matching-radar {
     width: 100%;
     height: 200px;
-    margin: 16px 0;
+    margin: 16px auto; /* 上下マージンを中央配置 */
     position: relative;
     background: #f8f9fa;
     border-radius: 12px;
     padding: 10px;
     box-sizing: border-box;
+    display: flex; /* フレックスボックス使用 */
+    align-items: center; /* 垂直中央配置 */
+    justify-content: center; /* 水平中央配置 */
 }
 
 .matching-radar canvas {
     display: block;
     margin: 0 auto;
+    max-width: 100%; /* レスポンシブ対応 */
+    height: auto;
     /* width/heightはHTML属性で指定するため、CSSでは設定しない */
 }
 

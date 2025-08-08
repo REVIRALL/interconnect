@@ -136,17 +136,17 @@
                 .select(`
                     event_id,
                     attendance_status,
-                    event:event_items (
+                    event:events!event_participants_event_id_fkey (
                         id,
                         title,
                         description,
                         event_date,
-                        start_time,
-                        end_time,
+                        start_date,
+                        end_date,
                         location,
                         is_online,
                         meeting_url,
-                        organizer_id
+                        created_by
                     )
                 `)
                 .eq('user_id', currentUserId)
@@ -157,8 +157,11 @@
             // イベントをカレンダー形式に変換
             events = (participations || []).map(p => {
                 const event = p.event;
-                const startDateTime = combineDateTime(event.event_date, event.start_time);
-                const endDateTime = combineDateTime(event.event_date, event.end_time);
+                if (!event) return null; // イベントデータがない場合はスキップ
+                
+                // eventsテーブルはstart_date/end_dateを使用
+                const startDateTime = event.start_date || event.event_date;
+                const endDateTime = event.end_date || event.event_date;
 
                 return {
                     id: event.id,
@@ -170,10 +173,10 @@
                     extendedProps: {
                         isOnline: event.is_online,
                         meetingUrl: event.meeting_url,
-                        organizerId: event.organizer_id
+                        organizerId: event.created_by // created_byカラムを使用
                     }
                 };
-            });
+            }).filter(Boolean); // nullを除外
 
             // カレンダーにイベントを追加
             if (calendarInstance) {

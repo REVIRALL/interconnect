@@ -20,13 +20,9 @@
 
     // Supabaseクライアントの修正を適用
     function applySupabaseFixes() {
-        // 両方のクライアント名をチェック
-        const clients = ['supabaseClient', 'supabase'];
-        
-        for (const clientName of clients) {
-            if (window[clientName]) {
-                patchSupabaseClient(window[clientName], clientName);
-            }
+        // supabaseClientのみをチェック（supabaseは非推奨）
+        if (window.supabaseClient) {
+            patchSupabaseClient(window.supabaseClient, 'supabaseClient');
         }
     }
 
