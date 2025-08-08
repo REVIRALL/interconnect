@@ -128,8 +128,8 @@
                 // イベント情報を取得
                 let eventData = null;
                 
-                if (window.supabase) {
-                    const { data, error } = await window.supabase
+                if (window.supabaseClient?Client) {
+                    const { data, error } = await window.supabaseClient?
                         .from('events')
                         .select('*')
                         .eq('id', eventId)
@@ -185,7 +185,7 @@
          * リアルタイム更新を設定
          */
         setupRealtimeUpdates() {
-            if (!window.supabase || !window.notificationSupabaseManager) return;
+            if (!window.supabaseClient?Client || !window.notificationSupabaseManager) return;
 
             const userId = window.notificationSupabaseManager.userId;
             if (!userId) return;
@@ -194,7 +194,7 @@
 
             // 既存のチャンネルがあれば削除
             if (this.realtimeChannel) {
-                window.supabase.removeChannel(this.realtimeChannel);
+                window.supabaseClient?Client.removeChannel(this.realtimeChannel);
             }
 
             // 使用するテーブル名
@@ -203,7 +203,7 @@
                 : 'notifications';
 
             // リアルタイムサブスクリプション
-            this.realtimeChannel = window.supabase
+            this.realtimeChannel = window.supabaseClient?
                 .channel('notifications_realtime')
                 .on('postgres_changes', {
                     event: 'INSERT',

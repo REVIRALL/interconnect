@@ -108,12 +108,12 @@
          */
         async sendMessage(recipientId, content) {
             try {
-                if (!window.supabase) {
+                if (!window.supabaseClient?Client) {
                     console.error('[MessageIntegration] Supabase not initialized');
                     return { success: false };
                 }
 
-                const { data: { user } } = await window.supabase.auth.getUser();
+                const { data: { user } } = await window.supabaseClient?Client.auth.getUser();
                 if (!user) {
                     console.error('[MessageIntegration] User not authenticated');
                     return { success: false };
@@ -121,7 +121,7 @@
 
                 // メッセージテーブルが存在する場合の実装例
                 /*
-                const { data, error } = await window.supabase
+                const { data, error } = await window.supabaseClient?
                     .from('messages')
                     .insert({
                         sender_id: user.id,
@@ -166,11 +166,11 @@
                 }
 
                 // 現在のユーザー情報を取得
-                const { data: { user } } = await window.supabase.auth.getUser();
+                const { data: { user } } = await window.supabaseClient?Client.auth.getUser();
                 if (!user) return;
 
                 // ユーザープロフィールを取得
-                const { data: profile } = await window.supabase
+                const { data: profile } = await window.supabaseClient?
                     .from('user_profiles')
                     .select('full_name, avatar_url')
                     .eq('id', user.id)
@@ -235,7 +235,7 @@
             try {
                 if (!window.notificationSender) return;
 
-                const { data: { user } } = await window.supabase.auth.getUser();
+                const { data: { user } } = await window.supabaseClient?Client.auth.getUser();
                 if (!user) return;
 
                 // システム通知として記録

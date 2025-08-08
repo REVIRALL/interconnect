@@ -94,11 +94,11 @@
          * テーブル構造を確認
          */
         async checkTableStructure() {
-            if (!window.supabase) return;
+            if (!window.supabaseClient?Client) return;
 
             try {
                 // notificationsテーブルの存在確認
-                const { data, error } = await window.supabase
+                const { data, error } = await window.supabaseClient?
                     .from('notifications')
                     .select('*')
                     .limit(1);
@@ -130,19 +130,19 @@
                     return;
                 }
 
-                if (window.supabase) {
+                if (window.supabaseClient?Client) {
                     let query;
                     
                     if (this.useActivityTable) {
                         // user_activitiesテーブルを使用
-                        query = window.supabase
+                        query = window.supabaseClient?
                             .from('user_activities')
                             .select('*')
                             .eq('user_id', userId)
                             .order('created_at', { ascending: false });
                     } else {
                         // notificationsテーブルを使用
-                        query = window.supabase
+                        query = window.supabaseClient?
                             .from('notifications')
                             .select('*')
                             .eq('user_id', userId)
@@ -581,15 +581,15 @@
             }
 
             // Supabaseを更新
-            if (window.supabase) {
+            if (window.supabaseClient?Client) {
                 try {
                     if (this.useActivityTable) {
-                        await window.supabase
+                        await window.supabaseClient?
                             .from('user_activities')
                             .update({ is_read: true })
                             .eq('id', notificationId);
                     } else {
-                        await window.supabase
+                        await window.supabaseClient?
                             .from('notifications')
                             .update({ is_read: true })
                             .eq('id', notificationId);
@@ -617,17 +617,17 @@
             });
 
             // Supabaseを更新
-            if (window.supabase) {
+            if (window.supabaseClient?Client) {
                 try {
                     const userId = await this.getCurrentUserId();
                     if (userId) {
                         if (this.useActivityTable) {
-                            await window.supabase
+                            await window.supabaseClient?
                                 .from('user_activities')
                                 .update({ is_read: true })
                                 .eq('user_id', userId);
                         } else {
-                            await window.supabase
+                            await window.supabaseClient?
                                 .from('notifications')
                                 .update({ is_read: true })
                                 .eq('user_id', userId);
@@ -661,15 +661,15 @@
             }
 
             // Supabaseから削除
-            if (window.supabase) {
+            if (window.supabaseClient?Client) {
                 try {
                     if (this.useActivityTable) {
-                        await window.supabase
+                        await window.supabaseClient?
                             .from('user_activities')
                             .delete()
                             .eq('id', notificationId);
                     } else {
-                        await window.supabase
+                        await window.supabaseClient?
                             .from('notifications')
                             .delete()
                             .eq('id', notificationId);
@@ -693,17 +693,17 @@
             this.renderNotifications();
 
             // Supabaseから削除
-            if (window.supabase) {
+            if (window.supabaseClient?Client) {
                 try {
                     const userId = await this.getCurrentUserId();
                     if (userId) {
                         if (this.useActivityTable) {
-                            await window.supabase
+                            await window.supabaseClient?
                                 .from('user_activities')
                                 .delete()
                                 .eq('user_id', userId);
                         } else {
-                            await window.supabase
+                            await window.supabaseClient?
                                 .from('notifications')
                                 .delete()
                                 .eq('user_id', userId);
@@ -735,14 +735,14 @@
          * リアルタイムサブスクリプション
          */
         setupRealtimeSubscription() {
-            if (!window.supabase) return;
+            if (!window.supabaseClient?Client) return;
 
             const userId = this.getCurrentUserId();
             if (!userId) return;
 
             const table = this.useActivityTable ? 'user_activities' : 'notifications';
             
-            window.supabase
+            window.supabaseClient?
                 .channel('notifications_channel')
                 .on('postgres_changes', {
                     event: 'INSERT',

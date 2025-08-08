@@ -39,8 +39,8 @@
         async getCurrentUserId() {
             try {
                 // Supabaseの認証から取得
-                if (window.supabase) {
-                    const { data: { user } } = await window.supabase.auth.getUser();
+                if (window.supabaseClient?Client) {
+                    const { data: { user } } = await window.supabaseClient?Client.auth.getUser();
                     if (user) return user.id;
                 }
 
@@ -63,14 +63,14 @@
          * テーブル構造を確認
          */
         async checkTableStructure() {
-            if (!window.supabase) {
+            if (!window.supabaseClient?Client) {
                 console.log('[NotificationSupabase] Supabaseクライアントが利用できません');
                 return;
             }
 
             try {
                 // notificationsテーブルの存在確認
-                const { data, error } = await window.supabase
+                const { data, error } = await window.supabaseClient?
                     .from('notifications')
                     .select('*')
                     .limit(1);
@@ -80,7 +80,7 @@
                     this.useActivityTable = true;
                     
                     // user_activitiesの構造を確認
-                    const { data: columns } = await window.supabase.rpc('get_table_columns', {
+                    const { data: columns } = await window.supabaseClient?Client.rpc('get_table_columns', {
                         table_name: 'user_activities'
                     });
                     
@@ -101,7 +101,7 @@
         async fetchNotifications() {
             console.log('[NotificationSupabase] 通知データを取得中...');
 
-            if (!window.supabase) {
+            if (!window.supabaseClient?Client) {
                 return this.getDummyNotifications();
             }
 
@@ -110,7 +110,7 @@
 
                 if (this.useActivityTable) {
                     // user_activitiesテーブルから取得
-                    ({ data, error } = await window.supabase
+                    ({ data, error } = await window.supabaseClient?
                         .from('user_activities')
                         .select('*')
                         .eq('user_id', this.userId)
@@ -118,7 +118,7 @@
                         .limit(50));
                 } else {
                     // notificationsテーブルから取得
-                    ({ data, error } = await window.supabase
+                    ({ data, error } = await window.supabaseClient?
                         .from('notifications')
                         .select('*')
                         .eq('user_id', this.userId)

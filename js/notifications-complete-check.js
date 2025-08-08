@@ -79,7 +79,7 @@
         async checkSupabaseConnection() {
             console.log('[NotificationCompleteCheck] Supabase接続チェック...');
             
-            if (!window.supabase) {
+            if (!window.supabaseClient?Client) {
                 this.issues.push({
                     type: 'ERROR',
                     category: 'Supabase',
@@ -90,7 +90,7 @@
 
             try {
                 // テスト接続
-                const { data, error } = await window.supabase
+                const { data, error } = await window.supabaseClient?
                     .from('user_activities')
                     .select('count')
                     .limit(1);

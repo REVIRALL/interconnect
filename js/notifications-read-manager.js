@@ -125,14 +125,14 @@
             this.updateNotificationBadge();
 
             // Supabaseを更新
-            if (window.supabase) {
+            if (window.supabaseClient?Client) {
                 try {
                     const userId = await this.getCurrentUserId();
                     if (!userId) return;
 
                     if (this.useActivityTable) {
                         // user_activitiesテーブルを更新
-                        const { error } = await window.supabase
+                        const { error } = await window.supabaseClient?
                             .from('user_activities')
                             .update({ 
                                 is_read: true,
@@ -146,7 +146,7 @@
                         }
                     } else {
                         // notificationsテーブルを更新
-                        const { error } = await window.supabase
+                        const { error } = await window.supabaseClient?
                             .from('notifications')
                             .update({ 
                                 is_read: true,
@@ -194,7 +194,7 @@
             this.updateNotificationBadge();
 
             // Supabaseを更新
-            if (window.supabase) {
+            if (window.supabaseClient?Client) {
                 try {
                     const userId = await this.getCurrentUserId();
                     if (!userId) return;
@@ -203,7 +203,7 @@
 
                     if (this.useActivityTable) {
                         // user_activitiesテーブルを更新
-                        const { error } = await window.supabase
+                        const { error } = await window.supabaseClient?
                             .from('user_activities')
                             .update({ 
                                 is_read: true,
@@ -217,7 +217,7 @@
                         }
                     } else {
                         // notificationsテーブルを更新
-                        const { error } = await window.supabase
+                        const { error } = await window.supabaseClient?
                             .from('notifications')
                             .update({ 
                                 is_read: true,
@@ -265,8 +265,8 @@
             }
 
             try {
-                if (window.supabase) {
-                    const { data: { user } } = await window.supabase.auth.getUser();
+                if (window.supabaseClient?Client) {
+                    const { data: { user } } = await window.supabaseClient?Client.auth.getUser();
                     if (user) return user.id;
                 }
 

@@ -15,14 +15,14 @@
     
     // Supabaseからユーザー情報を取得して更新
     async function syncUserProfile() {
-        if (!window.supabaseClient) {
+        if (!window.supabaseClient?Client) {
             console.error('Supabase client not initialized');
             return;
         }
         
         try {
             // 現在のユーザーを取得
-            const { data: { user }, error } = await window.supabaseClient.auth.getUser();
+            const { data: { user }, error } = await window.supabaseClient?Client.auth.getUser();
             
             if (error) {
                 console.error('Error getting user:', error);
@@ -113,13 +113,13 @@
     
     // プロフィール更新機能
     async function updateProfile(updates) {
-        if (!window.supabase) {
+        if (!window.supabaseClient?Client) {
             console.error('Supabase client not initialized');
             return { error: 'Supabase not initialized' };
         }
         
         try {
-            const { data, error } = await window.supabase.auth.updateUser({
+            const { data, error } = await window.supabaseClient?Client.auth.updateUser({
                 data: updates
             });
             
@@ -158,7 +158,7 @@
         }
         
         // Supabaseが準備できたら同期
-        if (window.supabaseClient) {
+        if (window.supabaseClient?Client) {
             syncUserProfile();
         } else {
             window.addEventListener('supabaseReady', syncUserProfile);

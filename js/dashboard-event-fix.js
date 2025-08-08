@@ -12,12 +12,12 @@
     if (window.DashboardEvents) {
         window.DashboardEvents.prototype.fetchEvents = async function() {
             try {
-                if (!window.supabase && !window.supabaseClient) {
+                if (!window.supabaseClient?Client && !window.supabaseClient?Client) {
                     console.log('[DashboardEventFix] Supabaseクライアントが利用できません');
                     return;
                 }
 
-                const client = window.supabase || window.supabaseClient;
+                const client = window.supabaseClient?Client || window.supabaseClient?Client;
 
                 // まずテーブル構造を確認
                 const { data: sampleData, error: sampleError } = await client
@@ -86,13 +86,13 @@
         
         window.DashboardCalculator.prototype.calculateStats = async function() {
             try {
-                if (!window.supabase && !window.supabaseClient) {
+                if (!window.supabaseClient?Client && !window.supabaseClient?Client) {
                     console.log('[DashboardEventFix] Calculatorで使用: ダミーデータ');
                     this.setDummyStats();
                     return;
                 }
 
-                const client = window.supabase || window.supabaseClient;
+                const client = window.supabaseClient?Client || window.supabaseClient?Client;
 
                 // メンバー数の取得
                 const { count: memberCount } = await client

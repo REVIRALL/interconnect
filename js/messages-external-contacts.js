@@ -28,7 +28,7 @@
 
             try {
                 // Supabase接続確認
-                if (window.supabase) {
+                if (window.supabaseClient?Client) {
                     await this.loadFromSupabase();
                 } else {
                     // ダミーデータを使用
@@ -48,14 +48,14 @@
         async loadFromSupabase() {
             try {
                 // 現在のユーザーを取得
-                const { data: { user } } = await window.supabase.auth.getUser();
+                const { data: { user } } = await window.supabaseClient?Client.auth.getUser();
                 if (!user) {
                     this.loadDummyData();
                     return;
                 }
 
                 // 最近のマッチングまたはイベント参加者を取得
-                const { data: recentConnections, error } = await window.supabase
+                const { data: recentConnections, error } = await window.supabaseClient?
                     .from('user_activities')
                     .select('*, profiles!related_id(*)')
                     .eq('user_id', user.id)

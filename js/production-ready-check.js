@@ -55,13 +55,13 @@
 
         // 3. Supabase接続チェック
         checkSupabaseConnection: async function() {
-            if (!window.supabase) {
+            if (!window.supabaseClient?Client) {
                 this.results.errors.push('Supabaseクライアントが初期化されていません');
                 return;
             }
 
             try {
-                const { data, error } = await window.supabase.auth.getSession();
+                const { data, error } = await window.supabaseClient?Client.auth.getSession();
                 if (error) {
                     this.results.errors.push(`Supabase認証エラー: ${error.message}`);
                 } else {
@@ -86,7 +86,7 @@
 
             for (const table of requiredTables) {
                 try {
-                    const { data, error } = await window.supabase
+                    const { data, error } = await window.supabaseClient?
                         .from(table)
                         .select('*')
                         .limit(1);

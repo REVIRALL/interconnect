@@ -445,10 +445,10 @@ document.addEventListener('DOMContentLoaded', function() {
             await simulateRegistration(formData);
             
             // 招待コードがある場合、招待記録を作成
-            if (inviteCode && window.supabase) {
+            if (inviteCode && window.supabaseClient?Client) {
                 try {
                     // 招待リンクの使用回数を更新
-                    const { data: inviteLink, error: linkError } = await window.supabase
+                    const { data: inviteLink, error: linkError } = await window.supabaseClient?
                         .from('invite_links')
                         .select('id, used_count')
                         .eq('link_code', inviteCode)
@@ -456,7 +456,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     if (!linkError && inviteLink) {
                         // 使用回数をインクリメント
-                        await window.supabase
+                        await window.supabaseClient?
                             .from('invite_links')
                             .update({ used_count: (inviteLink.used_count || 0) + 1 })
                             .eq('id', inviteLink.id);

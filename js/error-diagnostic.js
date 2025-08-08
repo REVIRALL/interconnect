@@ -86,8 +86,8 @@ class ErrorDiagnostic {
         
         const components = {
             // 基本システム
-            'window.supabase': { 
-                exists: !!window.supabase,
+            'window.supabaseClient': { 
+                exists: !!window.supabaseClientClient,
                 critical: true,
                 description: 'Supabaseクライアント'
             },
@@ -178,9 +178,9 @@ class ErrorDiagnostic {
         console.log('\n=== データフロー検証 ===');
         
         // 1. Supabaseの認証状態
-        if (window.supabase) {
+        if (window.supabaseClient) {
             try {
-                const { data: { user } } = await window.supabase.auth.getUser();
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
                 if (user) {
                     console.log('✅ Supabase認証: ログイン済み');
                     console.log(`  ユーザーID: ${user.id}`);
@@ -246,7 +246,7 @@ class ErrorDiagnostic {
         console.log('\n=== ネットワーク状態確認 ===');
         
         // Supabase接続テスト
-        if (window.supabase) {
+        if (window.supabaseClient) {
             try {
                 const { data, error } = await window.supabase
                     .from('profiles')

@@ -25,7 +25,7 @@
         async checkTables() {
             console.log('=== Supabase Table Check ===');
             
-            if (!window.supabase) {
+            if (!window.supabaseClient) {
                 console.error('Supabase client not initialized');
                 return;
             }
@@ -143,7 +143,7 @@
             console.log('\n=== Checking RLS Policies ===');
             
             // 現在のユーザー情報を確認
-            const { data: { user }, error } = await window.supabase.auth.getUser();
+            const { data: { user }, error } = await window.supabaseClient.auth.getUser();
             
             if (user) {
                 console.log(`✅ Authenticated as: ${user.email}`);

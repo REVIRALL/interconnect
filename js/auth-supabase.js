@@ -25,10 +25,10 @@ function tryInitializeAuth() {
     if (authInitialized) return;
     
     console.log('🔍 Trying to initialize auth...');
-    console.log('   Supabase available:', !!window.supabase);
+    console.log('   Supabase available:', !!window.supabaseClientClient);
     console.log('   DOM state:', document.readyState);
     
-    if (window.supabase && document.readyState !== 'loading') {
+    if (window.supabaseClient && document.readyState !== 'loading') {
         authInitialized = true;
         initializeAuth();
     }
@@ -121,12 +121,12 @@ async function handleEmailLogin(e) {
     
     try {
         // windowオブジェクトとsupabaseの存在確認
-        if (!window.supabase || !window.supabase.auth) {
+        if (!window.supabaseClient || !window.supabaseClient.auth) {
             throw new Error('Supabase clientが初期化されていません');
         }
         
         // Supabaseでログイン
-        const { data, error } = await window.supabase.auth.signInWithPassword({
+        const { data, error } = await window.supabaseClient.auth.signInWithPassword({
             email: email,
             password: password
         });
@@ -230,12 +230,12 @@ function handleLineLogin(e) {
 async function checkAuthStatus() {
     try {
         // windowオブジェクトとsupabaseの存在確認
-        if (!window.supabase || !window.supabase.auth) {
+        if (!window.supabaseClient || !window.supabaseClient.auth) {
             console.warn('Supabase clientが初期化されていません');
             return;
         }
         
-        const { data: { user } } = await window.supabase.auth.getUser();
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
         
         if (user) {
             console.log('既にログイン済み:', user);

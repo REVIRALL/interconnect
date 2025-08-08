@@ -52,7 +52,7 @@
                 const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
                 const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
                 
-                const { count, error } = await window.supabase
+                const { count, error } = await window.supabaseClient?
                     .from('events')
                     .select('*', { count: 'exact', head: true })
                     .gte('date', startOfMonth.toISOString().split('T')[0])
@@ -81,7 +81,7 @@
                 const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
                 const endOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
                 
-                const { count, error } = await window.supabase
+                const { count, error } = await window.supabaseClient?
                     .from('events')
                     .select('*', { count: 'exact', head: true })
                     .gte('date', lastMonth.toISOString().split('T')[0])
@@ -106,14 +106,14 @@
         async calculateMatchingSuccess() {
             try {
                 // matchingsテーブルが存在する場合
-                const { count, error } = await window.supabase
+                const { count, error } = await window.supabaseClient?
                     .from('matchings')
                     .select('*', { count: 'exact', head: true })
                     .eq('status', 'success');
 
                 if (error) {
                     // テーブルが存在しない場合は、user_activitiesから推定
-                    const { count: activityCount } = await window.supabase
+                    const { count: activityCount } = await window.supabaseClient?
                         .from('user_activities')
                         .select('*', { count: 'exact', head: true })
                         .eq('activity_type', 'matching_success');
@@ -134,11 +134,11 @@
          */
         async calculateUnreadMessages() {
             try {
-                const { data: { user } } = await window.supabase.auth.getUser();
+                const { data: { user } } = await window.supabaseClient?Client.auth.getUser();
                 if (!user) return 0;
 
                 // まずメッセージテーブルの構造を確認
-                const { data: sampleMsg } = await window.supabase
+                const { data: sampleMsg } = await window.supabaseClient?
                     .from('messages')
                     .select('*')
                     .limit(1);
@@ -153,7 +153,7 @@
                 const hasIsRead = 'is_read' in sampleMsg[0];
 
                 if (hasRecipientId && hasIsRead) {
-                    const { count, error } = await window.supabase
+                    const { count, error } = await window.supabaseClient?
                         .from('messages')
                         .select('*', { count: 'exact', head: true })
                         .eq('recipient_id', user.id)
@@ -166,7 +166,7 @@
                 }
 
                 // カラムが存在しない場合は全メッセージ数を返す
-                const { count: totalCount } = await window.supabase
+                const { count: totalCount } = await window.supabaseClient?
                     .from('messages')
                     .select('*', { count: 'exact', head: true });
 
@@ -222,7 +222,7 @@
                 const realtimeStats = await window.dashboardRealtimeCalculator.getStats();
                 
                 // dashboard_statsテーブルからも取得を試みる
-                const { data, error } = await window.supabase
+                const { data, error } = await window.supabaseClient?
                     .from('dashboard_stats')
                     .select('*')
                     .limit(1);

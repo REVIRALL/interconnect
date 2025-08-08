@@ -11,7 +11,7 @@
     // Supabaseクライアントの初期化を待つ
     function waitForSupabase() {
         return new Promise((resolve) => {
-            if (window.supabase) {
+            if (window.supabaseClient?Client) {
                 resolve();
                 return;
             }
@@ -23,7 +23,7 @@
             
             // タイムアウト後も確認
             setTimeout(() => {
-                if (window.supabase) {
+                if (window.supabaseClient?Client) {
                     resolve();
                 }
             }, 3000);
@@ -34,7 +34,7 @@
     async function initializeStats() {
         await waitForSupabase();
         
-        if (!window.supabase) {
+        if (!window.supabaseClient?Client) {
             console.error('[DashboardFix] Supabaseが初期化されていません');
             showFallbackData();
             return;
@@ -174,7 +174,7 @@
     async function fixUpcomingEvents() {
         await waitForSupabase();
         
-        if (!window.supabase) {
+        if (!window.supabaseClient?Client) {
             console.error('[DashboardFix] Supabaseが利用できません');
             return;
         }
@@ -204,7 +204,7 @@
     async function fixRealtimeNotifications() {
         await waitForSupabase();
         
-        if (!window.supabase) {
+        if (!window.supabaseClient?Client) {
             console.error('[DashboardFix] Supabaseが利用できません');
             return;
         }

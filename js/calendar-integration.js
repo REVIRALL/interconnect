@@ -135,48 +135,52 @@
                 .from('event_participants')
                 .select(`
                     event_id,
-                    attendance_status,
-                    event:events!event_participants_event_id_fkey (
-                        id,
-                        title,
-                        description,
-                        event_date,
-                        start_date,
-                        end_date,
-                        location,
-                        is_online,
-                        meeting_url,
-                        created_by
-                    )
+                    attendance_status
                 `)
                 .eq('user_id', currentUserId)
                 .eq('attendance_status', 'registered');
 
             if (participationError) throw participationError;
 
-            // イベントをカレンダー形式に変換
-            events = (participations || []).map(p => {
-                const event = p.event;
-                if (!event) return null; // イベントデータがない場合はスキップ
+            // 参加イベントのIDリストを取得
+            const eventIds = (participations || []).map(p => p.event_id).filter(Boolean);
+            
+            if (eventIds.length === 0) {
+                console.log('[CalendarIntegration] 参加イベントがありません');
+                events = [];
+            } else {
+                // イベント詳細を別途取得
+                const { data: eventDetails, error: eventError } = await window.supabaseClient
+                    .from('events')
+                    .select('*')
+                    .in('id', eventIds);
                 
-                // eventsテーブルはstart_date/end_dateを使用
-                const startDateTime = event.start_date || event.event_date;
-                const endDateTime = event.end_date || event.event_date;
+                if (eventError) {
+                    console.error('[CalendarIntegration] イベント詳細取得エラー:', eventError);
+                    events = [];
+                } else {
+                    // イベントをカレンダー形式に変換
+                    events = (eventDetails || []).map(event => {
+                        // eventsテーブルはstart_date/end_dateを使用
+                        const startDateTime = event.start_date || event.event_date;
+                        const endDateTime = event.end_date || event.event_date;
 
-                return {
-                    id: event.id,
-                    title: event.title,
-                    start: startDateTime,
-                    end: endDateTime,
-                    description: event.description,
-                    location: event.is_online ? 'オンライン' : event.location,
-                    extendedProps: {
-                        isOnline: event.is_online,
-                        meetingUrl: event.meeting_url,
-                        organizerId: event.created_by // created_byカラムを使用
-                    }
-                };
-            }).filter(Boolean); // nullを除外
+                        return {
+                            id: event.id,
+                            title: event.title,
+                            start: startDateTime,
+                            end: endDateTime,
+                            description: event.description,
+                            location: event.is_online ? 'オンライン' : event.location,
+                            extendedProps: {
+                                isOnline: event.is_online,
+                                meetingUrl: event.meeting_url,
+                                organizerId: event.created_by
+                            }
+                        };
+                    });
+                }
+            }
 
             // カレンダーにイベントを追加
             if (calendarInstance) {

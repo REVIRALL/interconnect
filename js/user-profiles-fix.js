@@ -66,13 +66,13 @@
 
     // Supabaseクライアントのラッパー関数
     function wrapSupabaseQuery() {
-        if (!window.supabaseClient && !window.supabase) {
+        if (!window.supabaseClient && !window.supabaseClient) {
             console.log('[UserProfilesFix] Supabaseクライアントがまだ準備できていません');
             setTimeout(wrapSupabaseQuery, 100);
             return;
         }
 
-        const client = window.supabaseClient || window.supabase;
+        const client = window.supabaseClient || window.supabaseClient;
         
         // fromメソッドが存在しない場合は終了
         if (!client.from || typeof client.from !== 'function') {
@@ -167,12 +167,12 @@
         
         // テスト用クエリ
         testQuery: async function(userId) {
-            if (!window.supabaseClient && !window.supabase) {
+            if (!window.supabaseClient && !window.supabaseClient) {
                 console.error('[UserProfilesFix] Supabaseクライアントが利用できません');
                 return;
             }
             
-            const client = window.supabaseClient || window.supabase;
+            const client = window.supabaseClient || window.supabaseClient;
             
             try {
                 // 正しいクエリ（idを使用）

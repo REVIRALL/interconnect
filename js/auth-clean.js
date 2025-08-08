@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 6. Supabase初期化状態の確認
     window.addEventListener('supabaseReady', function() {
         console.log('=== Supabase Ready ===');
-        console.log('Supabase client:', !!window.supabase);
+        console.log('Supabase client:', !!window.supabaseClientClient);
     });
     
     // 7. 競合チェッカー

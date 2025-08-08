@@ -27,11 +27,11 @@
          * テーブル構造を確認
          */
         async checkTableStructure() {
-            if (!window.supabase) return;
+            if (!window.supabaseClient?Client) return;
 
             try {
                 // event_participantsテーブルの存在確認
-                const { data, error } = await window.supabase
+                const { data, error } = await window.supabaseClient?
                     .from('event_participants')
                     .select('*')
                     .limit(1);
@@ -106,11 +106,11 @@
         async checkParticipation(eventId) {
             try {
                 const userId = await this.getCurrentUserId();
-                if (!userId || !window.supabase) return false;
+                if (!userId || !window.supabaseClient?Client) return false;
 
                 if (this.useActivityTable) {
                     // user_activitiesテーブルを使用
-                    const { data, error } = await window.supabase
+                    const { data, error } = await window.supabaseClient?
                         .from('user_activities')
                         .select('*')
                         .eq('user_id', userId)
@@ -121,7 +121,7 @@
                     return !error && data;
                 } else {
                     // event_participantsテーブルを使用
-                    const { data, error } = await window.supabase
+                    const { data, error } = await window.supabaseClient?
                         .from('event_participants')
                         .select('*')
                         .eq('user_id', userId)
@@ -142,8 +142,8 @@
         async getCurrentUserId() {
             try {
                 // Supabaseの認証から取得
-                if (window.supabase) {
-                    const { data: { user } } = await window.supabase.auth.getUser();
+                if (window.supabaseClient?Client) {
+                    const { data: { user } } = await window.supabaseClient?Client.auth.getUser();
                     if (user) return user.id;
                 }
 
@@ -177,10 +177,10 @@
                     return;
                 }
 
-                if (window.supabase) {
+                if (window.supabaseClient?Client) {
                     if (this.useActivityTable) {
                         // user_activitiesに参加記録を追加
-                        const { error } = await window.supabase
+                        const { error } = await window.supabaseClient?
                             .from('user_activities')
                             .insert({
                                 user_id: userId,
@@ -193,7 +193,7 @@
                         if (error) throw error;
                     } else {
                         // event_participantsに参加記録を追加
-                        const { error } = await window.supabase
+                        const { error } = await window.supabaseClient?
                             .from('event_participants')
                             .insert({
                                 user_id: userId,
@@ -249,10 +249,10 @@
                     return;
                 }
 
-                if (window.supabase) {
+                if (window.supabaseClient?Client) {
                     if (this.useActivityTable) {
                         // user_activitiesから削除
-                        const { error } = await window.supabase
+                        const { error } = await window.supabaseClient?
                             .from('user_activities')
                             .delete()
                             .eq('user_id', userId)
@@ -262,7 +262,7 @@
                         if (error) throw error;
                     } else {
                         // event_participantsから削除
-                        const { error } = await window.supabase
+                        const { error } = await window.supabaseClient?
                             .from('event_participants')
                             .delete()
                             .eq('user_id', userId)
@@ -300,10 +300,10 @@
          */
         async updateParticipantCount(eventId, change) {
             try {
-                if (!window.supabase) return;
+                if (!window.supabaseClient?Client) return;
 
                 // 現在の参加人数を取得
-                const { data: event, error: fetchError } = await window.supabase
+                const { data: event, error: fetchError } = await window.supabaseClient?
                     .from('events')
                     .select('current_participants')
                     .eq('id', eventId)
@@ -313,7 +313,7 @@
 
                 // 参加人数を更新
                 const newCount = Math.max(0, (event.current_participants || 0) + change);
-                const { error: updateError } = await window.supabase
+                const { error: updateError } = await window.supabaseClient?
                     .from('events')
                     .update({ current_participants: newCount })
                     .eq('id', eventId);

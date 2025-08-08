@@ -32,13 +32,13 @@
     // Supabase状態の確認
     window.addEventListener('supabaseReady', function() {
         console.log('📌 Supabase Status:');
-        console.log('   client available:', !!window.supabase);
-        console.log('   auth available:', !!(window.supabase && window.supabase.auth));
+        console.log('   client available:', !!window.supabaseClientClient);
+        console.log('   auth available:', !!(window.supabaseClient && window.supabaseClient.auth));
     });
     
     // Supabaseの初期状態もチェック
     console.log('📌 Initial Supabase Status:');
-    console.log('   window.supabase:', !!window.supabase);
+    console.log('   window.supabaseClient:', !!window.supabaseClientClient);
     console.log('   supabaseReady fired:', window._supabaseReady || false);
     
     // Fetch APIの監視

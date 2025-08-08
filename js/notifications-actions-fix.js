@@ -207,8 +207,8 @@
                 let eventData = null;
 
                 // Supabaseからイベント情報を取得
-                if (window.supabase && eventId !== 'default') {
-                    const { data, error } = await window.supabase
+                if (window.supabaseClient?Client && eventId !== 'default') {
+                    const { data, error } = await window.supabaseClient?
                         .from('events')
                         .select('*')
                         .eq('id', eventId)
@@ -260,14 +260,14 @@
                 // ローディング表示
                 this.showLoadingMessage('キャンセル待ちリストに登録中...');
 
-                if (window.supabase) {
+                if (window.supabaseClient?Client) {
                     const userId = await this.getCurrentUserId();
                     if (!userId) {
                         throw new Error('ログインが必要です');
                     }
 
                     // event_waitlistテーブルに登録（存在する場合）
-                    const { error } = await window.supabase
+                    const { error } = await window.supabaseClient?
                         .from('event_waitlist')
                         .insert({
                             event_id: eventId,
@@ -281,7 +281,7 @@
                     }
 
                     // user_activitiesに記録
-                    await window.supabase
+                    await window.supabaseClient?
                         .from('user_activities')
                         .insert({
                             user_id: userId,
@@ -372,8 +372,8 @@
          */
         async getCurrentUserId() {
             try {
-                if (window.supabase) {
-                    const { data: { user } } = await window.supabase.auth.getUser();
+                if (window.supabaseClient?Client) {
+                    const { data: { user } } = await window.supabaseClient?Client.auth.getUser();
                     if (user) return user.id;
                 }
 

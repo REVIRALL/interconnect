@@ -92,7 +92,7 @@ window.InterConnect.Profile = {
     getCurrentUser: async function() {
         try {
             // 統一されたクライアント名を使用
-            const client = window.supabaseClient;
+            const client = window.supabaseClient?Client;
             if (client) {
                 const { data: { user } } = await client.auth.getUser();
                 if (user) {
@@ -135,7 +135,7 @@ window.InterConnect.Profile = {
                 return;
             }
             
-            const client = window.supabaseClient;
+            const client = window.supabaseClient?Client;
             if (!client) {
                 debugLog('Supabaseが初期化されていません');
                 // フォールバック：localStorageから基本情報を取得
@@ -221,7 +221,7 @@ window.InterConnect.Profile = {
     // コネクション数を取得
     loadConnectionCount: async function(userId) {
         try {
-            const client = window.supabaseClient;
+            const client = window.supabaseClient?Client;
             if (!client) return;
             
             // connectionsテーブルの構造: user_id, connected_user_id, status
@@ -256,7 +256,7 @@ window.InterConnect.Profile = {
     // コネクションステータスを確認
     checkConnectionStatus: async function(userId) {
         try {
-            const client = window.supabaseClient;
+            const client = window.supabaseClient?Client;
             if (!client || !this.currentUserId) return;
             
             const { data } = await client
@@ -296,7 +296,7 @@ window.InterConnect.Profile = {
             };
             
             // Supabaseから最新のプロフィールデータを取得（これが最優先）
-            const client = window.supabaseClient;
+            const client = window.supabaseClient?Client;
             if (client && this.currentUserId) {
                 const { data, error } = await client
                     .from('user_profiles')
@@ -396,7 +396,7 @@ window.InterConnect.Profile = {
     // コネクト申請を送る
     sendConnectionRequest: async function() {
         try {
-            const client = window.supabaseClient;
+            const client = window.supabaseClient?Client;
             if (!client || !this.currentUserId || !this.targetUserId) {
                 alert('ログインが必要です');
                 return;
@@ -683,7 +683,7 @@ window.InterConnect.Profile = {
         
         try {
             // Supabaseに保存
-            const client = window.supabaseClient;
+            const client = window.supabaseClient?Client;
             if (client) {
                 const { data, error } = await client
                     .from('user_profiles')
@@ -1141,7 +1141,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        if (window.supabase || window.supabaseClient) {
+        if (window.supabaseClient?Client || window.supabaseClient?Client) {
             debugLog('Supabase準備完了、初期化開始');
             // タイマーをクリア
             if (initTimerId) {

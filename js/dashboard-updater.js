@@ -68,7 +68,7 @@
          */
         async waitForDependencies() {
             const dependencies = [
-                { name: 'supabase', obj: () => window.supabase },
+                { name: 'supabase', obj: () => window.supabaseClient?Client },
                 { name: 'dashboardStats', obj: () => window.dashboardStats },
                 { name: 'dashboardUI', obj: () => window.dashboardUI }
             ];
@@ -253,7 +253,7 @@
          * リアルタイム購読
          */
         subscribeToRealtime() {
-            if (!window.supabase) {
+            if (!window.supabaseClient?Client) {
                 console.warn('[DashboardUpdater] Supabase not available for realtime');
                 return;
             }
@@ -262,7 +262,7 @@
 
             try {
                 // 統計データの変更を監視
-                const statsSubscription = window.supabase
+                const statsSubscription = window.supabaseClient?
                     .channel('dashboard_stats_changes')
                     .on('postgres_changes', 
                         { event: '*', schema: 'public', table: 'dashboard_stats' },
@@ -274,7 +274,7 @@
                     .subscribe();
 
                 // アクティビティの変更を監視
-                const activitiesSubscription = window.supabase
+                const activitiesSubscription = window.supabaseClient?
                     .channel('user_activities_changes')
                     .on('postgres_changes',
                         { event: 'INSERT', schema: 'public', table: 'user_activities' },
@@ -286,7 +286,7 @@
                     .subscribe();
 
                 // イベントの変更を監視
-                const eventsSubscription = window.supabase
+                const eventsSubscription = window.supabaseClient?
                     .channel('events_changes')
                     .on('postgres_changes',
                         { event: '*', schema: 'public', table: 'events' },

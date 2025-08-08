@@ -59,8 +59,8 @@
         async fetchEventDetails(eventId) {
             try {
                 // Supabaseから取得を試みる
-                if (window.supabase) {
-                    const { data, error } = await window.supabase
+                if (window.supabaseClient) {
+                    const { data, error } = await window.supabaseClient
                         .from('events')
                         .select('*')
                         .eq('id', eventId)

@@ -23,7 +23,7 @@
          */
         async sendNotification(userId, type, data) {
             try {
-                if (!window.supabase) {
+                if (!window.supabaseClient?Client) {
                     console.error('[NotificationSender] Supabase not initialized');
                     return { success: false, error: 'Supabase not initialized' };
                 }
@@ -32,7 +32,7 @@
                 const notificationContent = this.generateNotificationContent(type, data);
 
                 // 通知を作成
-                const { data: notification, error } = await window.supabase
+                const { data: notification, error } = await window.supabaseClient?
                     .from('system_notifications')
                     .insert({
                         user_id: userId,
@@ -125,7 +125,7 @@
          */
         static async sendMessageNotification(recipientId, senderName, messagePreview) {
             try {
-                const { data: { user } } = await window.supabase.auth.getUser();
+                const { data: { user } } = await window.supabaseClient?Client.auth.getUser();
                 if (!user) return;
 
                 const notification = {
@@ -140,7 +140,7 @@
                     }
                 };
 
-                const { error } = await window.supabase
+                const { error } = await window.supabaseClient?
                     .from('system_notifications')
                     .insert(notification);
 
@@ -157,7 +157,7 @@
          */
         static async sendConnectionRequestNotification(recipientId, senderName) {
             try {
-                const { data: { user } } = await window.supabase.auth.getUser();
+                const { data: { user } } = await window.supabaseClient?Client.auth.getUser();
                 if (!user) return;
 
                 const notification = {
@@ -171,7 +171,7 @@
                     }
                 };
 
-                const { error } = await window.supabase
+                const { error } = await window.supabaseClient?
                     .from('system_notifications')
                     .insert(notification);
 
@@ -188,7 +188,7 @@
          */
         static async sendConnectionAcceptedNotification(recipientId, accepterName) {
             try {
-                const { data: { user } } = await window.supabase.auth.getUser();
+                const { data: { user } } = await window.supabaseClient?Client.auth.getUser();
                 if (!user) return;
 
                 const notification = {
@@ -202,7 +202,7 @@
                     }
                 };
 
-                const { error } = await window.supabase
+                const { error } = await window.supabaseClient?
                     .from('system_notifications')
                     .insert(notification);
 
@@ -224,7 +224,7 @@
                 tomorrow.setDate(tomorrow.getDate() + 1);
                 const tomorrowStr = tomorrow.toISOString().split('T')[0];
 
-                const { data: events, error: eventsError } = await window.supabase
+                const { data: events, error: eventsError } = await window.supabaseClient?
                     .from('events')
                     .select('id, title, event_date, start_time')
                     .eq('event_date', tomorrowStr)
@@ -234,7 +234,7 @@
 
                 // 各イベントの参加者に通知を送信
                 for (const event of events) {
-                    const { data: participants, error: participantsError } = await window.supabase
+                    const { data: participants, error: participantsError } = await window.supabaseClient?
                         .from('event_participants')
                         .select('user_id')
                         .eq('event_id', event.id)
@@ -256,7 +256,7 @@
                     }));
 
                     if (notifications.length > 0) {
-                        await window.supabase
+                        await window.supabaseClient?
                             .from('system_notifications')
                             .insert(notifications);
                     }
@@ -283,7 +283,7 @@
                 }));
 
                 if (notifications.length > 0) {
-                    const { error } = await window.supabase
+                    const { error } = await window.supabaseClient?
                         .from('system_notifications')
                         .insert(notifications);
 
@@ -321,7 +321,7 @@
                 }));
 
                 if (notifications.length > 0) {
-                    const { error } = await window.supabase
+                    const { error } = await window.supabaseClient?
                         .from('system_notifications')
                         .insert(notifications);
 
@@ -347,7 +347,7 @@
                     data: {}
                 };
 
-                const { error } = await window.supabase
+                const { error } = await window.supabaseClient?
                     .from('system_notifications')
                     .insert(notification);
 
@@ -365,7 +365,7 @@
         static async sendAnnouncement(title, message) {
             try {
                 // すべてのアクティブユーザーを取得
-                const { data: users, error: usersError } = await window.supabase
+                const { data: users, error: usersError } = await window.supabaseClient?
                     .from('user_profiles')
                     .select('id');
 
@@ -380,7 +380,7 @@
                 }));
 
                 if (notifications.length > 0) {
-                    const { error } = await window.supabase
+                    const { error } = await window.supabaseClient?
                         .from('system_notifications')
                         .insert(notifications);
 

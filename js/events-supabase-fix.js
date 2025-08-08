@@ -10,7 +10,7 @@
     function waitForSupabase() {
         return new Promise((resolve) => {
             const checkInterval = setInterval(() => {
-                if (window.supabase) {
+                if (window.supabaseClient) {
                     clearInterval(checkInterval);
                     resolve();
                 }
@@ -44,12 +44,12 @@
                 }
                 
                 // ユーザー認証を確認
-                if (!window.supabase) {
+                if (!window.supabaseClient) {
                     alert('認証エラーが発生しました。ページをリロードしてください。');
                     return;
                 }
                 
-                const { data: { user } } = await window.supabase.auth.getUser();
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
                 if (!user) {
                     alert('ログインが必要です');
                     window.location.href = 'login.html';
@@ -58,7 +58,7 @@
                 
                 try {
                     // 既に参加登録しているか確認
-                    const { data: existing, error: checkError } = await window.supabase
+                    const { data: existing, error: checkError } = await window.supabaseClient
                         .from('event_participants')
                         .select('*')
                         .eq('event_id', eventId)
@@ -73,7 +73,7 @@
                     if (existing) {
                         if (existing.status === 'cancelled') {
                             // キャンセル済みの場合は再登録
-                            const { error } = await window.supabase
+                            const { error } = await window.supabaseClient
                                 .from('event_participants')
                                 .update({ 
                                     status: 'registered',
@@ -89,7 +89,7 @@
                         }
                     } else {
                         // 新規登録
-                        const { error } = await window.supabase
+                        const { error } = await window.supabaseClient
                             .from('event_participants')
                             .insert({
                                 event_id: eventId,

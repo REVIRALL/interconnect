@@ -20,7 +20,7 @@
             if (this.currentUser) return this.currentUser;
             
             try {
-                const { data: { user } } = await window.supabase.auth.getUser();
+                const { data: { user } } = await window.supabaseClient?Client.auth.getUser();
                 this.currentUser = user;
                 return user;
             } catch (error) {
@@ -124,7 +124,7 @@
                 if (tableStructure.hasMessages) {
                     if (tableStructure.hasRecipientId && tableStructure.hasIsRead) {
                         // 標準的な構造
-                        const { count: unreadCount, error } = await window.supabase
+                        const { count: unreadCount, error } = await window.supabaseClient?
                             .from('messages')
                             .select('*', { count: 'exact', head: true })
                             .eq('recipient_id', userId)
@@ -135,7 +135,7 @@
                         }
                     } else if (tableStructure.hasToUserId && tableStructure.hasReadAt) {
                         // 別の構造パターン
-                        const { count: unreadCount, error } = await window.supabase
+                        const { count: unreadCount, error } = await window.supabaseClient?
                             .from('messages')
                             .select('*', { count: 'exact', head: true })
                             .eq('to_user_id', userId)
@@ -146,7 +146,7 @@
                         }
                     } else {
                         // 構造が不明な場合は全メッセージをカウント
-                        const { count: totalCount } = await window.supabase
+                        const { count: totalCount } = await window.supabaseClient?
                             .from('messages')
                             .select('*', { count: 'exact', head: true });
                         
@@ -183,7 +183,7 @@
                 
                 if (!tableStructure.hasMessages) return 0;
                 
-                let query = window.supabase
+                let query = window.supabaseClient?
                     .from('messages')
                     .select('*', { count: 'exact', head: true })
                     .gte('created_at', startOfDay.toISOString())
@@ -222,7 +222,7 @@
             }
 
             try {
-                const { data, error } = await window.supabase
+                const { data, error } = await window.supabaseClient?
                     .from('messages')
                     .select('*')
                     .limit(1);

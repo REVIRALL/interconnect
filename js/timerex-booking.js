@@ -29,7 +29,7 @@ class TimeRexBooking {
   async startBooking() {
     try {
       // supabaseが存在するかチェック
-      if (!window.supabase || !window.supabase.auth) {
+      if (!window.supabaseClient || !window.supabaseClient.auth) {
         console.log('Supabaseクライアントが利用できません。ゲストとして処理します。');
         const referralCode = this.getReferralCode();
         const bookingUrl = this.buildFallbackUrl(null, referralCode);
@@ -38,7 +38,7 @@ class TimeRexBooking {
       }
       
       // 現在のユーザー情報を取得（ログインしていない場合はゲストとして処理）
-      const { data: { user } } = await window.supabase.auth.getUser().catch(() => ({ data: { user: null } }));
+      const { data: { user } } = await window.supabaseClient.auth.getUser().catch(() => ({ data: { user: null } }));
       
       // 紹介コードを取得
       const referralCode = this.getReferralCode();
@@ -46,13 +46,13 @@ class TimeRexBooking {
       let bookingUrl;
       
       // ログインユーザーの場合はEdge Functionを使用
-      if (user && window.supabase) {
+      if (user && window.supabaseClient) {
         try {
           if (typeof showNotification !== 'undefined') {
             showNotification('予約ページを準備中...', 'info');
           }
           
-          const response = await window.supabase.functions.invoke('timerex-booking', {
+          const response = await window.supabaseClient.functions.invoke('timerex-booking', {
             body: {
               referralCode: referralCode,
               userId: user.id,
@@ -358,9 +358,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const maxRetries = 50; // 5秒（100ms × 50）
   
   const initializeBooking = () => {
-    if (window.supabase || retryCount >= maxRetries) {
+    if (window.supabaseClient || retryCount >= maxRetries) {
       window.timeRexBooking = new TimeRexBooking();
-      if (!window.supabase) {
+      if (!window.supabaseClient) {
         console.warn('[TimeRexBooking] Supabase not available, using fallback mode');
       }
     } else {

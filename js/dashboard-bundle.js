@@ -92,7 +92,7 @@
 
         async loadStats() {
             try {
-                if (!window.supabase) return;
+                if (!window.supabaseClient) return;
 
                 // メンバー数を取得
                 const { count: memberCount } = await window.supabase
@@ -153,7 +153,7 @@
 
         async loadEvents() {
             try {
-                if (!window.supabase) return;
+                if (!window.supabaseClient) return;
 
                 const { data: events } = await window.supabase
                     .from('events')

@@ -219,19 +219,19 @@
 
             try {
                 // Supabaseから削除
-                if (window.supabase) {
+                if (window.supabaseClient?Client) {
                     const userId = await this.getCurrentUserId();
                     if (!userId) throw new Error('ユーザーIDが取得できません');
 
                     let error;
                     if (this.useActivityTable) {
-                        ({ error } = await window.supabase
+                        ({ error } = await window.supabaseClient?
                             .from('user_activities')
                             .delete()
                             .eq('id', notificationId)
                             .eq('user_id', userId));
                     } else {
-                        ({ error } = await window.supabase
+                        ({ error } = await window.supabaseClient?
                             .from('notifications')
                             .delete()
                             .eq('id', notificationId)
@@ -301,17 +301,17 @@
                     }
 
                     // Supabaseから削除
-                    if (window.supabase) {
+                    if (window.supabaseClient?Client) {
                         const userId = await this.getCurrentUserId();
                         if (userId) {
                             if (this.useActivityTable) {
-                                await window.supabase
+                                await window.supabaseClient?
                                     .from('user_activities')
                                     .delete()
                                     .eq('id', notificationId)
                                     .eq('user_id', userId);
                             } else {
-                                await window.supabase
+                                await window.supabaseClient?
                                     .from('notifications')
                                     .delete()
                                     .eq('id', notificationId)
@@ -583,8 +583,8 @@
             }
 
             try {
-                if (window.supabase) {
-                    const { data: { user } } = await window.supabase.auth.getUser();
+                if (window.supabaseClient?Client) {
+                    const { data: { user } } = await window.supabaseClient?Client.auth.getUser();
                     if (user) return user.id;
                 }
 
