@@ -12,12 +12,12 @@
     // supabaseのグローバル参照を防ぐ
     Object.defineProperty(window, 'supabase', {
         get: function() {
-            console.warn('[SupabaseWaitFix] window.supabaseClient?Client is deprecated. Use window.supabaseClient?Client instead.');
-            return window.supabaseClient?Client;
+            console.warn('[SupabaseWaitFix] window.supabase is deprecated. Use window.supabaseClient instead.');
+            return window.supabaseClient;
         },
         set: function(value) {
-            console.warn('[SupabaseWaitFix] Setting window.supabaseClient?Client is deprecated. Use window.supabaseClient?Client instead.');
-            window.supabaseClient?Client = value;
+            console.warn('[SupabaseWaitFix] Setting window.supabase is deprecated. Use window.supabaseClient instead.');
+            window.supabaseClient = value;
         },
         configurable: true
     });
@@ -26,17 +26,17 @@
     if (typeof window.waitForSupabase === 'undefined') {
         window.waitForSupabase = function() {
             return new Promise((resolve) => {
-                if (window.supabaseClient?Client) {
-                    resolve(window.supabaseClient?Client);
+                if (window.supabaseClient) {
+                    resolve(window.supabaseClient);
                     return;
                 }
 
                 let checkCount = 0;
                 const checkInterval = setInterval(() => {
                     checkCount++;
-                    if (window.supabaseClient?Client) {
+                    if (window.supabaseClient) {
                         clearInterval(checkInterval);
-                        resolve(window.supabaseClient?Client);
+                        resolve(window.supabaseClient);
                     } else if (checkCount > 100) { // 10秒後にタイムアウト
                         clearInterval(checkInterval);
                         console.error('[SupabaseWaitFix] Supabase初期化タイムアウト');
