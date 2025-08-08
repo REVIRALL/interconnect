@@ -681,22 +681,35 @@
             `;
 
             document.body.appendChild(modal);
+            
+            // モーダルを表示（アニメーション用）
+            setTimeout(() => {
+                modal.classList.add('show');
+                document.body.classList.add('modal-open');
+            }, 10);
+
+            // モーダルを閉じる共通処理
+            const closeModal = (returnValue) => {
+                modal.classList.remove('show');
+                document.body.classList.remove('modal-open');
+                setTimeout(() => {
+                    modal.remove();
+                    resolve(returnValue);
+                }, 300);
+            };
 
             // イベントリスナー
             modal.querySelector('#send-connect-btn').addEventListener('click', () => {
                 const message = modal.querySelector('#connect-message').value.trim();
-                modal.remove();
-                resolve(message);
+                closeModal(message);
             });
 
             modal.querySelector('.modal-close').addEventListener('click', () => {
-                modal.remove();
-                resolve(null);
+                closeModal(null);
             });
             
             modal.querySelector('.btn-secondary').addEventListener('click', () => {
-                modal.remove();
-                resolve(null);
+                closeModal(null);
             });
         });
     }

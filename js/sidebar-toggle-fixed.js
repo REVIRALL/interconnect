@@ -4,13 +4,34 @@ console.log('[Sidebar] sidebar-toggle-fixed.js loaded');
 document.addEventListener('DOMContentLoaded', () => {
     console.log('[Sidebar] DOM loaded, initializing sidebar toggles');
     
-    // モバイルメニュートグルボタンを取得
-    const mobileMenuToggle = document.getElementById('dashboardSidebarToggle');
+    // モバイルメニュートグルボタンを取得（複数のIDに対応）
+    const toggleIds = [
+        'dashboardSidebarToggle',
+        'matchingSidebarToggle', 
+        'referralSidebarToggle',
+        'membersSidebarToggle',
+        'eventsSidebarToggle',
+        'messagesSidebarToggle',
+        'profileSidebarToggle',
+        'settingsSidebarToggle',
+        'notificationsSidebarToggle'
+    ];
+    
+    let mobileMenuToggle = null;
+    for (const id of toggleIds) {
+        const element = document.getElementById(id);
+        if (element) {
+            mobileMenuToggle = element;
+            console.log(`[Sidebar] Found toggle button with ID: ${id}`);
+            break;
+        }
+    }
+    
     const sidebar = document.querySelector('.sidebar');
     const mobileBackdrop = document.querySelector('.mobile-backdrop') || createMobileBackdrop();
     
     if (!mobileMenuToggle) {
-        console.error('[Sidebar] Mobile menu toggle button not found');
+        console.error('[Sidebar] Mobile menu toggle button not found with any expected ID');
         return;
     }
     

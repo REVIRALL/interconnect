@@ -43,53 +43,61 @@
             if (TABLE_COLUMN_MAPPING[tableName]) {
                 const columnMapping = TABLE_COLUMN_MAPPING[tableName];
                 
-                // eqメソッドをパッチ
-                const originalEq = query.eq.bind(query);
-                query.eq = function(column, value) {
-                    const newColumn = columnMapping[column] || column;
-                    if (column !== newColumn) {
-                        console.log(`[GlobalUserProfilesFix] ${tableName}.${column} → ${tableName}.${newColumn}`);
-                    }
-                    return originalEq(newColumn, value);
-                };
-                
-                // filterメソッドをパッチ
-                const originalFilter = query.filter.bind(query);
-                query.filter = function(column, operator, value) {
-                    const newColumn = columnMapping[column] || column;
-                    if (column !== newColumn) {
-                        console.log(`[GlobalUserProfilesFix] filter: ${tableName}.${column} → ${tableName}.${newColumn}`);
-                    }
-                    return originalFilter(newColumn, operator, value);
-                };
-                
-                // selectメソッドをパッチ
-                const originalSelect = query.select.bind(query);
-                query.select = function(columns = '*', options) {
-                    if (typeof columns === 'string' && columns !== '*') {
-                        let newColumns = columns;
-                        for (const [oldCol, newCol] of Object.entries(columnMapping)) {
-                            if (columns.includes(oldCol)) {
-                                // 単語境界を考慮した置換
-                                const regex = new RegExp(`\\b${oldCol}\\b`, 'g');
-                                newColumns = newColumns.replace(regex, newCol);
-                                console.log(`[GlobalUserProfilesFix] SELECT: ${oldCol} → ${newCol}`);
-                            }
+                // eqメソッドをパッチ（存在確認を追加）
+                if (query.eq && typeof query.eq === 'function') {
+                    const originalEq = query.eq.bind(query);
+                    query.eq = function(column, value) {
+                        const newColumn = columnMapping[column] || column;
+                        if (column !== newColumn) {
+                            console.log(`[GlobalUserProfilesFix] ${tableName}.${column} → ${tableName}.${newColumn}`);
                         }
-                        return originalSelect(newColumns, options);
-                    }
-                    return originalSelect(columns, options);
-                };
+                        return originalEq(newColumn, value);
+                    };
+                }
                 
-                // orderメソッドをパッチ
-                const originalOrder = query.order.bind(query);
-                query.order = function(column, options) {
-                    const newColumn = columnMapping[column] || column;
-                    if (column !== newColumn) {
-                        console.log(`[GlobalUserProfilesFix] order: ${tableName}.${column} → ${tableName}.${newColumn}`);
-                    }
-                    return originalOrder(newColumn, options);
-                };
+                // filterメソッドをパッチ（存在確認を追加）
+                if (query.filter && typeof query.filter === 'function') {
+                    const originalFilter = query.filter.bind(query);
+                    query.filter = function(column, operator, value) {
+                        const newColumn = columnMapping[column] || column;
+                        if (column !== newColumn) {
+                            console.log(`[GlobalUserProfilesFix] filter: ${tableName}.${column} → ${tableName}.${newColumn}`);
+                        }
+                        return originalFilter(newColumn, operator, value);
+                    };
+                }
+                
+                // selectメソッドをパッチ（存在確認を追加）
+                if (query.select && typeof query.select === 'function') {
+                    const originalSelect = query.select.bind(query);
+                    query.select = function(columns = '*', options) {
+                        if (typeof columns === 'string' && columns !== '*') {
+                            let newColumns = columns;
+                            for (const [oldCol, newCol] of Object.entries(columnMapping)) {
+                                if (columns.includes(oldCol)) {
+                                    // 単語境界を考慮した置換
+                                    const regex = new RegExp(`\\b${oldCol}\\b`, 'g');
+                                    newColumns = newColumns.replace(regex, newCol);
+                                    console.log(`[GlobalUserProfilesFix] SELECT: ${oldCol} → ${newCol}`);
+                                }
+                            }
+                            return originalSelect(newColumns, options);
+                        }
+                        return originalSelect(columns, options);
+                    };
+                }
+                
+                // orderメソッドをパッチ（存在確認を追加）
+                if (query.order && typeof query.order === 'function') {
+                    const originalOrder = query.order.bind(query);
+                    query.order = function(column, options) {
+                        const newColumn = columnMapping[column] || column;
+                        if (column !== newColumn) {
+                            console.log(`[GlobalUserProfilesFix] order: ${tableName}.${column} → ${tableName}.${newColumn}`);
+                        }
+                        return originalOrder(newColumn, options);
+                    };
+                }
             }
             
             return query;

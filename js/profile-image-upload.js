@@ -194,7 +194,7 @@
             const { error: updateError } = await window.supabaseClient
                 .from('user_profiles')
                 .update({ 
-                    picture_url: publicUrl,
+                    avatar_url: publicUrl,
                     updated_at: new Date().toISOString()
                 })
                 .eq('id', currentUserId);
