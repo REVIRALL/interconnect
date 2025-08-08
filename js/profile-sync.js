@@ -158,7 +158,7 @@
         }
         
         // Supabaseが準備できたら同期
-        if (window.supabase) {
+        if (window.supabaseClient) {
             syncUserProfile();
         } else {
             window.addEventListener('supabaseReady', syncUserProfile);

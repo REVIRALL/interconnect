@@ -20,7 +20,7 @@
         }
 
         init() {
-            if (!window.supabase) {
+            if (!window.supabaseClient) {
                 console.error('[EventsSupabase] Supabase client not found');
                 return;
             }

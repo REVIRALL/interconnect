@@ -136,7 +136,7 @@
                 .select(`
                     event_id,
                     attendance_status,
-                    event:events (
+                    event:event_items (
                         id,
                         title,
                         description,
@@ -202,7 +202,21 @@
     // 日付クリック処理
     function handleDateClick(info) {
         // 新規イベント作成モーダルを表示
-        showCreateEventModal(info.dateStr);
+        if (typeof showCreateEventModal === 'function') {
+            showCreateEventModal(info.dateStr);
+        } else if (typeof window.EventModal !== 'undefined' && window.EventModal.show) {
+            // EventModalモジュールを使用
+            window.EventModal.show({
+                mode: 'create',
+                date: info.dateStr
+            });
+        } else {
+            console.log('[CalendarIntegration] イベント作成モーダル関数が見つかりません');
+            // フォールバックとして簡易的なアラート
+            if (confirm(`${info.dateStr} に新しいイベントを作成しますか？`)) {
+                console.log('[CalendarIntegration] イベント作成: ' + info.dateStr);
+            }
+        }
     }
 
     // イベント詳細モーダル表示
