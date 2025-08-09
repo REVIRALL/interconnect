@@ -266,20 +266,28 @@
     </div>
     
     <!-- Scripts -->
-    <!-- Core initialization (must be first) -->
+    <!-- Supabase参照修正（最初に読み込む） -->
+    <script src="js/supabase-wait-fix.js"></script>
+    <!-- Supabase統一初期化 -->
+    <script src="js/supabase-unified.js?v=1.0"></script>
+    <!-- user_profilesテーブルカラム名グローバル修正 -->
+    <script src="js/global-user-profiles-fix.js"></script>
+    
+    <!-- Core initialization -->
     <script src="js/interconnect-core.js"></script>
     
     <script src="js/error-prevention.js"></script>
     <script src="js/null-check-fixes.js"></script>
     <script src="js/safe-dom-utils.js"></script>
     <script src="js/safe-storage.js"></script>
-    <script src="js/debug-logger.js"></script>
+    <!-- <script src="js/debug-logger.js"></script> -->
     <script src="js/global-functions.js"></script>
     <script src="js/profile-sync.js"></script>
     <script src="js/realtime-notifications.js?v=3.0"></script>
     <script src="js/responsive-menu-simple.js"></script>
     <script src="js/dashboard.js"></script>
-    <!-- Members specific scripts -->
+    
+    <!-- Members specific scripts (Supabase初期化後) -->
     <script src="js/members-supabase.js?v=20250729"></script>
     <script src="js/member-profile-preview.js"></script>
     <script src="js/members-profile-modal.js"></script>
@@ -289,10 +297,6 @@
     
     <!-- グローバル閲覧履歴 -->
     <script src="js/global-viewing-history.js"></script>
-    <!-- <script src="js/notifications.js"></script> -->
-    <script src="js/supabase-unified.js?v=1.0"></script>
-    <!-- user_profilesテーブルカラム名グローバル修正 -->
-    <script src="js/global-user-profiles-fix.js"></script>
     <!-- 高度な検索機能 -->
     <script src="js/advanced-search.js"></script>
 </body>

@@ -28,7 +28,7 @@
             
             try {
                 // Supabase接続確認
-                if (!window.supabaseClient?Client) {
+                if (!window.supabaseClient) {
                     console.error('[MembersSupabase] Supabaseクライアントが見つかりません');
                     this.showFallbackUI();
                     return;
@@ -37,7 +37,7 @@
                 console.log('[MembersSupabase] Supabase接続確認OK');
 
                 // 認証状態を確認
-                const { data: { user } } = await window.supabaseClient?Client.auth.getUser();
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
                 if (!user) {
                     console.log('[MembersSupabase] ユーザー未認証');
                     this.showFallbackUI();
@@ -65,7 +65,7 @@
                 console.log('[MembersSupabase] メンバーデータ読み込み中...');
                 
                 // ベースクエリ（user_profilesテーブルを使用 - active_usersはビュー）
-                let query = window.supabaseClient?Client
+                let query = window.supabaseClient
                     .from('user_profiles')
                     .select('*', { count: 'exact' })
                     .eq('is_active', true)
@@ -141,7 +141,7 @@
                 if (memberIds.length === 0) return;
                 
                 // 各メンバーのコネクション数を取得
-                const { data: connections, error } = await window.supabaseClient?Client
+                const { data: connections, error } = await window.supabaseClient
                     .from('connections')
                     .select('user_id, connected_user_id')
                     .or(`user_id.in.(${memberIds.join(',')}),connected_user_id.in.(${memberIds.join(',')})`)
@@ -462,7 +462,7 @@
          */
         cleanup() {
             if (this.profilesSubscription) {
-                window.supabaseClient?Client.removeChannel(this.profilesSubscription);
+                window.supabaseClient.removeChannel(this.profilesSubscription);
             }
         }
     }
@@ -582,7 +582,7 @@
 
     // Supabaseの準備ができるまで待つ
     function initializeWhenReady() {
-        if (window.supabaseClient?Client) {
+        if (window.supabaseClient) {
             console.log('[MembersSupabase] Supabase準備完了、マネージャー作成');
             window.membersSupabase = new MembersSupabaseManager();
             window.membersSupabase.init();
@@ -593,7 +593,7 @@
     }
 
     // supabaseReadyイベントを待つ
-    if (window.supabaseClient?Client) {
+    if (window.supabaseClient) {
         initializeWhenReady();
     } else {
         window.addEventListener('supabaseReady', () => {
