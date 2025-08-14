@@ -14,7 +14,6 @@
 
     // 即座に実行を確認
     window.__matchingUnifiedExecuted = true;
-    console.log('[MatchingUnified v2.1] スクリプト実行開始 - ' + new Date().toISOString());
     
     // Supabaseの準備ができていない場合は待機
     if (!window.waitForSupabase || !window.supabaseClient) {
@@ -38,11 +37,9 @@
     initializeMatchingSystem();
     
     function initializeMatchingSystem() {
-        console.log('[MatchingUnified v2.1] マッチングシステム初期化開始');
+        // console.log('[MatchingUnified] マッチングシステム初期化開始');
         
         try {
-        
-        console.log('[MatchingUnified v2.1] tryブロック内実行');
         
         // 他のレーダーチャート関数との競合を防ぐ
         if (window.drawRadarChart || window.drawRadarChartForUser) {
@@ -383,12 +380,7 @@
             const { data: { user } } = await window.supabaseClient.auth.getUser();
             if (!user) {
                 console.error('[MatchingUnified] ユーザーが認証されていません');
-                // 開発環境でのみダミーデータを表示
-                if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                    displayDummyData();
-                } else {
-                    showLoginRequired();
-                }
+                showLoginRequired();
                 return;
             }
 
@@ -402,12 +394,7 @@
             await loadMatchingCandidates();
         } catch (error) {
             console.error('[MatchingUnified] 初期化エラー:', error);
-            // 開発環境でのみダミーデータを表示
-            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                displayDummyData();
-            } else {
-                showErrorMessage('初期化エラーが発生しました。ページを再読み込みしてください。');
-            }
+            showErrorMessage('初期化エラーが発生しました。ページを再読み込みしてください。');
         }
     }
 
@@ -484,18 +471,14 @@
                 </div>
             `;
             
-            // 現在のユーザーID取得
-            const { data: { user } } = await window.supabaseClient.auth.getUser();
-            if (!user) {
+            // currentUserIdが設定されていない場合はエラー
+            if (!currentUserId) {
+                console.error('[MatchingUnified] currentUserIdが設定されていません');
                 container.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-circle"></i><h3>ログインが必要です</h3></div>';
                 return;
             }
             
-            currentUserId = user.id;
-            
-            // デバッグ: 実行時刻とバージョンを記録
-            console.log('[MatchingUnified] loadMatchingCandidates実行 - v2.0', new Date().toISOString());
-            console.log('[MatchingUnified] 現在のユーザーID:', currentUserId);
+            // console.log('[MatchingUnified] 現在のユーザーID:', currentUserId);
             
             // user_profilesテーブルから実際に存在するカラムを取得
             const selectColumns = `
@@ -559,7 +542,6 @@
                 ...user,
                 // 存在しないカラムにデフォルト値を設定
                 title: user.position || '役職未設定',
-                location: user.location || '未設定',
                 interests: user.interests || [],
                 business_challenges: user.business_challenges || [],
                 picture_url: user.avatar_url || '',
@@ -2406,14 +2388,14 @@
         // console.log('[MatchingUnified] レーダーチャート描画開始:', userId);
         const canvas = document.getElementById(`radar-${safeCanvasId}`);
         
-        // data-original-user-idから正しいユーザーデータを取得（修正1）
-        if (canvas && canvas.dataset.originalUserId) {
-            const correctUserId = canvas.dataset.originalUserId;
-            const correctUser = matchingUsers.find(u => u.id === correctUserId);
-            if (correctUser) {
-                user = correctUser; // 正しいユーザーデータで上書き
-                // console.log('[MatchingUnified] data-original-user-idから正しいユーザーを取得:', correctUser.name);
-            }
+        // Canvasが見つかった場合、ユーザーIDの整合性を確認
+        if (canvas && canvas.dataset.originalUserId && canvas.dataset.originalUserId !== userId) {
+            console.error('[MatchingUnified] Canvas IDの不一致を検出:', {
+                expected: userId,
+                actual: canvas.dataset.originalUserId
+            });
+            // IDが異なる場合は処理を中断
+            return;
         }
         if (!canvas) {
             // 再試行回数を制限（無限ループ防止）
@@ -2549,20 +2531,6 @@
             calculateInterestScore(user) // 興味（質的評価：最大100点）
         ];
         
-        // デバッグ用：各ユーザーのスコアを確認
-        console.log(`[RadarChart] ${user.name || 'Unknown'}のスコア:`, {
-            name: user.name,
-            title: user.title,
-            position: user.position,
-            skills: user.skills?.length || 0,
-            スキル: values[0],
-            経験: values[1],
-            業界: values[2],
-            地域: values[3],
-            活動: values[4],
-            興味: values[5]
-        });
-        
         // データポリゴンを描画
         ctx.fillStyle = 'rgba(74, 144, 226, 0.3)';
         ctx.strokeStyle = '#4a90e2';
@@ -2613,92 +2581,6 @@
         // });
     }
 
-    // ダミーデータを表示
-    function displayDummyData() {
-        console.log('[MatchingUnified] ダミーデータを表示します');
-        const dummyUsers = [
-            {
-                id: 'dummy1',
-                name: 'りゅう',
-                title: 'プロダクトマネージャー',
-                position: 'シニアプロダクトマネージャー',
-                company: '株式会社イノベーションテック',
-                skills: ['プロジェクト管理', 'アジャイル開発', 'プロダクトマネジメント', 
-                        'UI/UXデザイン', 'データ分析', 'SQL', 'Python', 
-                        'マーケティング戦略', 'KPI設計', 'チームビルディング'],
-                interests: ['プロダクト開発', 'スタートアップ', 'テクノロジートレンド', 
-                           'デザイン思考', 'イノベーション'],
-                industry: 'IT・テクノロジー・SaaS・プロダクト開発',
-                location: '東京都渋谷区神宮前1-2-3',
-                bio: 'プロダクトマネジメントに10年以上携わり、BtoBおよびBtoCの両方で成功を収めてきました。',
-                business_challenges: ['プロダクトの成長戦略', 'ユーザー体験の改善', 'チーム生産性の向上'],
-                matchScore: 95
-            },
-            {
-                id: 'dummy2',
-                name: 'guest',
-                title: null,
-                position: 'インターン',
-                company: 'スタートアップA',
-                skills: ['Excel', 'PowerPoint'],
-                interests: ['ビジネス'],
-                industry: '小売',
-                location: '大阪',
-                bio: '現在インターンとして勉強中です。',
-                business_challenges: ['経験を積みたい'],
-                matchScore: 88
-            },
-            {
-                id: 'dummy3',
-                name: '田中 太郎',
-                position: 'エンジニア',
-                company: 'テック株式会社',
-                skills: ['プログラミング', 'AI', 'データ分析'],
-                interests: ['AI', '機械学習'],
-                industry: 'IT',
-                location: '東京',
-                matchScore: 82
-            },
-            {
-                id: 'dummy4',
-                name: '山田 花子',
-                position: 'デザイナー',
-                company: 'クリエイティブ社',
-                skills: ['UI/UX', 'グラフィックデザイン', 'ブランディング'],
-                interests: ['デザイン', 'アート'],
-                industry: 'デザイン',
-                location: '大阪',
-                matchScore: 78
-            },
-            {
-                id: 'dummy5',
-                name: '佐藤 次郎',
-                position: 'マーケター',
-                company: 'マーケティング株式会社',
-                skills: ['デジタルマーケティング', 'SEO', 'コンテンツ制作'],
-                interests: ['マーケティング', 'グロース'],
-                industry: 'マーケティング',
-                location: '名古屋',
-                matchScore: 75
-            },
-            {
-                id: 'dummy6',
-                name: '鈴木 美咲',
-                position: 'コンサルタント',
-                company: 'コンサルティングファーム',
-                skills: ['戦略立案', '事業開発', 'プロジェクト管理'],
-                interests: ['ビジネス戦略', 'イノベーション'],
-                industry: 'コンサルティング',
-                location: '福岡',
-                matchScore: 72
-            }
-        ];
-
-        matchingUsers = dummyUsers;
-        console.log('[MatchingUnified] ダミーユーザー数:', dummyUsers.length);
-        displayMatchingUsers();
-    }
-
     // 初期化実行（Supabase初期化を待つ）
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
@@ -2720,20 +2602,19 @@
     
     // グローバルに関数を公開（他のスクリプトから呼び出せるように）
         window.drawRadarChartForUser = drawRadarChartForUser;
-        window.displayDummyData = displayDummyData;
         
         // ページアンロード時にタイマーをクリーンアップ
         window.addEventListener('beforeunload', () => {
             clearAllTimers();
         });
         
-        console.log('[MatchingUnified v2.1] スクリプト実行完了');
+        // console.log('[MatchingUnified] スクリプト実行完了');
         
         } catch (error) {
-            console.error('[MatchingUnified v2.1] 致命的エラー発生:', error);
-            console.error('[MatchingUnified v2.1] エラーメッセージ:', error.message);
-            console.error('[MatchingUnified v2.1] エラースタック:', error.stack);
-            console.error('[MatchingUnified v2.1] エラー詳細:', {
+            console.error('[MatchingUnified] 致命的エラー発生:', error);
+            console.error('[MatchingUnified] エラーメッセージ:', error.message);
+            console.error('[MatchingUnified] エラースタック:', error.stack);
+            console.error('[MatchingUnified] エラー詳細:', {
                 name: error.name,
                 message: error.message,
                 fileName: error.fileName,
