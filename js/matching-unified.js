@@ -491,29 +491,46 @@
             
             currentUserId = user.id;
             
+            // デバッグ: 実行時刻とバージョンを記録
+            console.log('[MatchingUnified] loadMatchingCandidates実行 - v2.0', new Date().toISOString());
+            console.log('[MatchingUnified] 現在のユーザーID:', currentUserId);
+            
             // user_profilesテーブルから実際に存在するカラムを取得
+            const selectColumns = `
+                id,
+                name,
+                email,
+                company,
+                position,
+                phone,
+                line_id,
+                avatar_url,
+                bio,
+                industry,
+                skills,
+                last_login_at,
+                created_at,
+                updated_at
+            `;
+            
+            console.log('[MatchingUnified] SELECT文:', selectColumns);
+            console.log('[MatchingUnified] テーブル名: user_profiles');
+            
             const { data: allUsers, error } = await window.supabaseClient
                 .from('user_profiles')
-                .select(`
-                    id,
-                    name,
-                    email,
-                    company,
-                    position,
-                    phone,
-                    line_id,
-                    avatar_url,
-                    bio,
-                    industry,
-                    skills,
-                    last_login_at,
-                    created_at,
-                    updated_at
-                `)
+                .select(selectColumns)
                 .limit(200); // パフォーマンス対策: 最大200件に制限
             
+            console.log('[MatchingUnified] クエリ実行結果 - データ件数:', allUsers?.length || 0, 'エラー:', error);
+            
             if (error) {
-                console.error('[MatchingUnified] ユーザー取得エラー:', error);
+                console.error('[MatchingUnified] ユーザー取得エラー詳細:', {
+                    error: error,
+                    message: error.message,
+                    details: error.details,
+                    hint: error.hint,
+                    code: error.code
+                });
                 // XSS対策: DOM操作で安全に挿入
                 container.innerHTML = '';
                 const errorDiv = document.createElement('div');
@@ -859,20 +876,24 @@
     async function calculateMatchingScores(users) {
         try {
             // 現在のユーザーのプロフィール取得（自分のデータのみ）
+            console.log('[MatchingUnified] calculateMatchingScores - 現在のユーザー情報取得');
             const { data: currentUserData } = await window.supabaseClient
                 .from('user_profiles')
                 .select(`
                     id,
                     skills,
-                    interests,
-                    business_challenges,
-                    industry,
-                    location
+                    industry
                 `)
                 .eq('id', currentUserId)
                 .single();
             
-            const currentUser = currentUserData;
+            // 存在しないカラムにデフォルト値を設定
+            const currentUser = currentUserData ? {
+                ...currentUserData,
+                interests: currentUserData.interests || [],
+                business_challenges: currentUserData.business_challenges || [],
+                location: currentUserData.location || '未設定'
+            } : null;
 
             if (!currentUser) return users;
 
@@ -1271,6 +1292,7 @@
                 window.profileDetailModal.show(userId);
             } else {
                 // フォールバック: 従来のモーダル表示
+                console.log('[MatchingUnified] showProfileModal - プロフィール詳細取得');
                 const { data: users, error } = await window.supabaseClient
                     .from('user_profiles')
                     .select('*');
