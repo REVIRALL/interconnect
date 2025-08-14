@@ -261,10 +261,10 @@
                         userData.name = userData.display_name;
                         // console.log('[ProfileSync] Fixed name to:', userData.name);
                     } else {
-                        // 手動で「りゅう」を設定
-                        userData.name = 'りゅう';
-                        userData.display_name = 'りゅう';
-                        // console.log('[ProfileSync] Manually set name to: りゅう');
+                        // デフォルト名を設定
+                        userData.name = 'ユーザー';
+                        userData.display_name = 'ユーザー';
+                        // console.log('[ProfileSync] Set default name: ユーザー');
                     }
                     localStorage.setItem('user', JSON.stringify(userData));
                 }
