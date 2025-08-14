@@ -26,12 +26,10 @@
     <link rel="stylesheet" href="css/matching-loading.css">
     <link rel="stylesheet" href="css/responsive-menu.css">
     <link rel="stylesheet" href="css/user-menu-zindex-only.css">
-    <!-- サイドバー固定CSS -->
-    <link rel="stylesheet" href="css/sidebar-unified.css">
-    <!-- サイドバースタイル統一 -->
-    <link rel="stylesheet" href="css/sidebar-styles-unified.css">
-    <!-- モーダルポップアップ修正 -->
-    <link rel="stylesheet" href="css/modal-popup-fix.css">
+    <!-- サイドバーレスポンシブ統一修正 -->
+    <link rel="stylesheet" href="css/sidebar-responsive-fix.css">
+    <!-- ヘッダー余白修正 -->
+    <link rel="stylesheet" href="css/header-padding-fix.css">
 </head>
 <body>
     <!-- Mobile Header -->
@@ -194,33 +192,52 @@
         <!-- Main Content -->
         <main class="main-content">
             <!-- Header -->
-            <header class="dashboard-header">
+            <div class="content-header">
                 <div class="header-left">
-                    <h1>マッチング</h1>
-                    <p>ビジネスパートナーを見つけましょう</p>
+                    <div>
+                        <h1 class="page-title">
+                            <i class="fas fa-handshake"></i>
+                            マッチング
+                        </h1>
+                        <nav class="breadcrumb">
+                            <a href="dashboard.html">ダッシュボード</a>
+                            <i class="fas fa-chevron-right"></i>
+                            <span>マッチング</span>
+                        </nav>
+                    </div>
                 </div>
-                
                 <div class="header-right">
-                    <a href="notifications.html" class="notification-btn">
-                        <i class="fas fa-bell"></i>
-                    </a>
-                    
                     <div class="user-menu">
-                        <button class="user-menu-btn">
-                            <img src="assets/user-placeholder.svg" alt="User">
-                            <span class="user-name">ユーザー名</span>
+                        <div class="notification-wrapper">
+                            <button class="notification-btn">
+                                <i class="fas fa-bell"></i>
+                            </button>
+                            <div class="notification-dropdown">
+                                <div class="notification-header">
+                                    <h3>通知</h3>
+                                    <button class="mark-all-read">すべて既読にする</button>
+                                </div>
+                                <div class="notification-list">
+                                    <div class="empty-notifications">
+                                        <i class="fas fa-bell-slash"></i>
+                                        <p>新しい通知はありません</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="user-profile">
+                            <img src="assets/default-avatar.svg" alt="User Avatar" class="user-avatar">
+                            <span class="user-name" id="userName">ゲスト</span>
                             <i class="fas fa-chevron-down"></i>
-                        </button>
-                        
-                        <div class="user-dropdown">
-                            <a href="profile.html">プロフィール</a>
-                            <a href="settings.html">設定</a>
-                            <hr>
-                            <a href="#" onclick="logout(); return false;">ログアウト</a>
+                            <div class="user-dropdown">
+                                <a href="profile.html"><i class="fas fa-user"></i> プロフィール</a>
+                                <a href="settings.html"><i class="fas fa-cog"></i> 設定</a>
+                                <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> ログアウト</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </header>
+            </div>
             
             <!-- Matching Filters -->
             <div class="matching-filters">
@@ -303,7 +320,10 @@
     </div>
     
     <!-- Scripts -->
-    <!-- Service Workerログフィルター（最初に読み込む） -->
+    <!-- Supabase統一初期化（最優先で読み込む） -->
+    <script src="js/supabase-unified.js?v=1.1"></script>
+    
+    <!-- Service Workerログフィルター -->
     <script src="js/service-worker-filter.js"></script>
     <!-- コンソール履歴管理 -->
     <script src="js/console-history-logger.js"></script>
@@ -311,10 +331,10 @@
     <script src="js/suppress-duplicate-warnings.js"></script>
     <!-- 関数実行トラッカー -->
     <script src="js/function-execution-tracker.js"></script>
-    <!-- Supabase統一初期化（最初に読み込む） -->
-    <script src="js/supabase-unified.js?v=1.0"></script>
-    <!-- Supabase参照修正 -->
-    <script src="js/supabase-wait-fix.js"></script>
+    <!-- 統一通知システム -->
+    <script src="js/notification-system-unified.js"></script>
+    <!-- Supabase参照修正（不要になったため無効化） -->
+    <!-- <script src="js/supabase-wait-fix.js"></script> -->
     <!-- Core utilities (必須) -->
     <script src="js/error-prevention.js"></script>
     <script src="js/null-check-fixes.js"></script>
@@ -326,10 +346,8 @@
     <!-- dashboard.jsはマッチングページには不要 -->
     <!-- <script src="js/dashboard.js"></script> -->
     
-    <!-- user_profilesテーブルカラム名修正 v2（より安全な実装） -->
-    <script src="js/user-profiles-fix-v2.js"></script>
     <!-- マッチングシステム統合JavaScript（47ファイルを1つに統合） -->
-    <script src="js/matching-unified.js?v=4.0"></script>
+    <script src="js/matching-unified.js?v=5.0"></script>
     
     <!-- グローバル閲覧履歴 -->
     <script src="js/global-viewing-history.js"></script>
@@ -338,5 +356,9 @@
     
     <!-- プロファイル詳細モーダル（必須） -->
     <script src="js/profile-detail-modal.js"></script>
+    <!-- ユーザードロップダウンハンドラー -->
+    <script src="js/user-dropdown-handler.js"></script>
+    <!-- アバターサイズ強制適用 -->
+    <script src="js/avatar-size-enforcer.js"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@
 (function() {
     'use strict';
     
-    console.log('[ProfileDetailModal] 初期化開始');
+    // console.log('[ProfileDetailModal] 初期化開始');
     
     class ProfileDetailModal {
         constructor() {
@@ -25,7 +25,7 @@
                 }
                 
                 if (!window.supabaseClient || !window.supabaseClient.auth) {
-                    console.log('[ProfileDetailModal] Waiting for Supabase initialization...');
+                    // console.log('[ProfileDetailModal] Waiting for Supabase initialization...');
                     // 初期化をスキップして後で再試行
                     window.addEventListener('supabaseReady', () => this.init());
                     return;
@@ -99,7 +99,7 @@
                 .profile-detail-header {
                     position: relative;
                     padding: 40px;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
                     color: white;
                     text-align: center;
                     border-radius: 16px 16px 0 0;
@@ -174,7 +174,7 @@
                 }
                 
                 .profile-detail-section-title i {
-                    color: #667eea;
+                    color: #4A90E2;
                 }
                 
                 .profile-detail-grid {
@@ -271,14 +271,14 @@
                 }
                 
                 .profile-detail-btn-primary {
-                    background: #667eea;
+                    background: #4A90E2;
                     color: white;
                 }
                 
                 .profile-detail-btn-primary:hover {
-                    background: #5a67d8;
+                    background: #357ABD;
                     transform: translateY(-2px);
-                    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+                    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
                 }
                 
                 .profile-detail-btn-secondary {
@@ -297,7 +297,7 @@
                 
                 .profile-detail-spinner {
                     border: 4px solid #f3f3f3;
-                    border-top: 4px solid #667eea;
+                    border-top: 4px solid #4A90E2;
                     border-radius: 50%;
                     width: 60px;
                     height: 60px;
@@ -415,7 +415,7 @@
                         meetingMinutes = data;
                     }
                 } catch (e) {
-                    console.log('[ProfileDetailModal] meeting_minutesテーブルは存在しません');
+                    // console.log('[ProfileDetailModal] meeting_minutesテーブルは存在しません');
                 }
                 
                 // マッチングスコアを計算
@@ -480,7 +480,7 @@
                 <!-- ヘッダー -->
                 <div class="profile-detail-header">
                     <button class="profile-detail-close" onclick="window.profileDetailModal.close()">×</button>
-                    <img src="${profile.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.name || 'User')}&background=667eea&color=fff&size=240`}" 
+                    <img src="${profile.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.name || 'User')}&background=4A90E2&color=fff&size=240`}" 
                          alt="${profile.name}" 
                          class="profile-detail-avatar">
                     <h2 class="profile-detail-name">${profile.name || '名前未設定'}</h2>
@@ -531,7 +531,7 @@
                             
                             <!-- レーダーチャート -->
                             <div class="profile-detail-radar" id="profile-detail-radar">
-                                <canvas width="260" height="260"></canvas>
+                                <canvas></canvas>
                             </div>
                         </div>
                     </div>
@@ -675,14 +675,44 @@
             const canvas = document.querySelector('#profile-detail-radar canvas');
             if (!canvas) return;
             
+            // 既に描画済みの場合はスキップ
+            if (canvas.dataset.rendered === 'true') {
+                // console.log('[ProfileDetailModal] レーダーチャート既に描画済み');
+                return;
+            }
+            
             const ctx = canvas.getContext('2d');
-            const centerX = 130;
-            const centerY = 130;
+            if (!ctx) return;
+            
+            // Retina/高DPIディスプレイ対応
+            const dpr = window.devicePixelRatio || 1;
+            
+            // Canvas表示サイズ
+            const displayWidth = 260;
+            const displayHeight = 260;
+            
+            // 既存の属性をクリア
+            canvas.removeAttribute('width');
+            canvas.removeAttribute('height');
+            
+            // Canvasの実際のピクセルサイズを高DPI対応
+            canvas.width = displayWidth * dpr;
+            canvas.height = displayHeight * dpr;
+            
+            // CSSで表示サイズを設定
+            canvas.style.width = displayWidth + 'px';
+            canvas.style.height = displayHeight + 'px';
+            
+            // 描画コンテキストをスケール
+            ctx.scale(dpr, dpr);
+            
+            const centerX = displayWidth / 2;
+            const centerY = displayHeight / 2;
             const radius = 100;
             
             // 背景
             ctx.fillStyle = '#f8f9fa';
-            ctx.fillRect(0, 0, 260, 260);
+            ctx.fillRect(0, 0, displayWidth, displayHeight);
             
             // グリッド
             ctx.strokeStyle = '#e0e0e0';
@@ -701,8 +731,8 @@
                 ctx.stroke();
             }
             
-            // 軸
-            const labels = ['スキル', '経験', '地域', '業界', '活動', '興味'];
+            // 軸（matching-unified.jsと同じ順序）
+            const labels = ['スキル', '経験', '業界', '地域', '活動', '興味'];
             ctx.fillStyle = '#666';
             ctx.font = '12px sans-serif';
             ctx.textAlign = 'center';
@@ -714,19 +744,39 @@
                 ctx.fillText(labels[i], x, y);
             }
             
-            // データ
-            const values = [
-                (profile.skills?.length || 0) * 20,
-                Math.random() * 80 + 20,
-                profile.location ? 80 : 20,
-                profile.industry ? 80 : 20,
-                Math.random() * 80 + 20,
-                (profile.interests?.length || 0) * 20
-            ];
+            // データ（matching-unified.jsの計算関数を使用）
+            let values;
+            if (window.matchingScoreFix && 
+                window.matchingScoreFix.calculateExperienceScore &&
+                window.matchingScoreFix.calculateActivityScore &&
+                window.matchingScoreFix.calculateIndustryScore &&
+                window.matchingScoreFix.calculateLocationScore &&
+                window.matchingScoreFix.calculateSkillScore &&
+                window.matchingScoreFix.calculateInterestScore) {
+                // matching-unified.jsの計算関数を使用（質的評価）
+                values = [
+                    window.matchingScoreFix.calculateSkillScore(profile), // スキル（質的評価）
+                    window.matchingScoreFix.calculateExperienceScore(profile), // 経験（実データ）
+                    window.matchingScoreFix.calculateIndustryScore(profile), // 業界（公平スコア）
+                    window.matchingScoreFix.calculateLocationScore(profile), // 地域（公平スコア）
+                    window.matchingScoreFix.calculateActivityScore(profile), // 活動（実データ）
+                    window.matchingScoreFix.calculateInterestScore(profile) // 興味（質的評価）
+                ];
+            } else {
+                // フォールバック（matching-unified.jsが読み込まれていない場合）
+                values = [
+                    Math.min((profile.skills?.length || 0) * 20, 100),
+                    50, // 経験（固定値）
+                    profile.industry ? 80 : 30,
+                    profile.location ? 80 : 30,
+                    50, // 活動（固定値）
+                    Math.min((profile.interests?.length || 0) * 25, 100)
+                ];
+            }
             
             // データポリゴン
-            ctx.fillStyle = 'rgba(102, 126, 234, 0.3)';
-            ctx.strokeStyle = '#667eea';
+            ctx.fillStyle = 'rgba(74, 144, 226, 0.3)';
+            ctx.strokeStyle = '#4A90E2';
             ctx.lineWidth = 2;
             ctx.beginPath();
             
@@ -741,13 +791,20 @@
             ctx.closePath();
             ctx.fill();
             ctx.stroke();
+            
+            // 描画完了フラグを設定
+            canvas.dataset.rendered = 'true';
         }
         
         async sendConnect(profileId) {
             try {
                 const { data: { user } } = await window.supabaseClient.auth.getUser();
                 if (!user) {
-                    alert('ログインが必要です');
+                    if (window.showToast) {
+                        window.showToast('ログインが必要です', 'warning');
+                    } else {
+                        console.warn('[ProfileDetailModal] ログインが必要です');
+                    }
                     return;
                 }
                 
@@ -760,7 +817,11 @@
                     .single();
                 
                 if (existing) {
-                    alert('既にコネクト申請済みです');
+                    if (window.showToast) {
+                        window.showToast('既にコネクト申請済みです', 'info');
+                    } else {
+                        console.info('[ProfileDetailModal] 既にコネクト申請済みです');
+                    }
                     return;
                 }
                 
@@ -775,12 +836,20 @@
                 
                 if (error) throw error;
                 
-                alert('コネクト申請を送信しました！');
+                if (window.showToast) {
+                    window.showToast('コネクト申請を送信しました！', 'success');
+                } else {
+                    console.log('[ProfileDetailModal] コネクト申請を送信しました');
+                }
                 this.close();
                 
             } catch (error) {
                 console.error('[ProfileDetailModal] コネクト申請エラー:', error);
-                alert('コネクト申請の送信に失敗しました');
+                if (window.showToast) {
+                    window.showToast('コネクト申請の送信に失敗しました', 'error');
+                } else {
+                    console.error('[ProfileDetailModal] コネクト申請の送信に失敗しました');
+                }
             }
         }
         
@@ -793,12 +862,20 @@
             try {
                 const { data: { user } } = await window.supabaseClient.auth.getUser();
                 if (!user) {
-                    alert('ログインが必要です');
+                    if (window.showToast) {
+                        window.showToast('ログインが必要です', 'warning');
+                    } else {
+                        console.warn('[ProfileDetailModal] ログインが必要です');
+                    }
                     return;
                 }
                 
                 // ブックマーク機能（仮実装）
-                alert('ブックマーク機能は準備中です');
+                if (window.showToast) {
+                    window.showToast('ブックマーク機能は準備中です', 'info');
+                } else {
+                    console.info('[ProfileDetailModal] ブックマーク機能は準備中です');
+                }
                 
             } catch (error) {
                 console.error('[ProfileDetailModal] ブックマークエラー:', error);
@@ -823,6 +900,12 @@
         
         close() {
             if (this.modal) {
+                // Canvas描画フラグをリセット
+                const canvas = this.modal.querySelector('#profile-detail-radar canvas');
+                if (canvas) {
+                    canvas.dataset.rendered = 'false';
+                }
+                
                 this.modal.classList.remove('show');
                 setTimeout(() => {
                     this.modal.remove();
@@ -836,6 +919,6 @@
     // グローバル公開
     window.profileDetailModal = new ProfileDetailModal();
     
-    console.log('[ProfileDetailModal] 初期化完了');
+    // console.log('[ProfileDetailModal] 初期化完了');
     
 })();
