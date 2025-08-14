@@ -491,28 +491,23 @@
             
             currentUserId = user.id;
             
-            // user_profilesテーブルから必要なカラムのみ取得（パフォーマンス改善）
+            // user_profilesテーブルから実際に存在するカラムを取得
             const { data: allUsers, error } = await window.supabaseClient
                 .from('user_profiles')
                 .select(`
                     id,
                     name,
-                    title,
-                    position,
-                    company,
-                    location,
-                    industry,
-                    skills,
-                    interests,
-                    business_challenges,
-                    picture_url,
-                    avatar_url,
-                    last_login,
-                    bio,
                     email,
+                    company,
+                    position,
                     phone,
                     line_id,
-                    created_at
+                    avatar_url,
+                    bio,
+                    industry,
+                    skills,
+                    created_at,
+                    updated_at
                 `)
                 .limit(200); // パフォーマンス対策: 最大200件に制限
             
@@ -539,8 +534,17 @@
                 return;
             }
             
-            // 自分以外のユーザーをフィルタリング（user_profilesではidカラムを使用）
-            const users = allUsers ? allUsers.filter(user => user.id !== currentUserId) : [];
+            // 自分以外のユーザーをフィルタリングして、存在しないカラムにデフォルト値を設定
+            const users = allUsers ? allUsers.filter(user => user.id !== currentUserId).map(user => ({
+                ...user,
+                // 存在しないカラムにデフォルト値を設定
+                title: user.position || '役職未設定',
+                location: user.location || '未設定',
+                interests: user.interests || [],
+                business_challenges: user.business_challenges || [],
+                picture_url: user.avatar_url || '',
+                last_login: user.last_login_at || user.updated_at || user.created_at
+            })) : [];
             
             // console.log('[MatchingUnified] 取得したユーザー数:', users.length);
             
