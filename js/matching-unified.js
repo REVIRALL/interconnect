@@ -9,6 +9,11 @@
  * - フィルタリング・検索
  */
 
+// 即座に実行（IIFEの外で実行）
+console.error('[MatchingUnified-TOP] ファイル読み込み開始');
+alert('[MatchingUnified-TOP] matching-unified.js読み込み');
+window.__matchingUnifiedLoaded = true;
+
 (function() {
     'use strict';
 
