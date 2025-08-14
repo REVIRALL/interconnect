@@ -12,7 +12,9 @@
 (function() {
     'use strict';
 
-    console.log('[MatchingUnified] スクリプト実行開始');
+    // 即座に実行を確認
+    window.__matchingUnifiedExecuted = true;
+    console.log('[MatchingUnified v2.1] スクリプト実行開始 - ' + new Date().toISOString());
     
     // Supabaseの準備ができていない場合は待機
     if (!window.waitForSupabase || !window.supabaseClient) {
@@ -36,11 +38,11 @@
     initializeMatchingSystem();
     
     function initializeMatchingSystem() {
-        console.log('[MatchingUnified] マッチングシステム初期化開始');
+        console.log('[MatchingUnified v2.1] マッチングシステム初期化開始');
         
         try {
         
-        // console.log('[MatchingUnified] マッチングシステム初期化');
+        console.log('[MatchingUnified v2.1] tryブロック内実行');
         
         // 他のレーダーチャート関数との競合を防ぐ
         if (window.drawRadarChart || window.drawRadarChartForUser) {
@@ -2725,11 +2727,21 @@
             clearAllTimers();
         });
         
-        console.log('[MatchingUnified] スクリプト実行完了');
+        console.log('[MatchingUnified v2.1] スクリプト実行完了');
         
         } catch (error) {
-            console.error('[MatchingUnified] スクリプト実行エラー:', error);
-            console.error('[MatchingUnified] エラースタック:', error.stack);
+            console.error('[MatchingUnified v2.1] 致命的エラー発生:', error);
+            console.error('[MatchingUnified v2.1] エラーメッセージ:', error.message);
+            console.error('[MatchingUnified v2.1] エラースタック:', error.stack);
+            console.error('[MatchingUnified v2.1] エラー詳細:', {
+                name: error.name,
+                message: error.message,
+                fileName: error.fileName,
+                lineNumber: error.lineNumber,
+                columnNumber: error.columnNumber
+            });
+            // グローバル変数にエラーを保存してデバッグ可能にする
+            window.__matchingUnifiedError = error;
         }
     } // initializeMatchingSystem終了
 
