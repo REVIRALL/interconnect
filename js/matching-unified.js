@@ -506,6 +506,7 @@
                     bio,
                     industry,
                     skills,
+                    last_login_at,
                     created_at,
                     updated_at
                 `)

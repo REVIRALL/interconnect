@@ -75,7 +75,7 @@
                 if (this.filters.search) {
                     // サニタイズ: 特殊文字をエスケープ
                     const sanitizedSearch = this.filters.search.replace(/[%_\\]/g, '\\$&');
-                    query = query.or(`name.ilike.%${sanitizedSearch}%,full_name.ilike.%${sanitizedSearch}%,company.ilike.%${sanitizedSearch}%,bio.ilike.%${sanitizedSearch}%`);
+                    query = query.or(`name.ilike.%${sanitizedSearch}%,company.ilike.%${sanitizedSearch}%,bio.ilike.%${sanitizedSearch}%`);
                 }
 
                 // 業界フィルター
