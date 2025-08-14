@@ -14,32 +14,41 @@
 
     // 即座に実行を確認
     window.__matchingUnifiedExecuted = true;
+    console.error('[MatchingUnified] ========== スクリプト開始 ==========');
+    alert('[MatchingUnified] スクリプトが実行されました');
     
     // Supabaseの準備ができていない場合は待機
     if (!window.waitForSupabase || !window.supabaseClient) {
-        console.log('[MatchingUnified] Supabaseの初期化を待機中...');
+        console.error('[MatchingUnified] Supabaseの初期化を待機中...');
+        alert('[MatchingUnified] Supabaseの初期化を待機中');
         const retryCount = { count: 0, maxRetries: 50 };
         const retryInterval = setInterval(() => {
             retryCount.count++;
             if (window.waitForSupabase && window.supabaseClient) {
                 clearInterval(retryInterval);
-                console.log('[MatchingUnified] Supabaseが準備できました。初期化を開始します。');
+                console.error('[MatchingUnified] Supabaseが準備できました。初期化を開始します。');
+                alert('[MatchingUnified] Supabase準備完了');
                 initializeMatchingSystem();
             } else if (retryCount.count >= retryCount.maxRetries) {
                 clearInterval(retryInterval);
                 console.error('[MatchingUnified] Supabaseの初期化がタイムアウトしました');
+                alert('[MatchingUnified] Supabaseタイムアウト');
             }
         }, 100);
         return;
     }
     
     // 即座に初期化
+    console.error('[MatchingUnified] 即座に初期化を実行');
+    alert('[MatchingUnified] 初期化開始');
     initializeMatchingSystem();
     
     function initializeMatchingSystem() {
-        // console.log('[MatchingUnified] マッチングシステム初期化開始');
+        console.error('[MatchingUnified] ========== initializeMatchingSystem開始 ==========');
+        alert('[MatchingUnified] initializeMatchingSystem実行');
         
         try {
+        console.error('[MatchingUnified] tryブロック内');
         
         // 他のレーダーチャート関数との競合を防ぐ
         if (window.drawRadarChart || window.drawRadarChartForUser) {
@@ -370,14 +379,17 @@
 
     // 初期化
     async function initialize() {
-        // console.log('[MatchingUnified] 初期化開始');
+        console.error('[MatchingUnified] ========== initialize関数開始 ==========');
+        alert('[MatchingUnified] initialize関数実行');
 
         try {
             // Supabaseの準備を待つ
+            console.error('[MatchingUnified] waitForSupabase呼び出し');
             await window.waitForSupabase();
+            console.error('[MatchingUnified] waitForSupabase完了');
 
             // 現在のユーザーを取得
-            console.log('[MatchingUnified] 認証チェック開始');
+            console.error('[MatchingUnified] 認証チェック開始');
             const { data: { user }, error: authError } = await window.supabaseClient.auth.getUser();
             
             if (authError) {
@@ -401,9 +413,13 @@
             setupEventListeners();
 
             // マッチング候補の読み込み
+            console.error('[MatchingUnified] loadMatchingCandidates呼び出し');
+            alert('[MatchingUnified] データ読み込み開始');
             await loadMatchingCandidates();
+            console.error('[MatchingUnified] loadMatchingCandidates完了');
         } catch (error) {
             console.error('[MatchingUnified] 初期化エラー:', error);
+            alert('[MatchingUnified] エラー: ' + error.message);
             showErrorMessage('初期化エラーが発生しました。ページを再読み込みしてください。');
         }
     }
@@ -460,10 +476,13 @@
 
     // マッチング候補の読み込み
     async function loadMatchingCandidates() {
+        console.error('[MatchingUnified] ========== loadMatchingCandidates開始 ==========');
+        alert('[MatchingUnified] loadMatchingCandidates実行');
         try {
-            // console.log('[MatchingUnified] マッチング候補読み込み開始');
+            console.error('[MatchingUnified] マッチング候補読み込み開始');
             
             const container = document.getElementById('matching-container');
+            console.error('[MatchingUnified] container取得:', container ? 'OK' : 'NG');
             if (!container) {
                 console.error('[MatchingUnified] matching-containerが見つかりません');
                 return;
@@ -524,13 +543,15 @@
                 console.log('[MatchingUnified] テーブルアクセステスト成功');
             }
             
+            console.error('[MatchingUnified] メインクエリ実行前');
             const { data: allUsers, error } = await window.supabaseClient
                 .from('user_profiles')
                 .select(selectColumns)
                 .limit(200); // パフォーマンス対策: 最大200件に制限
             
-            console.log('[MatchingUnified] クエリ実行結果 - データ件数:', allUsers?.length || 0, 'エラー:', error);
-            console.log('[MatchingUnified] 取得データサンプル:', allUsers?.[0]);
+            console.error('[MatchingUnified] クエリ実行結果 - データ件数:', allUsers?.length || 0, 'エラー:', error);
+            console.error('[MatchingUnified] 取得データサンプル:', allUsers?.[0]);
+            alert('[MatchingUnified] データ取得: ' + (allUsers?.length || 0) + '件');
             
             if (error) {
                 console.error('[MatchingUnified] ユーザー取得エラー詳細:', {
@@ -2646,20 +2667,31 @@
     }
 
     // 初期化実行（Supabase初期化を待つ）
+    console.error('[MatchingUnified] ========== 最終初期化セクション ==========');
+    console.error('[MatchingUnified] document.readyState:', document.readyState);
+    alert('[MatchingUnified] 初期化準備: ' + document.readyState);
+    
     if (document.readyState === 'loading') {
+        console.error('[MatchingUnified] DOMContentLoadedを待機');
         document.addEventListener('DOMContentLoaded', () => {
+            console.error('[MatchingUnified] DOMContentLoaded発火');
             // Supabase初期化完了を待つ
             if (window.supabaseClient) {
+                console.error('[MatchingUnified] supabaseClient存在 - initialize呼び出し');
                 initialize();
             } else {
+                console.error('[MatchingUnified] supabaseClient未存在 - supabaseReadyを待機');
                 window.addEventListener('supabaseReady', initialize, { once: true });
             }
         });
     } else {
+        console.error('[MatchingUnified] DOM既に読み込み済み');
         // 既にDOMが読み込まれている場合
         if (window.supabaseClient) {
+            console.error('[MatchingUnified] supabaseClient存在 - initialize呼び出し');
             initialize();
         } else {
+            console.error('[MatchingUnified] supabaseClient未存在 - supabaseReadyを待機');
             window.addEventListener('supabaseReady', initialize, { once: true });
         }
     }
