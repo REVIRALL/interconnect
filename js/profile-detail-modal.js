@@ -368,7 +368,10 @@
                     if (card) {
                         const profileId = card.dataset.profileId || card.getAttribute('data-profile-id');
                         if (profileId) {
-                            await this.show(profileId);
+                            // カードからmatchScoreを取得
+                            const scoreElement = card.querySelector('.matching-score');
+                            const matchScore = scoreElement ? parseInt(scoreElement.textContent) : null;
+                            await this.show(profileId, matchScore);
                         }
                     }
                 }
@@ -382,11 +385,12 @@
             });
         }
         
-        async show(profileId) {
+        async show(profileId, passedMatchScore = null) {
             if (this.isLoading) return;
             
             this.isLoading = true;
             this.currentProfileId = profileId;
+            this.passedMatchScore = passedMatchScore; // 渡されたスコアを保存
             
             // モーダルを作成
             this.createModal();
@@ -418,11 +422,23 @@
                     // console.log('[ProfileDetailModal] meeting_minutesテーブルは存在しません');
                 }
                 
-                // マッチングスコアを計算
+                // マッチングスコアを取得（既に計算済みのものを優先）
                 let matchingScore = 50;
-                if (window.matchingScoreFix && this.currentUserProfile) {
+                
+                // 1. 渡されたスコアを最優先で使用
+                if (this.passedMatchScore !== null && this.passedMatchScore !== undefined) {
+                    matchingScore = this.passedMatchScore;
+                } 
+                // 2. profile自体にmatchScoreがあれば使用
+                else if (profile.matchScore !== undefined && profile.matchScore !== null) {
+                    matchingScore = profile.matchScore;
+                } 
+                // 3. フォールバック：再計算が必要な場合
+                else if (window.matchingScoreFix && this.currentUserProfile) {
                     matchingScore = await window.matchingScoreFix.calculateScore(profile, this.currentUserProfile);
-                } else if (profile.matchingScore) {
+                } 
+                // 4. 旧フィールド名のフォールバック
+                else if (profile.matchingScore) {
                     matchingScore = profile.matchingScore;
                 }
                 

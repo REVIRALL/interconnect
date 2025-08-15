@@ -943,6 +943,12 @@ window.__matchingUnifiedLoaded = true;
                 
                 let score = 0;
                 const reasons = [];
+                
+                // データが不足している場合のフォールバック処理
+                const hasMinimalData = (!user.skills || user.skills.length === 0) && 
+                                      (!user.interests || user.interests.length === 0) && 
+                                      !user.industry && 
+                                      (!user.business_challenges || user.business_challenges.length === 0);
 
                 // 補完性スコアを最重要視（最大50点）
                 score += (complementarity.totalScore * 0.5);
@@ -1012,9 +1018,18 @@ window.__matchingUnifiedLoaded = true;
                     reasons.push(`同じ地域: ${user.location}`);
                 }
 
-                // スコアを0-100に正規化
-                user.matchScore = Math.min(Math.round(score), 100);
-                user.matchReasons = reasons;
+                // データが不足している場合は、ユーザーIDベースのスコアを使用
+                if (hasMinimalData) {
+                    // ユーザーIDから一意のスコアを生成（フォールバック）
+                    const hashScore = generateConsistentScore(user.id);
+                    user.matchScore = Math.min(Math.max(hashScore, 30), 95); // 30-95の範囲
+                    user.matchReasons = ['プロフィール情報が限定的です'];
+                } else {
+                    // スコアを0-100に正規化
+                    user.matchScore = Math.min(Math.round(score), 100);
+                    user.matchReasons = reasons;
+                }
+                
                 user.complementarityScore = complementarity; // 補完性スコアを保存
 
                 return user;
@@ -1146,7 +1161,7 @@ window.__matchingUnifiedLoaded = true;
     function createMatchingCard(user) {
         console.log('[MatchingUnified] createMatchingCard呼び出し。ユーザー:', user.name || user.email);
         console.log('[MatchingUnified] ユーザーデータ全体:', JSON.stringify(user, null, 2));
-        // スコアが未設定の場合は、ユーザーIDベースの疑似ランダム値を生成（一貫性を保つ）
+        // matchScoreは既に計算済みなので、そのまま使用（フォールバック付き）
         const matchScore = user.matchScore || generateConsistentScore(user.id);
         // スキルデータの処理（配列または文字列）
         let skillsArray = [];
