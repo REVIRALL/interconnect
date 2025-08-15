@@ -1622,9 +1622,9 @@ window.__matchingUnifiedLoaded = true;
                     </div>
                     <div class="modal-body">
                         <p>相手に送るメッセージを入力してください（任意）</p>
-                        <textarea id="connect-message" rows="4" placeholder="はじめまして。ぜひコネクトさせていただければと思います。" maxlength="500"></textarea>
+                        <textarea id="connect-message" rows="4" placeholder="はじめまして。ぜひコネクトさせていただければと思います。" maxlength="200"></textarea>
                         <div style="text-align: right; color: #999; font-size: 12px; margin-top: 5px;">
-                            <span id="char-count">0</span> / 500
+                            <span id="char-count">0</span> / 200
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -1636,11 +1636,26 @@ window.__matchingUnifiedLoaded = true;
 
             document.body.appendChild(modal);
 
-            // 文字数カウンター機能
+            // 文字数カウンター機能と制限
             const textarea = modal.querySelector('#connect-message');
             const charCount = modal.querySelector('#char-count');
+            const maxLength = 200;
+            
             textarea.addEventListener('input', () => {
+                // 文字数制限を強制
+                if (textarea.value.length > maxLength) {
+                    textarea.value = textarea.value.substring(0, maxLength);
+                }
                 charCount.textContent = textarea.value.length;
+                
+                // 文字数に応じて色を変更
+                if (textarea.value.length >= maxLength * 0.9) {
+                    charCount.style.color = '#e74c3c';
+                } else if (textarea.value.length >= maxLength * 0.7) {
+                    charCount.style.color = '#f39c12';
+                } else {
+                    charCount.style.color = '#999';
+                }
             });
 
             // イベントリスナー（once: trueで重複防止）

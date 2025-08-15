@@ -24,6 +24,14 @@
             };
             this.init();
         }
+        
+        // HTMLエスケープ処理（XSS対策）
+        escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
 
         async init() {
             try {
@@ -76,6 +84,37 @@
                     this.sortConnections(e.target.value);
                 });
             }
+            
+            // アクションボタンのイベント委譲（CSRF対策）
+            document.addEventListener('click', (e) => {
+                const btn = e.target.closest('button[data-action]');
+                if (!btn) return;
+                
+                const action = btn.dataset.action;
+                switch(action) {
+                    case 'accept':
+                        this.acceptConnection(btn.dataset.connectionId, btn.dataset.userId, btn.dataset.userName);
+                        break;
+                    case 'reject':
+                        this.rejectConnection(btn.dataset.connectionId, btn.dataset.userId, btn.dataset.userName);
+                        break;
+                    case 'cancel':
+                        this.cancelConnection(btn.dataset.connectionId);
+                        break;
+                    case 'view-profile':
+                        window.location.href = `profile.html?id=${btn.dataset.userId}`;
+                        break;
+                    case 'message':
+                        window.location.href = `messages.html?to=${btn.dataset.userId}`;
+                        break;
+                    case 'remove':
+                        this.removeConnection(btn.dataset.connectionId, btn.dataset.userId, btn.dataset.userName);
+                        break;
+                    case 'reaccept':
+                        this.reacceptConnection(btn.dataset.connectionId, btn.dataset.userId, btn.dataset.userName);
+                        break;
+                }
+            });
         }
 
         switchTab(tabName) {
@@ -255,19 +294,19 @@
                              alt="${user.name}" 
                              class="connection-avatar">
                         <div class="connection-info">
-                            <div class="connection-name">${user.name || '名前未設定'}</div>
-                            <div class="connection-company">${user.company || ''} ${user.position || ''}</div>
-                            ${conn.message ? `<div class="connection-message">${conn.message}</div>` : ''}
+                            <div class="connection-name">${this.escapeHtml(user.name || '名前未設定')}</div>
+                            <div class="connection-company">${this.escapeHtml(user.company || '')} ${this.escapeHtml(user.position || '')}</div>
+                            ${conn.message ? `<div class="connection-message">${this.escapeHtml(conn.message)}</div>` : ''}
                             <div class="connection-time">${this.formatDate(conn.created_at)}</div>
                         </div>
                         <div class="connection-actions">
-                            <button class="btn-accept" onclick="connectionsManager.acceptConnection('${conn.id}', '${user.id}', '${user.name}')">
+                            <button class="btn-accept" data-action="accept" data-connection-id="${conn.id}" data-user-id="${user.id}" data-user-name="${this.escapeHtml(user.name)}">
                                 <i class="fas fa-check"></i> 承認
                             </button>
-                            <button class="btn-reject" onclick="connectionsManager.rejectConnection('${conn.id}', '${user.id}', '${user.name}')">
+                            <button class="btn-reject" data-action="reject" data-connection-id="${conn.id}" data-user-id="${user.id}" data-user-name="${this.escapeHtml(user.name)}">
                                 <i class="fas fa-times"></i> 拒否
                             </button>
-                            <button class="btn-view-profile" onclick="window.location.href='profile.html?id=${user.id}'">
+                            <button class="btn-view-profile" data-action="view-profile" data-user-id="${user.id}">
                                 <i class="fas fa-user"></i> プロフィール
                             </button>
                         </div>
@@ -304,16 +343,16 @@
                              alt="${user.name}" 
                              class="connection-avatar">
                         <div class="connection-info">
-                            <div class="connection-name">${user.name || '名前未設定'}</div>
-                            <div class="connection-company">${user.company || ''} ${user.position || ''}</div>
-                            ${conn.message ? `<div class="connection-message">送信メッセージ: ${conn.message}</div>` : ''}
+                            <div class="connection-name">${this.escapeHtml(user.name || '名前未設定')}</div>
+                            <div class="connection-company">${this.escapeHtml(user.company || '')} ${this.escapeHtml(user.position || '')}</div>
+                            ${conn.message ? `<div class="connection-message">送信メッセージ: ${this.escapeHtml(conn.message)}</div>` : ''}
                             <div class="connection-time">申請日: ${this.formatDate(conn.created_at)}</div>
                         </div>
                         <div class="connection-actions">
-                            <button class="btn-cancel" onclick="connectionsManager.cancelConnection('${conn.id}')">
+                            <button class="btn-cancel" data-action="cancel" data-connection-id="${conn.id}">
                                 <i class="fas fa-ban"></i> 取り消し
                             </button>
-                            <button class="btn-view-profile" onclick="window.location.href='profile.html?id=${user.id}'">
+                            <button class="btn-view-profile" data-action="view-profile" data-user-id="${user.id}">
                                 <i class="fas fa-user"></i> プロフィール
                             </button>
                         </div>
@@ -348,8 +387,8 @@
                              alt="${user.name}" 
                              class="connection-avatar">
                         <div class="connection-info">
-                            <div class="connection-name">${user.name || '名前未設定'}</div>
-                            <div class="connection-company">${user.company || ''} ${user.position || ''}</div>
+                            <div class="connection-name">${this.escapeHtml(user.name || '名前未設定')}</div>
+                            <div class="connection-company">${this.escapeHtml(user.company || '')} ${this.escapeHtml(user.position || '')}</div>
                             <div class="contact-info-card">
                                 <div class="contact-info-item">
                                     <i class="fas fa-envelope"></i>
@@ -371,11 +410,14 @@
                             <div class="connection-time">コネクト日: ${this.formatDate(conn.updated_at)}</div>
                         </div>
                         <div class="connection-actions">
-                            <button class="btn-message" onclick="window.location.href='messages.html?to=${user.id}'">
+                            <button class="btn-message" data-action="message" data-user-id="${user.id}">
                                 <i class="fas fa-envelope"></i> メッセージ
                             </button>
-                            <button class="btn-view-profile" onclick="window.location.href='profile.html?id=${user.id}'">
+                            <button class="btn-view-profile" data-action="view-profile" data-user-id="${user.id}">
                                 <i class="fas fa-user"></i> プロフィール
+                            </button>
+                            <button class="btn-remove" data-action="remove" data-connection-id="${conn.id}" data-user-id="${user.id}" data-user-name="${this.escapeHtml(user.name)}">
+                                <i class="fas fa-user-slash"></i> 削除
                             </button>
                         </div>
                     </div>
@@ -406,15 +448,20 @@
                              alt="${user.name}" 
                              class="connection-avatar" style="filter: grayscale(100%);">
                         <div class="connection-info">
-                            <div class="connection-name">${user.name || '名前未設定'}</div>
-                            <div class="connection-company">${user.company || ''} ${user.position || ''}</div>
+                            <div class="connection-name">${this.escapeHtml(user.name || '名前未設定')}</div>
+                            <div class="connection-company">${this.escapeHtml(user.company || '')} ${this.escapeHtml(user.position || '')}</div>
                             <div class="connection-time">
                                 ${isSentByMe ? '申請を拒否されました' : '申請を拒否しました'}: 
                                 ${this.formatDate(conn.updated_at)}
                             </div>
                         </div>
                         <div class="connection-actions">
-                            <button class="btn-view-profile" onclick="window.location.href='profile.html?id=${user.id}'">
+                            ${!isSentByMe ? `
+                                <button class="btn-reaccept" data-action="reaccept" data-connection-id="${conn.id}" data-user-id="${user.id}" data-user-name="${this.escapeHtml(user.name)}">
+                                    <i class="fas fa-redo"></i> 再承認
+                                </button>
+                            ` : ''}
+                            <button class="btn-view-profile" data-action="view-profile" data-user-id="${user.id}">
                                 <i class="fas fa-user"></i> プロフィール
                             </button>
                         </div>
@@ -533,6 +580,86 @@
                 console.error('[ConnectionsManager] 取り消しエラー:', error);
                 if (window.showToast) {
                     window.showToast('取り消しに失敗しました', 'error');
+                }
+            }
+        }
+        
+        async removeConnection(connectionId, userId, userName) {
+            // 確認ダイアログ
+            if (!confirm(`${userName}さんとのコネクションを削除しますか？\nこの操作は取り消せません。`)) {
+                return;
+            }
+            
+            try {
+                // コネクションを削除（statusをremovedに更新）
+                const { error } = await window.supabaseClient
+                    .from('connections')
+                    .update({
+                        status: 'removed',
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('id', connectionId);
+
+                if (error) throw error;
+
+                // UI更新
+                await this.loadAllConnections();
+                
+                // 情報メッセージ
+                if (window.showToast) {
+                    window.showToast(`${userName}さんとのコネクションを削除しました`, 'info');
+                }
+
+            } catch (error) {
+                console.error('[ConnectionsManager] 削除エラー:', error);
+                if (window.showToast) {
+                    window.showToast('削除に失敗しました', 'error');
+                }
+            }
+        }
+        
+        async reacceptConnection(connectionId, userId, userName) {
+            // 確認ダイアログ
+            if (!confirm(`${userName}さんのコネクト申請を再承認しますか？`)) {
+                return;
+            }
+            
+            try {
+                // コネクションを再承認（statusをacceptedに更新）
+                const { error } = await window.supabaseClient
+                    .from('connections')
+                    .update({
+                        status: 'accepted',
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('id', connectionId);
+
+                if (error) throw error;
+                
+                // 承認通知を送信
+                await window.supabaseClient
+                    .from('notifications')
+                    .insert({
+                        user_id: userId,
+                        type: 'connection_reaccepted',
+                        title: 'コネクト再承認',
+                        message: `${userName}さんがあなたのコネクト申請を再承認しました`,
+                        related_id: this.currentUserId,
+                        is_read: false
+                    });
+
+                // UI更新
+                await this.loadAllConnections();
+                
+                // 成功メッセージ
+                if (window.showToast) {
+                    window.showToast(`${userName}さんとのコネクトを再承認しました！`, 'success');
+                }
+
+            } catch (error) {
+                console.error('[ConnectionsManager] 再承認エラー:', error);
+                if (window.showToast) {
+                    window.showToast('再承認に失敗しました', 'error');
                 }
             }
         }
