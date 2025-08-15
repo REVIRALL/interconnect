@@ -1520,10 +1520,18 @@ window.__matchingUnifiedLoaded = true;
         document.addEventListener('keydown', handleEsc);
     }
 
-    // コネクト申請送信
-    async function sendConnectRequest(recipientId) {
+    // コネクト申請送信（メッセージ付き）
+    async function sendConnectRequest(recipientId, message = null) {
         try {
-            // console.log('[MatchingUnified] コネクト申請送信:', recipientId);
+            // メッセージがない場合は入力モーダルを表示
+            if (!message) {
+                const inputMessage = await showConnectMessageModal(recipientId);
+                if (inputMessage === null) {
+                    // キャンセルされた
+                    return;
+                }
+                message = inputMessage;
+            }
             
             // 既存のコネクトを確認（シンプルなクエリに変更）
             const { data: allConnections } = await window.supabaseClient
@@ -1560,7 +1568,8 @@ window.__matchingUnifiedLoaded = true;
                 .insert({
                     user_id: currentUserId,
                     connected_user_id: recipientId,
-                    status: 'pending'
+                    status: 'pending',
+                    message: message || null
                 });
 
             if (insertError) {
@@ -1592,8 +1601,8 @@ window.__matchingUnifiedLoaded = true;
         }
     }
 
-    // メッセージ入力モーダル
-    function showMessageModal() {
+    // コネクト申請メッセージ入力モーダル
+    function showConnectMessageModal(recipientId) {
         return new Promise((resolve) => {
             // 既存のモーダルがあれば削除
             const existingModal = document.querySelector('.message-modal');
@@ -1613,7 +1622,10 @@ window.__matchingUnifiedLoaded = true;
                     </div>
                     <div class="modal-body">
                         <p>相手に送るメッセージを入力してください（任意）</p>
-                        <textarea id="connect-message" rows="4" placeholder="はじめまして。ぜひコネクトさせていただければと思います。"></textarea>
+                        <textarea id="connect-message" rows="4" placeholder="はじめまして。ぜひコネクトさせていただければと思います。" maxlength="500"></textarea>
+                        <div style="text-align: right; color: #999; font-size: 12px; margin-top: 5px;">
+                            <span id="char-count">0</span> / 500
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary">キャンセル</button>
@@ -1623,6 +1635,13 @@ window.__matchingUnifiedLoaded = true;
             `;
 
             document.body.appendChild(modal);
+
+            // 文字数カウンター機能
+            const textarea = modal.querySelector('#connect-message');
+            const charCount = modal.querySelector('#char-count');
+            textarea.addEventListener('input', () => {
+                charCount.textContent = textarea.value.length;
+            });
 
             // イベントリスナー（once: trueで重複防止）
             modal.querySelector('#send-connect-btn').addEventListener('click', () => {
