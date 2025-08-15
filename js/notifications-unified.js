@@ -86,6 +86,7 @@
     // 通知の読み込み
     async function loadNotifications() {
         try {
+            // 通知を取得
             const { data, error } = await window.supabaseClient
                 .from('notifications')
                 .select('*')
@@ -95,10 +96,60 @@
             if (error) throw error;
 
             notifications = data || [];
+            
+            // コネクション申請も取得して通知に追加
+            await loadConnectionRequests();
+            
             displayNotifications();
 
         } catch (error) {
             console.error('[NotificationsUnified] 通知読み込みエラー:', error);
+        }
+    }
+
+    // コネクション申請を通知として追加
+    async function loadConnectionRequests() {
+        try {
+            // 承認待ちのコネクション申請を取得
+            const { data: pendingConnections } = await window.supabaseClient
+                .from('connections')
+                .select(`
+                    *,
+                    sender:user_id(
+                        id,
+                        name,
+                        avatar_url,
+                        company
+                    )
+                `)
+                .eq('connected_user_id', currentUserId)
+                .eq('status', 'pending')
+                .order('created_at', { ascending: false });
+
+            if (pendingConnections && pendingConnections.length > 0) {
+                // コネクション申請を通知形式に変換
+                const connectionNotifications = pendingConnections.map(conn => ({
+                    id: `conn_${conn.id}`,
+                    user_id: currentUserId,
+                    type: 'connection_request',
+                    title: 'コネクト申請',
+                    message: `${conn.sender.name}さんからコネクト申請が届いています`,
+                    related_id: conn.user_id,
+                    is_read: false,
+                    created_at: conn.created_at,
+                    connection_data: conn,
+                    actions: {
+                        accept: true,
+                        reject: true,
+                        view_profile: true
+                    }
+                }));
+
+                // 通知リストに追加
+                notifications = [...connectionNotifications, ...notifications];
+            }
+        } catch (error) {
+            console.error('[NotificationsUnified] コネクション申請読み込みエラー:', error);
         }
     }
 

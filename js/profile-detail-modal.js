@@ -824,19 +824,26 @@
                     return;
                 }
                 
-                // 既存のコネクションをチェック
-                const { data: existing } = await window.supabaseClient
+                // 既存のコネクションをチェック（双方向）
+                const { data: existingConnections } = await window.supabaseClient
                     .from('connections')
                     .select('*')
-                    .eq('user_id', user.id)
-                    .eq('connected_user_id', profileId)
-                    .single();
+                    .or(`and(user_id.eq.${user.id},connected_user_id.eq.${profileId}),and(user_id.eq.${profileId},connected_user_id.eq.${user.id})`);
                 
-                if (existing) {
-                    if (window.showToast) {
-                        window.showToast('既にコネクト申請済みです', 'info');
-                    } else {
-                        console.info('[ProfileDetailModal] 既にコネクト申請済みです');
+                if (existingConnections && existingConnections.length > 0) {
+                    const existing = existingConnections[0];
+                    if (existing.status === 'pending') {
+                        if (window.showToast) {
+                            window.showToast('既にコネクト申請が存在します', 'info');
+                        }
+                    } else if (existing.status === 'accepted') {
+                        if (window.showToast) {
+                            window.showToast('既にコネクト済みです', 'info');
+                        }
+                    } else if (existing.status === 'rejected') {
+                        if (window.showToast) {
+                            window.showToast('以前の申請が拒否されています', 'warning');
+                        }
                     }
                     return;
                 }
