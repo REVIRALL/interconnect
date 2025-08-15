@@ -598,44 +598,11 @@ window.__matchingUnifiedLoaded = true;
             })) : [];
             
             console.log('[MatchingUnified] 取得したユーザー数:', users.length);
+            console.log('[MatchingUnified] フィルタリング後のusers配列:', JSON.stringify(users, null, 2));
             
             if (!users || users.length === 0) {
-                console.warn('[MatchingUnified] データが取得できないため、仮データを作成');
-                // 仮データを作成（デバッグ用）
-                users = [
-                    {
-                        id: 'test-user-1',
-                        name: '田中 太郎',
-                        email: 'tanaka@example.com',
-                        company: '株式会社テスト',
-                        position: 'エンジニア',
-                        title: 'エンジニア',
-                        skills: ['JavaScript', 'React', 'Node.js'],
-                        interests: ['Web開発', 'AI'],
-                        business_challenges: ['スケーラビリティ'],
-                        avatar_url: '',
-                        picture_url: '',
-                        bio: 'フロントエンド開発に10年携わっています',
-                        industry: 'IT',
-                        last_login: new Date().toISOString()
-                    },
-                    {
-                        id: 'test-user-2',
-                        name: '佐藤 花子',
-                        email: 'sato@example.com',
-                        company: 'デザイン株式会社',
-                        position: 'デザイナー',
-                        title: 'デザイナー',
-                        skills: ['UI/UX', 'Figma', 'Photoshop'],
-                        interests: ['デザイン', 'ブランディング'],
-                        business_challenges: ['ユーザビリティ'],
-                        avatar_url: '',
-                        picture_url: '',
-                        bio: 'UIデザインのスペシャリストです',
-                        industry: 'デザイン',
-                        last_login: new Date().toISOString()
-                    }
-                ];
+                console.warn('[MatchingUnified] マッチング候補が見つかりません');
+                // ダミーデータは使用しない
             }
             
             // 各ユーザーのコネクションステータスを取得（user_profilesではidカラムを使用）
