@@ -17,10 +17,27 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/buttons.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/dashboard-states.css">
+    <!-- ログアウトボタンUI修正 -->
+    <link rel="stylesheet" href="css/logout-button-fix.css">
     <link rel="stylesheet" href="css/notifications.css">
+    <link rel="stylesheet" href="css/realtime-notifications.css">
     <link rel="stylesheet" href="css/connections.css">
     <link rel="stylesheet" href="css/responsive-menu.css">
     <link rel="stylesheet" href="css/user-menu-zindex-only.css">
+    <!-- ヘッダーユーザーメニューのリデザイン -->
+    <link rel="stylesheet" href="css/header-user-menu-redesign.css">
+    <!-- CSS競合修正 -->
+    <link rel="stylesheet" href="css/css-conflict-fix.css">
+    <link rel="stylesheet" href="css/responsive-complete.css">
+    <!-- サイドバーレスポンシブ統一修正 -->
+    <link rel="stylesheet" href="css/sidebar-responsive-fix.css">
+    <!-- z-index優先順位管理 -->
+    <link rel="stylesheet" href="css/z-index-priority.css">
+    <!-- アバターサイズ統一 -->
+    <link rel="stylesheet" href="css/avatar-size-unified.css">
+    <!-- ヘッダー余白修正 -->
+    <link rel="stylesheet" href="css/header-padding-fix.css">
 </head>
 <body>
     <!-- Mobile Header -->
@@ -129,8 +146,19 @@
                         <div class="notification-wrapper">
                             <button class="notification-btn">
                                 <i class="fas fa-bell"></i>
-                                <span class="notification-badge" style="display: none;">0</span>
                             </button>
+                            <div class="notification-dropdown">
+                                <div class="notification-header">
+                                    <h3>通知</h3>
+                                    <button class="mark-all-read">すべて既読にする</button>
+                                </div>
+                                <div class="notification-list">
+                                    <div class="empty-notifications">
+                                        <i class="fas fa-bell-slash"></i>
+                                        <p>新しい通知はありません</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="user-profile">
                             <img src="assets/default-avatar.svg" alt="User Avatar" class="user-avatar">
@@ -143,6 +171,24 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            
+            <!-- Search and Filter -->
+            <div class="connection-search-filter">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="connectionSearch" placeholder="名前、会社名で検索...">
+                </div>
+                <div class="filter-controls">
+                    <select id="sortBy" class="filter-select">
+                        <option value="date-desc">新しい順</option>
+                        <option value="date-asc">古い順</option>
+                        <option value="name-asc">名前順（昇順）</option>
+                        <option value="name-desc">名前順（降順）</option>
+                        <option value="company-asc">会社名順（昇順）</option>
+                        <option value="company-desc">会社名順（降順）</option>
+                    </select>
                 </div>
             </div>
             

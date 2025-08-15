@@ -15,6 +15,13 @@
                 connected: [],
                 rejected: []
             };
+            this.itemsPerPage = 20; // ページあたりの表示件数
+            this.currentPage = {
+                received: 1,
+                sent: 1,
+                connected: 1,
+                rejected: 1
+            };
             this.init();
         }
 
@@ -53,6 +60,22 @@
                     this.switchTab(e.target.dataset.tab);
                 });
             });
+            
+            // 検索機能
+            const searchInput = document.getElementById('connectionSearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    this.filterConnections(e.target.value);
+                });
+            }
+            
+            // ソート機能
+            const sortSelect = document.getElementById('sortBy');
+            if (sortSelect) {
+                sortSelect.addEventListener('change', (e) => {
+                    this.sortConnections(e.target.value);
+                });
+            }
         }
 
         switchTab(tabName) {
@@ -218,10 +241,16 @@
                 return;
             }
             
-            container.innerHTML = this.connections.received.map(conn => {
+            // ページネーション計算
+            const currentPage = this.currentPage.received || 1;
+            const startIndex = (currentPage - 1) * this.itemsPerPage;
+            const endIndex = startIndex + this.itemsPerPage;
+            const pageItems = this.connections.received.slice(startIndex, endIndex);
+            
+            container.innerHTML = pageItems.map(conn => {
                 const user = conn.sender;
                 return `
-                    <div class="connection-item" data-connection-id="${conn.id}">
+                    <div class="connection-item" data-connection-id="${conn.id}" data-date="${conn.created_at}">
                         <img src="${user.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || 'User')}&background=4A90E2&color=fff`}" 
                              alt="${user.name}" 
                              class="connection-avatar">
@@ -245,6 +274,9 @@
                     </div>
                 `;
             }).join('');
+            
+            // ページネーションを追加
+            container.innerHTML += this.renderPagination('received-pending', this.connections.received.length);
         }
 
         renderSentPending() {
@@ -369,7 +401,7 @@
                 const user = conn.user_id === this.currentUserId ? conn.connected_user : conn.user;
                 const isSentByMe = conn.user_id === this.currentUserId;
                 return `
-                    <div class="connection-item" data-connection-id="${conn.id}">
+                    <div class="connection-item" data-connection-id="${conn.id}" data-date="${conn.updated_at}">
                         <img src="${user.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || 'User')}&background=adb5bd&color=fff`}" 
                              alt="${user.name}" 
                              class="connection-avatar" style="filter: grayscale(100%);">
@@ -392,6 +424,11 @@
         }
 
         async acceptConnection(connectionId, userId, userName) {
+            // 確認ダイアログ
+            if (!confirm(`${userName}さんのコネクト申請を承認しますか？\n承認後は連絡先情報が相手に公開されます。`)) {
+                return;
+            }
+            
             try {
                 // コネクションを承認
                 const { error } = await window.supabaseClient
@@ -433,6 +470,11 @@
         }
 
         async rejectConnection(connectionId, userId, userName) {
+            // 確認ダイアログ
+            if (!confirm(`${userName}さんのコネクト申請を拒否しますか？`)) {
+                return;
+            }
+            
             try {
                 // コネクションを拒否（削除ではなく更新）
                 const { error } = await window.supabaseClient
@@ -462,11 +504,19 @@
         }
 
         async cancelConnection(connectionId) {
+            // 確認ダイアログ
+            if (!confirm('このコネクト申請を取り消しますか？')) {
+                return;
+            }
+            
             try {
-                // 申請を取り消し
+                // 申請を取り消し（削除ではなく更新に変更）
                 const { error } = await window.supabaseClient
                     .from('connections')
-                    .delete()
+                    .update({
+                        status: 'cancelled',
+                        updated_at: new Date().toISOString()
+                    })
                     .eq('id', connectionId);
 
                 if (error) throw error;
@@ -488,7 +538,7 @@
         }
 
         setupRealtimeSubscription() {
-            // リアルタイム更新の購読
+            // リアルタイム更新の購読（双方向の変更を検知）
             this.subscription = window.supabaseClient
                 .channel('connections-changes')
                 .on('postgres_changes', 
@@ -516,6 +566,146 @@
                 .subscribe();
         }
 
+        filterConnections(searchTerm) {
+            const term = searchTerm.toLowerCase();
+            const activeTab = document.querySelector('.tab-content.active').id;
+            
+            // 各タブのアイテムをフィルタリング
+            const items = document.querySelectorAll(`#${activeTab} .connection-item`);
+            items.forEach(item => {
+                const name = item.querySelector('.connection-name')?.textContent.toLowerCase() || '';
+                const company = item.querySelector('.connection-company')?.textContent.toLowerCase() || '';
+                
+                if (name.includes(term) || company.includes(term)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // 結果が0件の場合の表示
+            const visibleItems = document.querySelectorAll(`#${activeTab} .connection-item:not([style*="display: none"])`);
+            const container = document.querySelector(`#${activeTab} .connection-list`);
+            const emptyState = container.querySelector('.empty-state');
+            
+            if (visibleItems.length === 0 && !emptyState) {
+                // 検索結果なしの表示を追加
+                const noResults = document.createElement('div');
+                noResults.className = 'no-search-results';
+                noResults.innerHTML = `
+                    <i class="fas fa-search"></i>
+                    <p>「${searchTerm}」に一致する結果はありません</p>
+                `;
+                container.appendChild(noResults);
+            } else if (visibleItems.length > 0) {
+                // 検索結果なし表示を削除
+                const noResults = container.querySelector('.no-search-results');
+                if (noResults) noResults.remove();
+            }
+        }
+        
+        sortConnections(sortBy) {
+            const activeTab = document.querySelector('.tab-content.active').id;
+            const container = document.querySelector(`#${activeTab} .connection-list`);
+            const items = Array.from(container.querySelectorAll('.connection-item'));
+            
+            items.sort((a, b) => {
+                switch(sortBy) {
+                    case 'date-asc':
+                        return new Date(a.dataset.date || 0) - new Date(b.dataset.date || 0);
+                    case 'date-desc':
+                        return new Date(b.dataset.date || 0) - new Date(a.dataset.date || 0);
+                    case 'name-asc':
+                        const nameA = a.querySelector('.connection-name')?.textContent || '';
+                        const nameB = b.querySelector('.connection-name')?.textContent || '';
+                        return nameA.localeCompare(nameB, 'ja');
+                    case 'name-desc':
+                        const nameC = a.querySelector('.connection-name')?.textContent || '';
+                        const nameD = b.querySelector('.connection-name')?.textContent || '';
+                        return nameD.localeCompare(nameC, 'ja');
+                    case 'company-asc':
+                        const companyA = a.querySelector('.connection-company')?.textContent || '';
+                        const companyB = b.querySelector('.connection-company')?.textContent || '';
+                        return companyA.localeCompare(companyB, 'ja');
+                    case 'company-desc':
+                        const companyC = a.querySelector('.connection-company')?.textContent || '';
+                        const companyD = b.querySelector('.connection-company')?.textContent || '';
+                        return companyD.localeCompare(companyC, 'ja');
+                    default:
+                        return 0;
+                }
+            });
+            
+            // 並べ替えたアイテムを再配置
+            items.forEach(item => container.appendChild(item));
+        }
+        
+        renderPagination(tabId, totalItems) {
+            const totalPages = Math.ceil(totalItems / this.itemsPerPage);
+            const currentPage = this.currentPage[tabId.replace('-pending', '').replace('received', 'received')] || 1;
+            
+            if (totalPages <= 1) return ''; // ページが1つの場合は表示しない
+            
+            let paginationHTML = '<div class="pagination">';
+            
+            // 前へボタン
+            if (currentPage > 1) {
+                paginationHTML += `<button class="page-btn" onclick="connectionsManager.changePage('${tabId}', ${currentPage - 1})">
+                    <i class="fas fa-chevron-left"></i> 前へ
+                </button>`;
+            }
+            
+            // ページ番号
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, currentPage + 2);
+            
+            if (startPage > 1) {
+                paginationHTML += `<button class="page-btn" onclick="connectionsManager.changePage('${tabId}', 1)">1</button>`;
+                if (startPage > 2) paginationHTML += '<span class="page-dots">...</span>';
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHTML += `<button class="page-btn ${i === currentPage ? 'active' : ''}" 
+                    onclick="connectionsManager.changePage('${tabId}', ${i})">${i}</button>`;
+            }
+            
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) paginationHTML += '<span class="page-dots">...</span>';
+                paginationHTML += `<button class="page-btn" onclick="connectionsManager.changePage('${tabId}', ${totalPages})">${totalPages}</button>`;
+            }
+            
+            // 次へボタン
+            if (currentPage < totalPages) {
+                paginationHTML += `<button class="page-btn" onclick="connectionsManager.changePage('${tabId}', ${currentPage + 1})">
+                    次へ <i class="fas fa-chevron-right"></i>
+                </button>`;
+            }
+            
+            paginationHTML += '</div>';
+            return paginationHTML;
+        }
+        
+        changePage(tabId, page) {
+            const key = tabId.replace('-pending', '').replace('received', 'received');
+            this.currentPage[key] = page;
+            
+            // 該当するタブの再レンダリング
+            switch(tabId) {
+                case 'received-pending':
+                    this.renderReceivedPending();
+                    break;
+                case 'sent-pending':
+                    this.renderSentPending();
+                    break;
+                case 'connected':
+                    this.renderConnected();
+                    break;
+                case 'rejected':
+                    this.renderRejected();
+                    break;
+            }
+        }
+        
         formatDate(dateString) {
             const date = new Date(dateString);
             const now = new Date();
