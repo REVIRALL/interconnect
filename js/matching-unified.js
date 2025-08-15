@@ -598,7 +598,7 @@ window.__matchingUnifiedLoaded = true;
             })) : [];
             
             console.log('[MatchingUnified] 取得したユーザー数:', users.length);
-            console.log('[MatchingUnified] フィルタリング後のusers配列:', JSON.stringify(users, null, 2));
+            // console.log('[MatchingUnified] フィルタリング後のusers配列:', JSON.stringify(users, null, 2));
             
             if (!users || users.length === 0) {
                 console.warn('[MatchingUnified] マッチング候補が見つかりません');
@@ -945,7 +945,12 @@ window.__matchingUnifiedLoaded = true;
                 const reasons = [];
                 
                 // データが不足している場合のフォールバック処理
-                const hasMinimalData = (!user.skills || user.skills.length === 0) && 
+                // スキルが基本的なものだけ、または他の重要データが欠けている場合
+                const basicSkillsOnly = user.skills && 
+                    user.skills.length <= 2 && 
+                    user.skills.every(s => ['ビジネス', 'コミュニケーション'].includes(s));
+                
+                const hasMinimalData = (basicSkillsOnly || !user.skills || user.skills.length === 0) && 
                                       (!user.interests || user.interests.length === 0) && 
                                       !user.industry && 
                                       (!user.business_challenges || user.business_challenges.length === 0);
@@ -979,7 +984,16 @@ window.__matchingUnifiedLoaded = true;
                         userSkills.includes(skill)
                     );
                     if (commonSkills.length > 0) {
-                        const skillScore = Math.min((commonSkills.length / Math.max(currentSkills.length, 1)) * 20, 20);
+                        // スキルの多様性も考慮（基本スキルだけの場合は低めのスコア）
+                        const isBasicSkillsOnly = commonSkills.every(s => 
+                            ['ビジネス', 'コミュニケーション'].includes(s)
+                        );
+                        const diversityMultiplier = isBasicSkillsOnly ? 0.5 : 1.0;
+                        
+                        const skillScore = Math.min(
+                            (commonSkills.length / Math.max(currentSkills.length, 1)) * 20 * diversityMultiplier, 
+                            20
+                        );
                         score += skillScore;
                         if (commonSkills.length > 0) {
                             reasons.push(`共通スキル: ${commonSkills.slice(0, 3).join('、')}`);
@@ -1159,8 +1173,7 @@ window.__matchingUnifiedLoaded = true;
 
     // マッチングカードの作成
     function createMatchingCard(user) {
-        console.log('[MatchingUnified] createMatchingCard呼び出し。ユーザー:', user.name || user.email);
-        console.log('[MatchingUnified] ユーザーデータ全体:', JSON.stringify(user, null, 2));
+        // console.log('[MatchingUnified] createMatchingCard呼び出し。ユーザー:', user.name || user.email);
         // matchScoreは既に計算済みなので、そのまま使用（フォールバック付き）
         const matchScore = user.matchScore || generateConsistentScore(user.id);
         // スキルデータの処理（配列または文字列）
