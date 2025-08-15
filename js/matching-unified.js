@@ -941,7 +941,7 @@ window.__matchingUnifiedLoaded = true;
                 // 新しい補完性ベースのスコア計算
                 const complementarity = calculateSkillChallengeMatch(currentUser, user);
                 
-                let score = 0;
+                let score = 25; // 基本スコアを25点からスタート
                 const reasons = [];
                 
                 // データが不足している場合のフォールバック処理
@@ -950,10 +950,10 @@ window.__matchingUnifiedLoaded = true;
                     user.skills.length <= 2 && 
                     user.skills.every(s => ['ビジネス', 'コミュニケーション'].includes(s));
                 
+                // より緩い条件に変更（industryは存在するため、bioやcompanyも考慮）
                 const hasMinimalData = (basicSkillsOnly || !user.skills || user.skills.length === 0) && 
-                                      (!user.interests || user.interests.length === 0) && 
-                                      !user.industry && 
-                                      (!user.business_challenges || user.business_challenges.length === 0);
+                                      (!user.bio || user.bio.length < 20) && 
+                                      (!user.company || user.company === '未設定');
 
                 // 補完性スコアを最重要視（最大50点）
                 score += (complementarity.totalScore * 0.5);
@@ -1021,15 +1021,23 @@ window.__matchingUnifiedLoaded = true;
                 }
 
                 // 業界の一致（最大10点）
-                if (currentUser.industry && user.industry && currentUser.industry === user.industry) {
-                    score += 10;
-                    reasons.push(`同じ業界: ${user.industry}`);
+                if (currentUser.industry && user.industry) {
+                    if (currentUser.industry === user.industry) {
+                        score += 10;
+                        reasons.push(`同じ業界: ${user.industry}`);
+                    } else {
+                        // 異なる業界でも部分点を付与
+                        score += 5;
+                        reasons.push(`異業界交流: ${user.industry}`);
+                    }
                 }
 
-                // 地域の一致（最大5点）
-                if (currentUser.location && user.location && currentUser.location === user.location) {
+                // プロフィール充実度ボーナス（最大10点）
+                if (user.bio && user.bio.length > 50) {
                     score += 5;
-                    reasons.push(`同じ地域: ${user.location}`);
+                }
+                if (user.company && user.company !== '未設定') {
+                    score += 5;
                 }
 
                 // データが不足している場合は、ユーザーIDベースのスコアを使用
