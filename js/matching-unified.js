@@ -1178,6 +1178,7 @@ window.__matchingUnifiedLoaded = true;
     // マッチングカードの作成
     function createMatchingCard(user) {
         console.log('[MatchingUnified] createMatchingCard呼び出し。ユーザー:', user.name || user.email);
+        console.log('[MatchingUnified] ユーザーデータ全体:', JSON.stringify(user, null, 2));
         // スコアが未設定の場合は、ユーザーIDベースの疑似ランダム値を生成（一貫性を保つ）
         const matchScore = user.matchScore || generateConsistentScore(user.id);
         // スキルデータの処理（配列または文字列）

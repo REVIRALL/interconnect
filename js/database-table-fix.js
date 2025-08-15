@@ -26,7 +26,7 @@
                 // console.log('[DatabaseTableFix] activitiesテーブルから取得');
                 
                 // activitiesテーブルから取得（typeがeventのもの）
-                const { count, error } = await window.supabase
+                const { count, error } = await window.supabaseClient
                     .from('activities')
                     .select('*', { count: 'exact', head: true })
                     .eq('type', 'event_completed')
@@ -58,7 +58,7 @@
                 const now = new Date().toISOString();
                 
                 // activitiesテーブルから未来のイベントを取得
-                const { data: activities, error } = await window.supabase
+                const { data: activities, error } = await window.supabaseClientClient
                     .from('activities')
                     .select('*')
                     .eq('type', 'event_upcoming')
@@ -178,7 +178,7 @@
                 // console.log('[DatabaseTableFix] connectionsテーブルから取得');
                 
                 // connectionsテーブルを使用
-                const { count, error } = await window.supabase
+                const { count, error } = await window.supabaseClient
                     .from('connections')
                     .select('*', { count: 'exact', head: true })
                     .gte('created_at', startDate)
@@ -201,7 +201,7 @@
         // getTotalConnectionsも修正
         window.dashboardMatchingCalculator.getTotalConnections = async function() {
             try {
-                const { count, error } = await window.supabase
+                const { count, error } = await window.supabaseClient
                     .from('connections')
                     .select('*', { count: 'exact', head: true })
                     .or('status.eq.accepted,status.eq.success,status.is.null');
