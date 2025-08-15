@@ -375,8 +375,18 @@ window.__matchingUnifiedLoaded = true;
         activeTimers.clear();
     }
 
+    // 初期化フラグ
+    let isInitialized = false;
+
     // 初期化
     async function initialize() {
+        // 重複初期化を防ぐ
+        if (isInitialized) {
+            console.log('[MatchingUnified] 既に初期化済みのためスキップ');
+            return;
+        }
+        isInitialized = true;
+        
         console.log('[MatchingUnified] ========== initialize関数開始 ==========');
 
         try {
@@ -662,14 +672,18 @@ window.__matchingUnifiedLoaded = true;
             
             // マッチングスコアを計算
             matchingUsers = await calculateMatchingScores(users);
+            console.log('[MatchingUnified] マッチングスコア計算後のユーザー数:', matchingUsers.length);
+            console.log('[MatchingUnified] matchingUsers変数の内容:', matchingUsers);
             
             // connectionMapを各ユーザーに追加
             matchingUsers.forEach(user => {
                 user.connectionStatus = connectionMap[user.id] || null;
             });
             
+            console.log('[MatchingUnified] displayMatchingUsers()を呼び出します');
             // 表示
             displayMatchingUsers();
+            console.log('[MatchingUnified] displayMatchingUsers()の呼び出し完了');
             
             // カード内のイベントリスナーを設定
             setupCardEventListeners();
@@ -931,6 +945,7 @@ window.__matchingUnifiedLoaded = true;
     
     // マッチングスコアの計算
     async function calculateMatchingScores(users) {
+        console.log('[MatchingUnified] calculateMatchingScores関数が呼ばれました。ユーザー数:', users.length);
         try {
             // 現在のユーザーのプロフィール取得（自分のデータのみ）
             console.log('[MatchingUnified] calculateMatchingScores - 現在のユーザー情報取得');
@@ -955,7 +970,7 @@ window.__matchingUnifiedLoaded = true;
             if (!currentUser) return users;
 
             // 各ユーザーのスコアを計算
-            return users.map(user => {
+            const scoredUsers = users.map(user => {
                 // 新しい補完性ベースのスコア計算
                 const complementarity = calculateSkillChallengeMatch(currentUser, user);
                 
@@ -1037,6 +1052,9 @@ window.__matchingUnifiedLoaded = true;
 
                 return user;
             });
+            
+            console.log('[MatchingUnified] calculateMatchingScores完了。処理済みユーザー数:', scoredUsers.length);
+            return scoredUsers;
 
         } catch (error) {
             console.log('[MatchingUnified] スコア計算エラー:', error);
@@ -1058,7 +1076,8 @@ window.__matchingUnifiedLoaded = true;
 
     // マッチングユーザーの表示
     function displayMatchingUsers() {
-        // console.log('[MatchingUnified] displayMatchingUsers開始, ユーザー数:', matchingUsers.length);
+        console.log('[MatchingUnified] displayMatchingUsers関数が実行されました');
+        console.log('[MatchingUnified] displayMatchingUsers開始, ユーザー数:', matchingUsers.length);
         const container = document.getElementById('matching-container');
         if (!container) {
             console.log('[MatchingUnified] matching-containerが見つかりません');
@@ -1099,11 +1118,15 @@ window.__matchingUnifiedLoaded = true;
         const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
 
         // マッチングカードの生成
-        container.innerHTML = `
+        console.log('[MatchingUnified] HTMLを生成します。ユーザー数:', paginatedUsers.length);
+        const html = `
             <div class="matching-grid">
                 ${paginatedUsers.map(user => createMatchingCard(user)).join('')}
             </div>
         `;
+        console.log('[MatchingUnified] 生成されたHTML長さ:', html.length);
+        container.innerHTML = html;
+        console.log('[MatchingUnified] HTMLをcontainerに設定しました');
 
         // ページネーションUI更新
         updatePagination(filteredUsers.length);
@@ -1154,6 +1177,7 @@ window.__matchingUnifiedLoaded = true;
 
     // マッチングカードの作成
     function createMatchingCard(user) {
+        console.log('[MatchingUnified] createMatchingCard呼び出し。ユーザー:', user.name || user.email);
         // スコアが未設定の場合は、ユーザーIDベースの疑似ランダム値を生成（一貫性を保つ）
         const matchScore = user.matchScore || generateConsistentScore(user.id);
         // スキルデータの処理（配列または文字列）
@@ -2663,7 +2687,6 @@ window.__matchingUnifiedLoaded = true;
     // 初期化実行（Supabase初期化を待つ）
     console.log('[MatchingUnified] ========== 最終初期化セクション ==========');
     console.log('[MatchingUnified] document.readyState:', document.readyState);
-    alert('[MatchingUnified] 初期化準備: ' + document.readyState);
     
     if (document.readyState === 'loading') {
         console.log('[MatchingUnified] DOMContentLoadedを待機');

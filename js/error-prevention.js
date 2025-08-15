@@ -8,12 +8,12 @@
 
     // グローバルエラーハンドラー
     window.addEventListener('error', function(event) {
-        console.error('Global error caught:', event.error);
-        console.error('Error message:', event.message);
-        console.error('Error filename:', event.filename);
-        console.error('Error line:', event.lineno);
-        console.error('Error column:', event.colno);
-        console.error('Full event:', event);
+        // 404エラーなど無害なエラーはスキップ
+        if (event.message && event.message.includes('404')) {
+            event.preventDefault();
+            return;
+        }
+        console.error('Global error:', event.message, 'at', event.filename + ':' + event.lineno);
         // エラーを記録するが、ユーザーには表示しない
         event.preventDefault();
     });
