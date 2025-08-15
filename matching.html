@@ -323,14 +323,11 @@
     <!-- Supabase統一初期化（最優先で読み込む） -->
     <script src="js/supabase-unified.js?v=1.1"></script>
     
-    <!-- Service Workerログフィルター -->
-    <script src="js/service-worker-filter.js"></script>
-    <!-- コンソール履歴管理 -->
-    <script src="js/console-history-logger.js"></script>
-    <!-- 重複実行警告の抑制 -->
-    <script src="js/suppress-duplicate-warnings.js"></script>
-    <!-- 関数実行トラッカー -->
-    <script src="js/function-execution-tracker.js"></script>
+    <!-- デバッグツール無効化（ログを隠している原因） -->
+    <!-- <script src="js/service-worker-filter.js"></script> -->
+    <!-- <script src="js/console-history-logger.js"></script> -->
+    <!-- <script src="js/suppress-duplicate-warnings.js"></script> -->
+    <!-- <script src="js/function-execution-tracker.js"></script> -->
     <!-- 統一通知システム -->
     <script src="js/notification-system-unified.js"></script>
     <!-- Supabase参照修正（不要になったため無効化） -->
@@ -348,19 +345,19 @@
     
     <!-- デバッグ: matching-unified.jsの読み込み前確認 -->
     <script>
-        window.console.warn('[HTML] matching-unified.js読み込み前');
+        console.log('[HTML] matching-unified.js読み込み前');
     </script>
     
     <!-- マッチングシステム統合JavaScript（47ファイルを1つに統合） -->
-    <script src="js/matching-unified.js?v=12.0"></script>
+    <script src="js/matching-unified.js?v=13.0"></script>
     
     <!-- デバッグ: matching-unified.jsの読み込み後確認 -->
     <script>
-        window.console.warn('[HTML] matching-unified.js読み込み後');
+        console.log('[HTML] matching-unified.js読み込み後');
         if (window.__matchingUnifiedLoaded) {
-            window.console.warn('[HTML] matching-unified.jsが正常に読み込まれました');
+            console.log('[HTML] matching-unified.jsが正常に読み込まれました');
         } else {
-            window.console.warn('[HTML] matching-unified.jsの読み込みに失敗');
+            console.error('[HTML] matching-unified.jsの読み込みに失敗');
         }
     </script>
     
