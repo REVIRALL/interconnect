@@ -10,8 +10,7 @@
  */
 
 // 即座に実行（IIFEの外で実行）
-console.error('[MatchingUnified-TOP] ファイル読み込み開始');
-alert('[MatchingUnified-TOP] matching-unified.js読み込み');
+window.console.warn('[MatchingUnified-TOP] ファイル読み込み開始');
 window.__matchingUnifiedLoaded = true;
 
 (function() {
@@ -19,41 +18,35 @@ window.__matchingUnifiedLoaded = true;
 
     // 即座に実行を確認
     window.__matchingUnifiedExecuted = true;
-    console.error('[MatchingUnified] ========== スクリプト開始 ==========');
-    alert('[MatchingUnified] スクリプトが実行されました');
+    window.console.warn('[MatchingUnified] ========== スクリプト開始 ==========');
     
     // Supabaseの準備ができていない場合は待機
     if (!window.waitForSupabase || !window.supabaseClient) {
-        console.error('[MatchingUnified] Supabaseの初期化を待機中...');
-        alert('[MatchingUnified] Supabaseの初期化を待機中');
+        window.console.warn('[MatchingUnified] Supabaseの初期化を待機中...');
         const retryCount = { count: 0, maxRetries: 50 };
         const retryInterval = setInterval(() => {
             retryCount.count++;
             if (window.waitForSupabase && window.supabaseClient) {
                 clearInterval(retryInterval);
-                console.error('[MatchingUnified] Supabaseが準備できました。初期化を開始します。');
-                alert('[MatchingUnified] Supabase準備完了');
+                window.console.warn('[MatchingUnified] Supabaseが準備できました。初期化を開始します。');
                 initializeMatchingSystem();
             } else if (retryCount.count >= retryCount.maxRetries) {
                 clearInterval(retryInterval);
-                console.error('[MatchingUnified] Supabaseの初期化がタイムアウトしました');
-                alert('[MatchingUnified] Supabaseタイムアウト');
+                window.console.warn('[MatchingUnified] Supabaseの初期化がタイムアウトしました');
             }
         }, 100);
         return;
     }
     
     // 即座に初期化
-    console.error('[MatchingUnified] 即座に初期化を実行');
-    alert('[MatchingUnified] 初期化開始');
+    window.console.warn('[MatchingUnified] 即座に初期化を実行');
     initializeMatchingSystem();
     
     function initializeMatchingSystem() {
-        console.error('[MatchingUnified] ========== initializeMatchingSystem開始 ==========');
-        alert('[MatchingUnified] initializeMatchingSystem実行');
+        window.console.warn('[MatchingUnified] ========== initializeMatchingSystem開始 ==========');
         
         try {
-        console.error('[MatchingUnified] tryブロック内');
+        window.console.warn('[MatchingUnified] tryブロック内');
         
         // 他のレーダーチャート関数との競合を防ぐ
         if (window.drawRadarChart || window.drawRadarChartForUser) {
@@ -384,25 +377,24 @@ window.__matchingUnifiedLoaded = true;
 
     // 初期化
     async function initialize() {
-        console.error('[MatchingUnified] ========== initialize関数開始 ==========');
-        alert('[MatchingUnified] initialize関数実行');
+        window.console.warn('[MatchingUnified] ========== initialize関数開始 ==========');
 
         try {
             // Supabaseの準備を待つ
-            console.error('[MatchingUnified] waitForSupabase呼び出し');
+            window.console.warn('[MatchingUnified] waitForSupabase呼び出し');
             await window.waitForSupabase();
-            console.error('[MatchingUnified] waitForSupabase完了');
+            window.console.warn('[MatchingUnified] waitForSupabase完了');
 
             // 現在のユーザーを取得
-            console.error('[MatchingUnified] 認証チェック開始');
+            window.console.warn('[MatchingUnified] 認証チェック開始');
             const { data: { user }, error: authError } = await window.supabaseClient.auth.getUser();
             
             if (authError) {
-                console.error('[MatchingUnified] 認証エラー:', authError);
+                window.console.warn('[MatchingUnified] 認証エラー:', authError);
             }
             
             if (!user) {
-                console.error('[MatchingUnified] ユーザーが認証されていません');
+                window.console.warn('[MatchingUnified] ユーザーが認証されていません');
                 // 開発用の仮データ設定（一時的な対策）
                 console.warn('[MatchingUnified] 認証失敗のため仮データモードで実行');
                 currentUserId = 'test-user-id';
@@ -418,13 +410,12 @@ window.__matchingUnifiedLoaded = true;
             setupEventListeners();
 
             // マッチング候補の読み込み
-            console.error('[MatchingUnified] loadMatchingCandidates呼び出し');
-            alert('[MatchingUnified] データ読み込み開始');
+            window.console.warn('[MatchingUnified] loadMatchingCandidates呼び出し');
             await loadMatchingCandidates();
-            console.error('[MatchingUnified] loadMatchingCandidates完了');
+            window.console.warn('[MatchingUnified] loadMatchingCandidates完了');
         } catch (error) {
-            console.error('[MatchingUnified] 初期化エラー:', error);
-            alert('[MatchingUnified] エラー: ' + error.message);
+            window.console.warn('[MatchingUnified] 初期化エラー:', error);
+            window.console.warn('[MatchingUnified] エラー: ', error.message);
             showErrorMessage('初期化エラーが発生しました。ページを再読み込みしてください。');
         }
     }
@@ -481,15 +472,14 @@ window.__matchingUnifiedLoaded = true;
 
     // マッチング候補の読み込み
     async function loadMatchingCandidates() {
-        console.error('[MatchingUnified] ========== loadMatchingCandidates開始 ==========');
-        alert('[MatchingUnified] loadMatchingCandidates実行');
+        window.console.warn('[MatchingUnified] ========== loadMatchingCandidates開始 ==========');
         try {
-            console.error('[MatchingUnified] マッチング候補読み込み開始');
+            window.console.warn('[MatchingUnified] マッチング候補読み込み開始');
             
             const container = document.getElementById('matching-container');
-            console.error('[MatchingUnified] container取得:', container ? 'OK' : 'NG');
+            window.console.warn('[MatchingUnified] container取得:', container ? 'OK' : 'NG');
             if (!container) {
-                console.error('[MatchingUnified] matching-containerが見つかりません');
+                window.console.warn('[MatchingUnified] matching-containerが見つかりません');
                 return;
             }
             
@@ -507,7 +497,7 @@ window.__matchingUnifiedLoaded = true;
             
             // currentUserIdが設定されていない場合はエラー
             if (!currentUserId) {
-                console.error('[MatchingUnified] currentUserIdが設定されていません');
+                window.console.warn('[MatchingUnified] currentUserIdが設定されていません');
                 container.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-circle"></i><h3>ログインが必要です</h3></div>';
                 return;
             }
@@ -543,23 +533,22 @@ window.__matchingUnifiedLoaded = true;
                 .limit(1);
             
             if (testError) {
-                console.error('[MatchingUnified] テーブルアクセステスト失敗:', testError);
+                window.console.warn('[MatchingUnified] テーブルアクセステスト失敗:', testError);
             } else {
                 console.log('[MatchingUnified] テーブルアクセステスト成功');
             }
             
-            console.error('[MatchingUnified] メインクエリ実行前');
+            window.console.warn('[MatchingUnified] メインクエリ実行前');
             const { data: allUsers, error } = await window.supabaseClient
                 .from('user_profiles')
                 .select(selectColumns)
                 .limit(200); // パフォーマンス対策: 最大200件に制限
             
-            console.error('[MatchingUnified] クエリ実行結果 - データ件数:', allUsers?.length || 0, 'エラー:', error);
-            console.error('[MatchingUnified] 取得データサンプル:', allUsers?.[0]);
-            alert('[MatchingUnified] データ取得: ' + (allUsers?.length || 0) + '件');
+            window.console.warn('[MatchingUnified] クエリ実行結果 - データ件数:', allUsers?.length || 0, 'エラー:', error);
+            window.console.warn('[MatchingUnified] 取得データサンプル:', allUsers?.[0]);
             
             if (error) {
-                console.error('[MatchingUnified] ユーザー取得エラー詳細:', {
+                window.console.warn('[MatchingUnified] ユーザー取得エラー詳細:', {
                     error: error,
                     message: error.message,
                     details: error.details,
@@ -651,7 +640,7 @@ window.__matchingUnifiedLoaded = true;
                     .select('*');
                 
                 if (connError) {
-                    console.error('[MatchingUnified] コネクション取得エラー:', connError);
+                    window.console.warn('[MatchingUnified] コネクション取得エラー:', connError);
                 } else {
                     // JavaScriptでフィルタリング
                     connections = connectionsData ? connectionsData.filter(conn => 
@@ -686,7 +675,7 @@ window.__matchingUnifiedLoaded = true;
             setupCardEventListeners();
 
         } catch (error) {
-            console.error('[MatchingUnified] エラー:', error);
+            window.console.warn('[MatchingUnified] エラー:', error);
             const container = document.getElementById('matching-container');
             if (container) {
                 // XSS対策: DOM操作で安全に挿入
@@ -1050,7 +1039,7 @@ window.__matchingUnifiedLoaded = true;
             });
 
         } catch (error) {
-            console.error('[MatchingUnified] スコア計算エラー:', error);
+            window.console.warn('[MatchingUnified] スコア計算エラー:', error);
             return users;
         }
     }
@@ -1072,7 +1061,7 @@ window.__matchingUnifiedLoaded = true;
         // console.log('[MatchingUnified] displayMatchingUsers開始, ユーザー数:', matchingUsers.length);
         const container = document.getElementById('matching-container');
         if (!container) {
-            console.error('[MatchingUnified] matching-containerが見つかりません');
+            window.console.warn('[MatchingUnified] matching-containerが見つかりません');
             return;
         }
 
@@ -1366,7 +1355,7 @@ window.__matchingUnifiedLoaded = true;
                     .select('*');
                 
                 if (error) {
-                    console.error('[MatchingUnified] ユーザー取得エラー:', error);
+                    window.console.warn('[MatchingUnified] ユーザー取得エラー:', error);
                     showToast('ユーザー情報の取得に失敗しました', 'error');
                     return;
                 }
@@ -1374,7 +1363,7 @@ window.__matchingUnifiedLoaded = true;
                 // idでフィルタリング（user_profilesテーブルではidカラムを使用）
                 const user = users.find(u => u.id === userId);
                 if (!user) {
-                    console.error('[MatchingUnified] ユーザーが見つかりません:', userId);
+                    window.console.warn('[MatchingUnified] ユーザーが見つかりません:', userId);
                     showToast('ユーザーが見つかりません', 'error');
                     return;
                 }
@@ -1384,7 +1373,7 @@ window.__matchingUnifiedLoaded = true;
             }
 
         } catch (error) {
-            console.error('[MatchingUnified] プロフィール表示エラー:', error);
+            window.console.warn('[MatchingUnified] プロフィール表示エラー:', error);
             showError('プロフィールの読み込みに失敗しました');
         }
     }
@@ -1521,7 +1510,7 @@ window.__matchingUnifiedLoaded = true;
             
             // エラーハンドリングを簡素化
             if (!allConnections) {
-                console.error('[MatchingUnified] コネクションデータの取得に失敗');
+                window.console.warn('[MatchingUnified] コネクションデータの取得に失敗');
             }
 
             if (existingConnection) {
@@ -1547,7 +1536,7 @@ window.__matchingUnifiedLoaded = true;
                 });
 
             if (insertError) {
-                console.error('[MatchingUnified] コネクト申請エラー:', insertError);
+                window.console.warn('[MatchingUnified] コネクト申請エラー:', insertError);
                 showToast('コネクト申請の送信に失敗しました', 'error');
                 return;
             }
@@ -1570,7 +1559,7 @@ window.__matchingUnifiedLoaded = true;
             showSuccess('コネクト申請を送信しました');
 
         } catch (error) {
-            console.error('[MatchingUnified] コネクト申請エラー:', error);
+            window.console.warn('[MatchingUnified] コネクト申請エラー:', error);
             showError('コネクト申請の送信に失敗しました');
         }
     }
@@ -1646,7 +1635,7 @@ window.__matchingUnifiedLoaded = true;
                     .eq('bookmarked_user_id', userId);
 
                 if (error) {
-                    console.error('[MatchingUnified] ブックマーク解除エラー:', error);
+                    window.console.warn('[MatchingUnified] ブックマーク解除エラー:', error);
                     showToast('ブックマークの解除に失敗しました', 'error');
                     return;
                 }
@@ -1665,7 +1654,7 @@ window.__matchingUnifiedLoaded = true;
                     });
 
                 if (error) {
-                    console.error('[MatchingUnified] ブックマーク追加エラー:', error);
+                    window.console.warn('[MatchingUnified] ブックマーク追加エラー:', error);
                     showToast('ブックマークの追加に失敗しました', 'error');
                     return;
                 }
@@ -1676,7 +1665,7 @@ window.__matchingUnifiedLoaded = true;
             }
 
         } catch (error) {
-            console.error('[MatchingUnified] ブックマークエラー:', error);
+            window.console.warn('[MatchingUnified] ブックマークエラー:', error);
             showError('ブックマークの更新に失敗しました');
         }
     }
@@ -1912,13 +1901,13 @@ window.__matchingUnifiedLoaded = true;
                 });
 
             if (error) {
-                console.error('[MatchingUnified] 通知送信エラー:', error);
+                window.console.warn('[MatchingUnified] 通知送信エラー:', error);
                 // 通知送信失敗はサイレントに処理（UIの流れを止めない）
             }
             // console.log('[MatchingUnified] 通知送信成功');
             
         } catch (error) {
-            console.error('[MatchingUnified] 通知送信エラー:', error);
+            window.console.warn('[MatchingUnified] 通知送信エラー:', error);
         }
     }
 
@@ -1935,13 +1924,13 @@ window.__matchingUnifiedLoaded = true;
                 });
 
             if (error) {
-                console.error('[MatchingUnified] アクティビティ記録エラー:', error);
+                window.console.warn('[MatchingUnified] アクティビティ記録エラー:', error);
                 // アクティビティ記録失敗はサイレントに処理（UIの流れを止めない）
             }
             // console.log('[MatchingUnified] アクティビティ記録成功');
             
         } catch (error) {
-            console.error('[MatchingUnified] アクティビティ記録エラー:', error);
+            window.console.warn('[MatchingUnified] アクティビティ記録エラー:', error);
         }
     }
 
@@ -2480,7 +2469,7 @@ window.__matchingUnifiedLoaded = true;
         
         // Canvasが見つかった場合、ユーザーIDの整合性を確認
         if (canvas && canvas.dataset.originalUserId && canvas.dataset.originalUserId !== userId) {
-            console.error('[MatchingUnified] Canvas IDの不一致を検出:', {
+            window.console.warn('[MatchingUnified] Canvas IDの不一致を検出:', {
                 expected: userId,
                 actual: canvas.dataset.originalUserId
             });
@@ -2491,7 +2480,7 @@ window.__matchingUnifiedLoaded = true;
             // 再試行回数を制限（無限ループ防止）
             let retryCount = canvasRetryCount.get(user) || 0;
             if (retryCount >= 3) {
-                console.error('[MatchingUnified] Canvas要素が見つかりません（最大試行回数到達）:', `radar-${safeCanvasId}`);
+                window.console.warn('[MatchingUnified] Canvas要素が見つかりません（最大試行回数到達）:', `radar-${safeCanvasId}`);
                 canvasRetryCount.delete(user); // メモリリーク防止
                 return;
             }
@@ -2524,7 +2513,7 @@ window.__matchingUnifiedLoaded = true;
         
         const ctx = canvas.getContext('2d');
         if (!ctx) {
-            console.error('[MatchingUnified] Canvas 2Dコンテキストの取得に失敗');
+            window.console.warn('[MatchingUnified] Canvas 2Dコンテキストの取得に失敗');
             return;
         }
         // console.log('[MatchingUnified] Canvas取得成功:', canvas.width, 'x', canvas.height);
@@ -2672,31 +2661,31 @@ window.__matchingUnifiedLoaded = true;
     }
 
     // 初期化実行（Supabase初期化を待つ）
-    console.error('[MatchingUnified] ========== 最終初期化セクション ==========');
-    console.error('[MatchingUnified] document.readyState:', document.readyState);
+    window.console.warn('[MatchingUnified] ========== 最終初期化セクション ==========');
+    window.console.warn('[MatchingUnified] document.readyState:', document.readyState);
     alert('[MatchingUnified] 初期化準備: ' + document.readyState);
     
     if (document.readyState === 'loading') {
-        console.error('[MatchingUnified] DOMContentLoadedを待機');
+        window.console.warn('[MatchingUnified] DOMContentLoadedを待機');
         document.addEventListener('DOMContentLoaded', () => {
-            console.error('[MatchingUnified] DOMContentLoaded発火');
+            window.console.warn('[MatchingUnified] DOMContentLoaded発火');
             // Supabase初期化完了を待つ
             if (window.supabaseClient) {
-                console.error('[MatchingUnified] supabaseClient存在 - initialize呼び出し');
+                window.console.warn('[MatchingUnified] supabaseClient存在 - initialize呼び出し');
                 initialize();
             } else {
-                console.error('[MatchingUnified] supabaseClient未存在 - supabaseReadyを待機');
+                window.console.warn('[MatchingUnified] supabaseClient未存在 - supabaseReadyを待機');
                 window.addEventListener('supabaseReady', initialize, { once: true });
             }
         });
     } else {
-        console.error('[MatchingUnified] DOM既に読み込み済み');
+        window.console.warn('[MatchingUnified] DOM既に読み込み済み');
         // 既にDOMが読み込まれている場合
         if (window.supabaseClient) {
-            console.error('[MatchingUnified] supabaseClient存在 - initialize呼び出し');
+            window.console.warn('[MatchingUnified] supabaseClient存在 - initialize呼び出し');
             initialize();
         } else {
-            console.error('[MatchingUnified] supabaseClient未存在 - supabaseReadyを待機');
+            window.console.warn('[MatchingUnified] supabaseClient未存在 - supabaseReadyを待機');
             window.addEventListener('supabaseReady', initialize, { once: true });
         }
     }
@@ -2712,10 +2701,10 @@ window.__matchingUnifiedLoaded = true;
         // console.log('[MatchingUnified] スクリプト実行完了');
         
         } catch (error) {
-            console.error('[MatchingUnified] 致命的エラー発生:', error);
-            console.error('[MatchingUnified] エラーメッセージ:', error.message);
-            console.error('[MatchingUnified] エラースタック:', error.stack);
-            console.error('[MatchingUnified] エラー詳細:', {
+            window.console.warn('[MatchingUnified] 致命的エラー発生:', error);
+            window.console.warn('[MatchingUnified] エラーメッセージ:', error.message);
+            window.console.warn('[MatchingUnified] エラースタック:', error.stack);
+            window.console.warn('[MatchingUnified] エラー詳細:', {
                 name: error.name,
                 message: error.message,
                 fileName: error.fileName,

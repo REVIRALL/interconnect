@@ -336,8 +336,7 @@
     <!-- Supabase参照修正（不要になったため無効化） -->
     <!-- <script src="js/supabase-wait-fix.js"></script> -->
     <!-- Core utilities (必須) -->
-    <!-- 一時的に無効化してデバッグ -->
-    <!-- <script src="js/error-prevention.js"></script> -->
+    <script src="js/error-prevention.js"></script>
     <script src="js/null-check-fixes.js"></script>
     <script src="js/safe-dom-utils.js"></script>
     <script src="js/safe-storage.js"></script>
@@ -349,22 +348,19 @@
     
     <!-- デバッグ: matching-unified.jsの読み込み前確認 -->
     <script>
-        console.error('[HTML] matching-unified.js読み込み前');
-        alert('[HTML] matching-unified.jsを読み込みます');
+        window.console.warn('[HTML] matching-unified.js読み込み前');
     </script>
     
     <!-- マッチングシステム統合JavaScript（47ファイルを1つに統合） -->
-    <script src="js/matching-unified.js?v=11.0"></script>
+    <script src="js/matching-unified.js?v=12.0"></script>
     
     <!-- デバッグ: matching-unified.jsの読み込み後確認 -->
     <script>
-        console.error('[HTML] matching-unified.js読み込み後');
+        window.console.warn('[HTML] matching-unified.js読み込み後');
         if (window.__matchingUnifiedLoaded) {
-            console.error('[HTML] matching-unified.jsが正常に読み込まれました');
-            alert('[HTML] matching-unified.js読み込み完了');
+            window.console.warn('[HTML] matching-unified.jsが正常に読み込まれました');
         } else {
-            console.error('[HTML] matching-unified.jsの読み込みに失敗');
-            alert('[HTML] matching-unified.js読み込み失敗！');
+            window.console.warn('[HTML] matching-unified.jsの読み込みに失敗');
         }
     </script>
     
